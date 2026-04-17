@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PetCare Shop - Dịch Vụ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#00dbee",
+                        "tertiary-fixed": "#10eafe",
+                        "on-secondary-container": "#005f31",
+                        "inverse-primary": "#ffffff",
+                        "primary-dim": "#4e5050",
+                        "outline-variant": "#8cb795",
+                        "surface-container-low": "#cafdd4",
+                        "surface-bright": "#deffe2",
+                        "primary": "#5a5c5c",
+                        "error-dim": "#b92902",
+                        "surface-container-high": "#b5f0c2",
+                        "on-primary-fixed-variant": "#5f6161",
+                        "on-primary-fixed": "#434545",
+                        "tertiary-dim": "#005861",
+                        "outline": "#568061",
+                        "primary-fixed": "#ebebeb",
+                        "on-tertiary-fixed-variant": "#005c64",
+                        "primary-container": "#ebebeb",
+                        "on-tertiary": "#d4f9ff",
+                        "error-container": "#f95630",
+                        "secondary-dim": "#005c30",
+                        "surface": "#deffe2",
+                        "secondary": "#006a38",
+                        "on-error-container": "#520c00",
+                        "surface-container": "#bef5c9",
+                        "on-secondary-fixed-variant": "#006a38",
+                        "secondary-container": "#87faab",
+                        "tertiary": "#00656f",
+                        "on-error": "#ffefec",
+                        "secondary-fixed-dim": "#78eb9e",
+                        "on-tertiary-fixed": "#003d43",
+                        "surface-tint": "#5a5c5c",
+                        "on-primary": "#f2f3f3",
+                        "primary-fixed-dim": "#dcdddd",
+                        "background": "#deffe2",
+                        "surface-dim": "#a0e4b1",
+                        "on-tertiary-container": "#005159",
+                        "inverse-surface": "#001205",
+                        "inverse-on-surface": "#7ca785",
+                        "secondary-fixed": "#87faab",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#acecbb",
+                        "on-background": "#0c361d",
+                        "on-surface": "#0c361d",
+                        "surface-variant": "#acecbb",
+                        "tertiary-container": "#10eafe",
+                        "on-surface-variant": "#3b6447",
+                        "on-primary-container": "#555757",
+                        "on-secondary": "#ccffd6",
+                        "on-secondary-fixed": "#004a25",
+                        "error": "#b02500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": [
+                            "Plus Jakarta Sans",
+                            "sans-serif"
+                        ],
+                        "body": [
+                            "Be Vietnam Pro",
+                            "sans-serif"
+                        ],
+                        "label": [
+                            "Be Vietnam Pro",
+                            "sans-serif"
+                        ]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-white font-body text-on-surface antialiased">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-header border-none">
+<div class="flex justify-between items-center px-8 h-20 max-w-7xl mx-auto">
+<!-- Brand -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="pets" style="font-variation-settings: 'FILL' 1;">pets</span>
+<span class="text-2xl font-bold text-on-surface font-headline tracking-tight">PetCare Shop</span>
+</div>
+<!-- Nav Links -->
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-secondary font-semibold border-b-2 border-secondary pb-1 transition-colors" href="#">Trang chủ</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Đặt lịch</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Cửa hàng</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-all duration-300 ease-in-out hover:scale-105">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-all duration-300 ease-in-out hover:scale-105">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24">
+<!-- Hero Section -->
+<section class="relative rounded-xl overflow-hidden min-h-[400px] flex items-center bg-surface-container-low">
+<div class="absolute inset-0 z-0">
+<img alt="Hero Image" class="w-full h-full object-cover opacity-60" data-alt="Professional and welcoming pet spa environment with a relaxed dog receiving a gentle treatment, soft natural lighting, and an organic feel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwGqZP3rhNeBmNwVP1B4Hr5OYLJ8tB4iB5y1SynRuPGZVHgoAIDE5aCxpKGopPi_gnVmXj-ncq1xeWyBkiT937GXbIWIcLb6ETPxjYNIFaCk3UDMXWExlwDvHlk0V8LxpMHe2ubEGE2JTQtEN2ujzeRGn0E5ca9yGnQvN3ZkpLcdYVBCGE5NDNVuGoRkwDuNWNrIYQzXpSCIxe60vV3pCif9EldK4F1940zm9ZD4gqYILzjo3Ep_rp7LkHlfI69SeNYwxrXecIsUyZ"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface to-transparent"></div>
+</div>
+<div class="relative z-10 p-12 max-w-2xl">
+<h1 class="font-headline text-[3.5rem] font-extrabold leading-tight tracking-tight text-on-surface mb-6">Dịch Vụ Chăm Sóc Thú Cưng</h1>
+<p class="font-body text-lg text-on-surface-variant mb-8">Trải nghiệm dịch vụ cao cấp, mang lại sức khỏe và niềm vui trọn vẹn cho người bạn nhỏ của bạn tại không gian xanh mát của chúng tôi.</p>
+<button class="bg-primary text-on-primary font-medium py-4 px-8 rounded-full hover:bg-primary-dim transition-colors inline-flex items-center gap-2">
+                    Đặt lịch tổng quát
+                    <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Services Grid -->
+<section>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Service Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:bg-surface-container-low transition-colors duration-300 flex flex-col h-full">
+<div class="h-56 overflow-hidden relative">
+<img alt="Tắm sấy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A small fluffy dog being washed gently with bubbles in a bright clean modern pet spa environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU6djqbHdzcaTUQxe1GuPi5tRBXe01FTl0hYsT-gmr7mcMaX2Uy4rQ0Vgr8lT_vjMOZeSplhRekRI07A0avs1s5NGznreRdod-vSxv0hMYql_9RY1MEaVdMn1_6MeU5GkIXvfUdgjed5ZmZBqpml2HtSfboDAFRYDeJywaNh5NbTUULPboNz8L5jk_5fvaUkZWcmvibVrAQxoYMjuz1KTpJD9EVcPzG9cvpOQUZbTk74KzaIvdbipeuyeQVV6CsDEiHjEsmnhsIoyg"/>
+</div>
+<div class="p-8 flex-grow flex flex-col">
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-3">Tắm sấy</h3>
+<p class="font-body text-on-surface-variant mb-6 flex-grow">Làm sạch sâu, khử mùi và sấy khô an toàn với các sản phẩm hữu cơ lành tính.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-bold text-secondary text-lg">Từ 150.000đ</span>
+<button class="bg-secondary-container text-on-secondary-container font-medium py-2 px-6 rounded-full hover:bg-secondary-dim hover:text-white transition-colors">
+                                Đặt lịch ngay
+                            </button>
+</div>
+</div>
+</div>
+<!-- Service Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:bg-surface-container-low transition-colors duration-300 flex flex-col h-full">
+<div class="h-56 overflow-hidden relative">
+<img alt="Cắt tỉa tạo kiểu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional pet groomer carefully trimming the fur of a calm dog in a well-lit stylish salon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFu1dnWDXKx-G-hh1UzN3ZZSpACeQOLCPSLcRa6EjmL-63Qns_1Uyb7BKf3gflmYGYZjkHnMd7waw2Orv6chnecnrtgGCkX8Ep_3NPOaMtpUtXZuc0lwwThMlYxPezIMe4JRhDOXJVxPe6bgIJU-SEThJgDjlqRFgSs31tK7O3TbYTRXQabeaSD3IulWfrJTpMK3suokFQiFHtJodNzP-E0-CxM3eX3baTWIpKxpvvJmnyydE4ohBWbEAqu8WZ4bgtrXdkpdNMFFBX"/>
+</div>
+<div class="p-8 flex-grow flex flex-col">
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-3">Cắt tỉa tạo kiểu</h3>
+<p class="font-body text-on-surface-variant mb-6 flex-grow">Tạo kiểu thời trang, cắt tỉa gọn gàng theo yêu cầu bởi các chuyên gia dày dặn kinh nghiệm.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-bold text-secondary text-lg">Từ 200.000đ</span>
+<button class="bg-secondary-container text-on-secondary-container font-medium py-2 px-6 rounded-full hover:bg-secondary-dim hover:text-white transition-colors">
+                                Đặt lịch ngay
+                            </button>
+</div>
+</div>
+</div>
+<!-- Service Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:bg-surface-container-low transition-colors duration-300 flex flex-col h-full">
+<div class="h-56 overflow-hidden relative">
+<img alt="Spa &amp; Massage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A relaxed dog getting a gentle massage with natural herbs in a calming softly lit spa setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwGqZP3rhNeBmNwVP1B4Hr5OYLJ8tB4iB5y1SynRuPGZVHgoAIDE5aCxpKGopPi_gnVmXj-ncq1xeWyBkiT937GXbIWIcLb6ETPxjYNIFaCk3UDMXWExlwDvHlk0V8LxpMHe2ubEGE2JTQtEN2ujzeRGn0E5ca9yGnQvN3ZkpLcdYVBCGE5NDNVuGoRkwDuNWNrIYQzXpSCIxe60vV3pCif9EldK4F1940zm9ZD4gqYILzjo3Ep_rp7LkHlfI69SeNYwxrXecIsUyZ"/>
+</div>
+<div class="p-8 flex-grow flex flex-col">
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-3">Spa &amp; Massage</h3>
+<p class="font-body text-on-surface-variant mb-6 flex-grow">Thư giãn tối đa với liệu trình thảo mộc tự nhiên, giúp giảm căng thẳng và tăng cường tuần hoàn.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-bold text-secondary text-lg">Từ 350.000đ</span>
+<button class="bg-secondary-container text-on-secondary-container font-medium py-2 px-6 rounded-full hover:bg-secondary-dim hover:text-white transition-colors">
+                                Đặt lịch ngay
+                            </button>
+</div>
+</div>
+</div>
+<!-- Service Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:bg-surface-container-low transition-colors duration-300 flex flex-col h-full">
+<div class="h-56 overflow-hidden relative">
+<img alt="Tiêm phòng" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Veterinarian in a clean bright clinic gently examining a puppy preparing for vaccination" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJEek82zJrImqRbBMA9wWgVopdBm9hnDHxSgXKjDc_G6o11LNXkETGrXu2LoZuE7MxzyMpkeMd3gnBgGZcGdOpiIgCB8RWFRXBCoggcbSop4iWodHgu2M-srvLEXT-2hOMm7_Y48NLE7OdubHYgxkDoOzwtIvKygwkkciB1FGYh8ZJSgvcXQRhgefwjdPVW7JzzVtlGobZaoJGIRcPm3enmEe5qmb4HfdYIykDwaKpInvgYFhw5NlPgZ8OsPghIejsYLPPl7yK8P3E"/>
+</div>
+<div class="p-8 flex-grow flex flex-col">
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-3">Tiêm phòng</h3>
+<p class="font-body text-on-surface-variant mb-6 flex-grow">Bảo vệ sức khỏe thú cưng với lộ trình vaccine chuẩn xác và an toàn tuyệt đối.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-bold text-secondary text-lg">Từ 250.000đ</span>
+<button class="bg-secondary-container text-on-secondary-container font-medium py-2 px-6 rounded-full hover:bg-secondary-dim hover:text-white transition-colors">
+                                Đặt lịch ngay
+                            </button>
+</div>
+</div>
+</div>
+<!-- Service Card 5 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:bg-surface-container-low transition-colors duration-300 flex flex-col h-full">
+<div class="h-56 overflow-hidden relative">
+<img alt="Khách sạn thú cưng" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Cozy modern pet hotel room with a comfortable bed and toys in a bright airy space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEr543JZ64FD0VobBxgCTGgE1aI3BZC25I4cvbAtrqSIoFoK3IEwV3BLuNmq9msh3xXrc227mhNX22o4h2ZmMTx7059z32s1ssvScEZcJwET5TBQtmulBAladD45LYKjbveGI2_uhE_ICuAVg7stD5SuEhuiRmEWmVu4XAtODqerenYPo4sMBtQLyjpCr6IIuEzNz2cecmUzaHCITY1T_yVaWQCrMPUSe4WieQMQx2hOzieY7Wh-PvnPxTuB6wCIdm-w9fKL_Ezj0J"/>
+</div>
+<div class="p-8 flex-grow flex flex-col">
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-3">Khách sạn thú cưng</h3>
+<p class="font-body text-on-surface-variant mb-6 flex-grow">Nơi lưu trú tiện nghi, sạch sẽ và an toàn như chính ngôi nhà thứ hai của thú cưng.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-bold text-secondary text-lg">Từ 180.000đ/ngày</span>
+<button class="bg-secondary-container text-on-secondary-container font-medium py-2 px-6 rounded-full hover:bg-secondary-dim hover:text-white transition-colors">
+                                Đặt lịch ngay
+                            </button>
+</div>
+</div>
+</div>
+<!-- Service Card 6 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:bg-surface-container-low transition-colors duration-300 flex flex-col h-full">
+<div class="h-56 overflow-hidden relative">
+<img alt="Khám sức khỏe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Caring vet doctor checking a cat's heartbeat with a stethoscope in a warm modern examination room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC387GdqTTB5KAMaxFYzzpPEqYQRKHbOkGg2K8TATCibSh8pEXve_yGgRKalSZrPjYHT2RkuZFA5BawuzbgKPHpJXyWKw4YFZ_N-LRcEwWS6EKgiM6BX0oAxvO6UXl0kLvQa-Bm3WlLRFceCjMmAOXqD0EsWbHSrevDrwD0LVxXXTDlAWeoOnw6vhV-i4o4bnUhjW31H8McgRYEAqae4r61CeBo2_rC1NXvP2fS_0FlpquCM1NdrQZB-fclCyml38irtVnJ_3QTFGpi"/>
+</div>
+<div class="p-8 flex-grow flex flex-col">
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-3">Khám sức khỏe</h3>
+<p class="font-body text-on-surface-variant mb-6 flex-grow">Kiểm tra tổng quát và tư vấn dinh dưỡng chuyên sâu để thú cưng luôn khỏe mạnh.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-bold text-secondary text-lg">Từ 300.000đ</span>
+<button class="bg-secondary-container text-on-secondary-container font-medium py-2 px-6 rounded-full hover:bg-secondary-dim hover:text-white transition-colors">
+                                Đặt lịch ngay
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low w-full py-12 mt-12">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-on-surface-variant font-body text-sm">© 2024 PetCare Shop. The Organic Sanctuary.</p>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-secondary font-body text-sm transition-colors hover:underline decoration-secondary underline-offset-4" href="#">Điều khoản</a>
+<a class="text-on-surface-variant hover:text-secondary font-body text-sm transition-colors hover:underline decoration-secondary underline-offset-4" href="#">Bảo mật</a>
+<a class="text-on-surface-variant hover:text-secondary font-body text-sm transition-colors hover:underline decoration-secondary underline-offset-4" href="#">Liên hệ</a>
+</div>
+</div>
+</footer>
+</body></html>

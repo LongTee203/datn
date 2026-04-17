@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── PetCare Plus (Homepage) ── */
+  --color-primary: #2D6A4F;
+  --color-primary-light: #ecfdf5;
+  --color-background-light: #f8faf9;
+  --color-background-dark: #06100c;
+  --color-accent-orange: #ff9f43;
+  --color-accent-teal: #0fb9b1;
+
+  /* ── Auth / About / Contact (Organic Sanctuary shared) ── */
+  --color-primary-dim: #1b5a40;
+  --color-on-primary: #c8ffe0;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #bffee8;
+  --color-surface-container: #b2f6df;
+  --color-surface-container-high: #a7f1d9;
+  --color-on-surface: #00362a;
+  --color-on-surface-variant: #2f6555;
+  --color-outline: #4b8170;
+  --color-outline-variant: #81b8a6;
+  --color-tertiary: #854f00;
+  --color-tertiary-fixed: #fd9d1a;
+  --color-on-primary-container: #246147;
+
+  /* ── Services Page (PetCare Shop) ── */
+  --color-secondary: #006a38;
+  --color-on-secondary: #ccffd6;
+  --color-secondary-dim: #005c30;
+  --color-secondary-container: #87faab;
+  --color-on-secondary-container: #005f31;
+  --color-surface-services: #deffe2;
+  --color-on-surface-services: #0c361d;
+
+  /* ── Typography ── */
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-headline: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Be Vietnam Pro", sans-serif;
+  --font-label: "Be Vietnam Pro", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+
+/* Default body font */
+body {
+  font-family: "Be Vietnam Pro", "Plus Jakarta Sans", sans-serif;
+}
+
+/* Heading font */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* ── Material Symbols Outlined ── */
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.material-symbols-outlined.fill-1 {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+/* ── Scrollbar hide utility ── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ── Ghost border (auth forms) ── */
+.ghost-border {
+  border: 1.5px solid rgba(129, 184, 166, 0.2);
+}
+
+/* ── Glass header (services page) ── */
+.glass-header {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}

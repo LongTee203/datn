@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Giỏ hàng - The Organic Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#10eafe",
+                        "on-primary-fixed": "#434545",
+                        "tertiary-dim": "#005861",
+                        "tertiary-container": "#10eafe",
+                        "primary": "#5a5c5c",
+                        "on-tertiary": "#d4f9ff",
+                        "on-surface-variant": "#3b6447",
+                        "on-tertiary-fixed": "#003d43",
+                        "on-secondary": "#ccffd6",
+                        "surface-dim": "#a0e4b1",
+                        "on-background": "#0c361d",
+                        "outline": "#568061",
+                        "secondary-fixed": "#87faab",
+                        "surface": "#deffe2",
+                        "on-primary": "#f2f3f3",
+                        "inverse-on-surface": "#7ca785",
+                        "surface-container-highest": "#acecbb",
+                        "primary-dim": "#4e5050",
+                        "inverse-surface": "#001205",
+                        "secondary": "#006a38",
+                        "on-error-container": "#520c00",
+                        "secondary-fixed-dim": "#78eb9e",
+                        "tertiary-fixed-dim": "#00dbee",
+                        "on-secondary-fixed-variant": "#006a38",
+                        "on-surface": "#0c361d",
+                        "surface-bright": "#deffe2",
+                        "inverse-primary": "#ffffff",
+                        "surface-container-low": "#cafdd4",
+                        "surface-container-high": "#b5f0c2",
+                        "on-primary-fixed-variant": "#5f6161",
+                        "outline-variant": "#8cb795",
+                        "on-secondary-container": "#005f31",
+                        "surface-tint": "#5a5c5c",
+                        "secondary-dim": "#005c30",
+                        "on-primary-container": "#555757",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffefec",
+                        "error": "#b02500",
+                        "on-tertiary-fixed-variant": "#005c64",
+                        "tertiary": "#00656f",
+                        "on-secondary-fixed": "#004a25",
+                        "primary-container": "#ebebeb",
+                        "error-container": "#f95630",
+                        "primary-fixed-dim": "#dcdddd",
+                        "surface-variant": "#acecbb",
+                        "on-tertiary-container": "#005159",
+                        "background": "#deffe2",
+                        "surface-container": "#bef5c9",
+                        "secondary-container": "#87faab",
+                        "primary-fixed": "#ebebeb",
+                        "error-dim": "#b92902"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Be Vietnam Pro"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface selection:bg-secondary-fixed">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl flex justify-between items-center px-6 py-4 max-w-7xl mx-auto left-1/2 -translate-x-1/2">
+<div class="text-2xl font-bold tracking-tighter text-emerald-900 brand-font">The Organic Sanctuary</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-emerald-700/60 hover:text-emerald-600 transition-colors font-medium" href="#">Trang chủ</a>
+<a class="text-emerald-700/60 hover:text-emerald-600 transition-colors font-medium" href="#">Cửa hàng</a>
+<a class="text-emerald-700/60 hover:text-emerald-600 transition-colors font-medium" href="#">Dịch vụ</a>
+<a class="text-emerald-900 border-b-2 border-emerald-900 font-bold" href="#">Giỏ hàng</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-emerald-800 font-bold hover:scale-95 duration-200 transition-all">Sign In</button>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-bold hover:scale-95 duration-200 transition-all">Join Now</button>
+</div>
+</nav>
+<main class="pt-24 pb-16 px-6 max-w-7xl mx-auto">
+<header class="mb-12">
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface mb-2">Giỏ hàng của bạn</h1>
+<p class="text-on-surface-variant font-medium">Bạn có 3 sản phẩm trong giỏ hàng thực phẩm hữu cơ.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Items List -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Item 1 -->
+<div class="bg-surface-container-low rounded-lg p-6 flex flex-col md:flex-row items-center gap-6 group transition-all duration-300">
+<div class="w-32 h-32 rounded-DEFAULT overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Premium organic dog food in a modern minimalist packaging on a clean white surface with natural soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzYwfMNF41rR3tMNMucO6rdkjFTjiDvoKTpp_-ZZTqIl4K-XlxP3sRDiLd4kj_fm2ERKe6pIReqWtaS5yMXetyrW1_3XRI2VfV_TzlMw_J2YqtRAUUzeCAyxe-Y_Zf5hm68OBOxwaBOK19ja2QL3LuLupx-1DI4YD7bu_fgNcw2_kphNLdIPRWx3MY8T7YQB0ZXUADeazw2GbPKcrteAvSXQIjkdLBW7fCW3N4sx06Qe5-m2BAFW4UPFhZcnMT_Aq5gjM1hkst7TS0"/>
+</div>
+<div class="flex-grow text-center md:text-left">
+<h3 class="text-xl font-bold text-on-surface">Hạt Hữu Cơ Cao Cấp (Chó Lớn)</h3>
+<p class="text-on-surface-variant text-sm mb-4">Trọng lượng: 2kg • Vị Cá Hồi</p>
+<div class="flex items-center justify-center md:justify-start gap-4">
+<div class="flex items-center bg-surface-container-lowest rounded-full border border-outline-variant/20 p-1">
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="px-4 font-bold">1</span>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<button class="text-error font-medium text-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">delete</span> Xóa
+                            </button>
+</div>
+</div>
+<div class="text-right">
+<p class="text-2xl font-bold text-emerald-900">450.000đ</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-low rounded-lg p-6 flex flex-col md:flex-row items-center gap-6 group transition-all duration-300">
+<div class="w-32 h-32 rounded-DEFAULT overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury organic pet treats in glass jar with wooden lid soft focus pet photography in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIW5j-aEutgTdbQWwUOCfzqd3RFj87duzm4ZHvk1Hz0_lFBADUPA7647RMYicpg_WeRnjExGYbRconn1kxlgfWGLAO-aP0yzKtWNMWPiCEB75VXltJHexTxRD_XDYWasDOEzTZU5PXwxdCaMglBBMfj3CQpxRkW1b4JpFdidetEUO8vG1pn-KWB28csxcpfgznfU1zMpCK2j7T8hwOTTSvPKgTfml35B5yTQ0md_C7-YSeOamCnBRE4L6cdXRmP9uDCS4SRJhZfXfG"/>
+</div>
+<div class="flex-grow text-center md:text-left">
+<h3 class="text-xl font-bold text-on-surface">Bánh Thưởng Gan Gà Sấy Lạnh</h3>
+<p class="text-on-surface-variant text-sm mb-4">Gói: 150g • Không chất bảo quản</p>
+<div class="flex items-center justify-center md:justify-start gap-4">
+<div class="flex items-center bg-surface-container-lowest rounded-full border border-outline-variant/20 p-1">
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="px-4 font-bold">2</span>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<button class="text-error font-medium text-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">delete</span> Xóa
+                            </button>
+</div>
+</div>
+<div class="text-right">
+<p class="text-2xl font-bold text-emerald-900">180.000đ</p>
+<p class="text-xs text-on-surface-variant line-through">220.000đ</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface-container-low rounded-lg p-6 flex flex-col md:flex-row items-center gap-6 group transition-all duration-300">
+<div class="w-32 h-32 rounded-DEFAULT overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Eco-friendly pet shampoo bottle with botanical illustrations and sage green color scheme on marble table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcFJH92AeihdUQSxwgFZLUyIsDhyJmbVN8eQMO-eV7h4qZgMKufDcJBAc8P1uUwnJadKYYv-pxXTA-tMVBCqKysIVbGZERYByR0jGRYhKs2D_MQNlweKzkKdsiC5F4IXnlf_bmeXnJpwkndaqwzWCGwHHCX5LMGPD4em1EEcwWItzUswFYaEG0IZc-OOksrynBUqCPf4cfpLydHUX1vMTtUikTkEM0qSVV1zwnvre0geDQ16OplU3vAwH2e4RM42VtptS1nhv_h1U8"/>
+</div>
+<div class="flex-grow text-center md:text-left">
+<h3 class="text-xl font-bold text-on-surface">Sữa Tắm Thảo Mộc Tinh Chất Lô Hội</h3>
+<p class="text-on-surface-variant text-sm mb-4">Dung tích: 500ml • Chiết xuất tự nhiên</p>
+<div class="flex items-center justify-center md:justify-start gap-4">
+<div class="flex items-center bg-surface-container-lowest rounded-full border border-outline-variant/20 p-1">
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="px-4 font-bold">1</span>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<button class="text-error font-medium text-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">delete</span> Xóa
+                            </button>
+</div>
+</div>
+<div class="text-right">
+<p class="text-2xl font-bold text-emerald-900">295.000đ</p>
+</div>
+</div>
+</div>
+<!-- Order Summary -->
+<div class="lg:col-span-4">
+<div class="bg-emerald-50 rounded-lg p-8 sticky top-28 border border-emerald-100/50">
+<h2 class="text-2xl font-bold text-on-surface mb-6">Tóm tắt đơn hàng</h2>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Tạm tính</span>
+<span class="font-semibold text-on-surface">1.105.000đ</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Phí vận chuyển</span>
+<span class="font-semibold text-on-surface">30.000đ</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Giảm giá</span>
+<span class="font-semibold text-emerald-600">-40.000đ</span>
+</div>
+<div class="border-t border-emerald-200/50 pt-4 mt-4">
+<div class="flex justify-between items-center">
+<span class="text-lg font-bold">Tổng cộng</span>
+<span class="text-2xl font-extrabold text-emerald-900">1.095.000đ</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 text-right">(Đã bao gồm VAT)</p>
+</div>
+</div>
+<div class="space-y-3">
+<button class="w-full bg-secondary-container text-on-secondary-container py-4 rounded-full font-extrabold text-lg hover:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+                            Tiến hành thanh toán <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="w-full bg-surface-container-lowest text-emerald-800 py-4 rounded-full font-bold border border-emerald-200 hover:bg-white transition-colors">
+                            Tiếp tục mua sắm
+                        </button>
+</div>
+<div class="mt-8 p-4 bg-white/50 rounded-DEFAULT border border-emerald-100">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-emerald-600">verified_user</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Thanh toán an toàn</p>
+<p class="text-xs text-on-surface-variant">Dữ liệu của bạn được mã hóa và bảo mật tuyệt đối.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommendations Grid (Bento style hint) -->
+<section class="mt-24">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-8">Có thể bạn quan tâm</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="md:col-span-2 bg-surface-container-low rounded-lg p-6 relative overflow-hidden h-64 group">
+<div class="relative z-10 h-full flex flex-col justify-end">
+<span class="bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-xs font-bold w-fit mb-2">ƯU ĐÃI THÁNG</span>
+<h3 class="text-2xl font-bold text-emerald-900">Gói Chăm Sóc Spa Tại Nhà</h3>
+<p class="text-emerald-800/70 mb-4">Combo thảo mộc hữu cơ giảm 20%</p>
+<button class="bg-white text-emerald-900 px-6 py-2 rounded-full font-bold w-fit hover:scale-105 transition-transform">Xem ngay</button>
+</div>
+<img class="absolute top-0 right-0 w-2/3 h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity" data-alt="Peaceful wellness scene with pet grooming products and chamomile flowers in bright natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV8BsS-0f2FTn4b-R5qWvODdEdBa8sBfE2pFOvuw4XL-L29jwUKC5uwynNdZG9Plx0K5UeqqWmChx70GoWCIS5O6BVVxn6oP4PNqQxD4m1BaEPKVVPLbqEzP0iFNGxsIzrZUctY_nCpgJK02emAMNgzOQUu_iept2wkp_-qiv0BzCDosHps4jeL3Ek1GyHIGEPG_bMhh3RRYTtrDI9puER_oDTEVBFOojzyVCD_opBuk4DRNsANkAIK88LGtT5auclRUnpi3BYEbnB"/>
+</div>
+<div class="bg-secondary-fixed rounded-lg p-6 flex flex-col justify-between group">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-secondary">eco</span>
+</div>
+<div>
+<h3 class="font-bold text-on-secondary-fixed text-lg">Đồ chơi bền vững</h3>
+<p class="text-on-secondary-fixed/70 text-sm">Nhựa sinh học 100%</p>
+</div>
+</div>
+<div class="bg-tertiary-fixed rounded-lg p-6 flex flex-col justify-between group">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-tertiary">support_agent</span>
+</div>
+<div>
+<h3 class="font-bold text-on-tertiary-fixed text-lg">Tư vấn miễn phí</h3>
+<p class="text-on-tertiary-fixed/70 text-sm">Gặp gỡ chuyên gia dinh dưỡng</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-emerald-50 dark:bg-emerald-900/20 w-full py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="text-lg font-bold text-emerald-900 brand-font">The Organic Sanctuary</div>
+<div class="flex gap-6 text-sm text-emerald-700/70 font-medium">
+<a class="hover:text-orange-500 transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-orange-500 transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-orange-500 transition-colors" href="#">Help Center</a>
+<a class="hover:text-orange-500 transition-colors" href="#">Contact Us</a>
+</div>
+<p class="text-emerald-800 text-sm opacity-80">© 2024 The Organic Sanctuary PetCare. Nurturing with intention.</p>
+</footer>
+</body></html>

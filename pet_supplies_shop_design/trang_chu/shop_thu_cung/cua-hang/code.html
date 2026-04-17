@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cửa hàng Phụ kiện Thú cưng | PetCare</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#56ff64",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for better infinite scroll experience */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Logo -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="">pets</span>
+<span class="text-xl font-bold tracking-tight" style="">PetCare Shop</span>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#" style="">Trang chủ</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#" style="">Đặt lịch</a>
+<a class="text-sm font-medium text-slate-900 dark:text-white border-b-2 border-primary py-5" href="#" style="">Cửa hàng</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl" style="">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/50" placeholder="Tìm kiếm phụ kiện..." type="text"/>
+</div>
+<button class="relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" style="">
+<span class="material-symbols-outlined" style="">shopping_cart</span>
+<span class="absolute top-0 right-0 h-4 w-4 bg-primary text-slate-900 text-[10px] font-bold flex items-center justify-center rounded-full" style="">3</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-primary/20">
+<img class="h-full w-full object-cover" data-alt="User profile avatar smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeRQxKTyva-MnLUFG3_4Mzei8D3tQMlLPA0Ug8QxPbhT2fYXjSoIfI88bq6njCmN-XWhorpgnTSGWvE9Ug7r56ZP4jWKOmPmfdSooQtm9WZUsyNGNgifHCV0-bplCps3Dw6UpfM5q_IHv_OEk2ilSnjS_a1Z0M1FnQE_yI7kO3ysa0u0hNnC7SKBbYkrEgft8W8qSFGnhf9bgTnOqhJdjPJs7fGbwqvui8NLeYr5N0oJRFj6eNCcQl2fgZ8XSeDqAMUy1gU1W4C2eb" style=""/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Breadcrumbs -->
+<nav class="flex text-sm text-slate-500 mb-6 gap-2 items-center">
+<a class="hover:text-primary" href="#" style="">Trang chủ</a>
+<span class="material-symbols-outlined text-xs" style="">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-200 font-medium" style="">Cửa hàng Phụ kiện Thú cưng</span>
+</nav>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-64 flex-shrink-0 space-y-8 h-fit lg:sticky lg:top-24">
+<!-- Categories -->
+<div>
+<h3 class="text-lg font-bold mb-4" style="">Danh mục</h3>
+<div class="space-y-2">
+<button class="w-full flex items-center gap-3 px-3 py-2 bg-primary/20 text-slate-900 dark:text-white rounded-lg font-medium" style="">
+<span class="material-symbols-outlined filled-icon" style="">skeleton</span>
+<span class="" style="">Thức ăn &amp; Đồ ăn vặt</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined" style="">sports_tennis</span>
+<span class="" style="">Đồ chơi &amp; Vui chơi</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined" style="">bed</span>
+<span class="" style="">Nệm &amp; Giấc ngủ</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined" style="">link</span>
+<span class="" style="">Phụ kiện</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined" style="">health_and_safety</span>
+<span class="" style="">Nhà thuốc</span>
+</button>
+</div>
+</div>
+<!-- Price Filter -->
+<div class="border-t border-slate-200 dark:border-slate-800 pt-6">
+<h3 class="text-lg font-bold mb-4" style="">Khoảng giá</h3>
+<div class="px-2">
+<div class="relative h-1 bg-slate-200 dark:bg-slate-700 rounded-full mb-6">
+<div class="absolute left-0 right-1/4 h-full bg-primary rounded-full"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full ring-2 ring-white"></div>
+<div class="absolute right-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full ring-2 ring-white"></div>
+</div>
+<div class="flex justify-between text-sm font-medium">
+<span class="" style="">$0</span>
+<span class="" style="">$250</span>
+</div>
+</div>
+</div>
+<!-- Brand Filter -->
+<div class="border-t border-slate-200 dark:border-slate-800 pt-6">
+<h3 class="text-lg font-bold mb-4" style="">Thương hiệu</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group" style="">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-sm group-hover:text-primary transition-colors" style="">Royal Canin</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group" style="">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-sm group-hover:text-primary transition-colors" style="">Blue Buffalo</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group" style="">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-sm group-hover:text-primary transition-colors" style="">Kong Toys</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group" style="">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-sm group-hover:text-primary transition-colors" style="">Wellness</span>
+</label>
+</div>
+</div>
+</aside>
+<!-- Product Grid Area -->
+<div class="flex-1">
+<!-- Sorting & Utility -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+<div>
+<h1 class="text-2xl font-bold" style="">Thức ăn &amp; Đồ ăn vặt cho Chó</h1>
+<p class="text-slate-500 text-sm" style="">Đang hiển thị 48 sản phẩm</p>
+</div>
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<select class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary px-4 py-2 pr-8 w-full sm:w-48">
+<option>Sắp xếp: Mới nhất</option>
+<option>Giá: Thấp đến Cao</option>
+<option>Giá: Cao đến Thấp</option>
+<option>Đánh giá cao nhất</option>
+</select>
+<div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+<button class="p-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border-r border-slate-200 dark:border-slate-700" style="">
+<span class="material-symbols-outlined" style="">grid_view</span>
+</button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800" style="">
+<span class="material-symbols-outlined" style="">list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6" id="product-grid">
+<!-- Product Card 1 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all">
+<div class="relative aspect-square overflow-hidden bg-slate-50">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Premium grain-free dog kibble bag" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGBQHhi_RjMLrgZCrDBTjunmk4WTllhnojnFTlMceoKxTTM8GogoOucuHbb38AmIW4mim3RBWaU7Uzg0rs_-Zle3JYN5nqPHex6fjT6E7-W03fYBxxfT5M2cHHrjB4sX2tcaExpr7rw8o6rQMVhHAXcoQF8LP9aI_P69IExnBg9eldCJ7N4EhH51aCfznVfnIaynPpPb4IWo9Xdtsw45az3mNlh3Wjm8gIq6aX-m5exje04gr-6OdBvsNsOhmcDH3vZEzamHR1xmR6" style=""/>
+<span class="absolute top-3 left-3 bg-primary text-slate-900 text-[10px] font-bold px-2 py-1 rounded uppercase" style="">Bán chạy nhất</span>
+<button class="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-600 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-1 text-amber-400 mb-1">
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="text-slate-400 text-xs ml-1 font-medium" style="">(128)</span>
+</div>
+<h3 class="font-bold text-slate-900 dark:text-white line-clamp-1" style="">Hạt khô Cao cấp Không ngũ cốc</h3>
+<p class="text-slate-500 text-xs mb-3" style="">Cá hồi &amp; Khoai lang cho chó trưởng thành</p>
+<div class="flex items-center justify-between gap-2">
+<span class="text-xl font-bold text-slate-900 dark:text-white" style="">$54.99</span>
+<button class="bg-primary text-slate-900 p-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 px-4 py-2" style="">
+<span class="material-symbols-outlined text-lg" style="">add_shopping_cart</span>
+<span class="text-sm font-bold" style="">Thêm</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all">
+<div class="relative aspect-square overflow-hidden bg-slate-50">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Colorful dog chew toy on grass" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCds7huXoqKaTMPPtjywUw8FXG-d7R54ZTwBQ961S6yRxFNvoG8wwyqORG9BTDlirRKkrtZSXOJidIROfUkcDNlpMLyHWIPqF-n-4JImR-0k5SMcUhLeqJayotZz0wN7IEUtAtpDKAfWhL4bE3PAA4AsKPJLQkyzUZ1CyHCb9XyMXdHk-H0dquMmc5kCfbNJIpSkmQpDpON0mrmEXVGCaCh8n1y9wf7fBsqv21_X-FMYW1bf6Qv0fKC5ku_lCVFz5xBQEPyjFp1Rzy4" style=""/>
+<button class="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-600 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-1 text-amber-400 mb-1">
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm" style="">star_half</span>
+<span class="text-slate-400 text-xs ml-1 font-medium" style="">(84)</span>
+</div>
+<h3 class="font-bold text-slate-900 dark:text-white line-clamp-1" style="">Xương gặm Cao su Bền bỉ</h3>
+<p class="text-slate-500 text-xs mb-3" style="">Dòng sản phẩm cho chó hay gặm</p>
+<div class="flex items-center justify-between gap-2">
+<span class="text-xl font-bold text-slate-900 dark:text-white" style="">$12.50</span>
+<button class="bg-primary text-slate-900 p-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 px-4 py-2" style="">
+<span class="material-symbols-outlined text-lg" style="">add_shopping_cart</span>
+<span class="text-sm font-bold" style="">Thêm</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all">
+<div class="relative aspect-square overflow-hidden bg-slate-50">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Soft memory foam dog bed grey" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNvOAwSOmYzx2BKFP8FOWhcbJoLsnsPwofzCUEer5se8vdwkBfv1vStzPD25m0ODwotk53OtWuPEVreXnWnXzXXGGRrGTeBjGksNo1VgoX3-5MFUs1YZzNngnXPMLt7WmzS1JuUXM0A5Sw7L4Msz-LsTXl0SVtCEIg0p1z1DyxwGb6-8dO8RLcyhOnYSsb-QZ0S6jS7Zz8ih07tbY70kQgJSjFov56oKEQN1AeEIw1-_HivjwWWtMFts-q7SBa-B6DmDzEf1xVeAZK" style=""/>
+<span class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase" style="">Giảm giá 20%</span>
+<button class="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-600 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-1 text-amber-400 mb-1">
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="text-slate-400 text-xs ml-1 font-medium" style="">(212)</span>
+</div>
+<h3 class="font-bold text-slate-900 dark:text-white line-clamp-1" style="">Nệm Cao su non Ortho-Comfort</h3>
+<p class="text-slate-500 text-xs mb-3" style="">Kích thước lớn - Xám than</p>
+<div class="flex items-center justify-between gap-2">
+<div class="flex flex-col">
+<span class="text-xl font-bold text-slate-900 dark:text-white" style="">$89.00</span>
+<span class="text-xs text-slate-400 line-through" style="">$110.00</span>
+</div>
+<button class="bg-primary text-slate-900 p-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 px-4 py-2" style="">
+<span class="material-symbols-outlined text-lg" style="">add_shopping_cart</span>
+<span class="text-sm font-bold" style="">Thêm</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all">
+<div class="relative aspect-square overflow-hidden bg-slate-50">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Reflective orange dog harness" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFd8X5enmgOaj0d-TuZw0LHWB2RkXIggyQ4PjSBDGhUCccBcnih1D0Udtxo4ZRYkpD90Otece1mX7juWmyHWQ-_n6z-JqHY5ZgV-wqz2HdfONLl5Lmyf6Dsho7qmIww1cRWp2mLhq4-Ra-HIUmjgdNTKtxWQnwuDmUh1McxE_67xYyoG-VWS1vS-6dRIZ8Mv0yAmPLS9y9G8-aH24EorpMaoX27ge6JJ0_A4hewwiB1HfOsmqaz4voSYlAzW4yTCOkcSeOQMoDaScH" style=""/>
+<button class="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-600 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-1 text-amber-400 mb-1">
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm" style="">star</span>
+<span class="text-slate-400 text-xs ml-1 font-medium" style="">(45)</span>
+</div>
+<h3 class="font-bold text-slate-900 dark:text-white line-clamp-1" style="">Đai yếm Phản quang Chinh phục</h3>
+<p class="text-slate-500 text-xs mb-3" style="">Đồ dùng đi bộ đường dài chống chịu thời tiết</p>
+<div class="flex items-center justify-between gap-2">
+<span class="text-xl font-bold text-slate-900 dark:text-white" style="">$34.95</span>
+<button class="bg-primary text-slate-900 p-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 px-4 py-2" style="">
+<span class="material-symbols-outlined text-lg" style="">add_shopping_cart</span>
+<span class="text-sm font-bold" style="">Thêm</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all">
+<div class="relative aspect-square overflow-hidden bg-slate-50">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Soft dog treats in a jar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW4AfakCVYMa40pb7PUK4pOSrJ1LrO4gMffFOu4aZ8SWGnRZUbkmUm8cI0UUdZ-hmPcJyP_n4ixz8HKbTFmhaqpBKwb_8TbwoAJxR_03p9RL9oPmQ9NiA_BmYXwiOXQhc22MjJg-v1nlAU5orNmwv625WlFoRQ3gfdSgYSTZv83ZXzm8IkR6j4_MaVKJ4egW0AX4ykV-TknKaQouLFU-rLRM-evn1xtxdgRzs6eFcPM8eM_xlhJJ-M5XnjBxTRpEAvLtGL4IZ7q4sT" style=""/>
+<button class="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-600 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-1 text-amber-400 mb-1">
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="text-slate-400 text-xs ml-1 font-medium" style="">(342)</span>
+</div>
+<h3 class="font-bold text-slate-900 dark:text-white line-clamp-1" style="">Bánh thưởng Huấn luyện Tự nhiên</h3>
+<p class="text-slate-500 text-xs mb-3" style="">Hương vị Thịt xông khói &amp; Gan</p>
+<div class="flex items-center justify-between gap-2">
+<span class="text-xl font-bold text-slate-900 dark:text-white" style="">$8.99</span>
+<button class="bg-primary text-slate-900 p-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 px-4 py-2" style="">
+<span class="material-symbols-outlined text-lg" style="">add_shopping_cart</span>
+<span class="text-sm font-bold" style="">Thêm</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-primary/10 transition-all">
+<div class="relative aspect-square overflow-hidden bg-slate-50">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Automatic pet water fountain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC40EkvX4TlPrDfFM9_D_CyWatpuJ5t5JvizPSluXEkyk5OYBx6kVKAcZ4Ak_C82F6Dn6Xo8tsmXZdbOl1iiAiVwzURJp8l4Nr_-Ut_3xfftMGmTd-JynZzqvyKgsFBxYFEaYFzA57Xr8mgtFNhEAEPgyj9b9EQMSY_OK2zd6F9KwhiNavB5HIpYqgy_y2L21-KJY5gHNa-v81gaD2qkwOqlTK5PQS_t7iONq-228p4vR_BFad--oL1BimLw0qomI2NqiO6-_NLiDii" style=""/>
+<span class="absolute top-3 left-3 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded uppercase" style="">Mới</span>
+<button class="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-600 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="flex items-center gap-1 text-amber-400 mb-1">
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm filled-icon" style="">star</span>
+<span class="material-symbols-outlined text-sm" style="">star</span>
+<span class="text-slate-400 text-xs ml-1 font-medium" style="">(18)</span>
+</div>
+<h3 class="font-bold text-slate-900 dark:text-white line-clamp-1" style="">Máy uống nước Thông minh</h3>
+<p class="text-slate-500 text-xs mb-3" style="">Hệ thống lọc cực kỳ yên tĩnh</p>
+<div class="flex items-center justify-between gap-2">
+<span class="text-xl font-bold text-slate-900 dark:text-white" style="">$42.00</span>
+<button class="bg-primary text-slate-900 p-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 px-4 py-2" style="">
+<span class="material-symbols-outlined text-lg" style="">add_shopping_cart</span>
+<span class="text-sm font-bold" style="">Thêm</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Infinite Scroll Loader -->
+<div class="mt-12 py-8 flex flex-col items-center justify-center gap-4" id="scroll-loader">
+<div class="w-10 h-10 border-4 border-slate-200 border-t-primary rounded-full animate-spin"></div>
+<p class="text-sm text-slate-500 font-medium">Đang tải thêm sản phẩm...</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-12 mt-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl" style="">pets</span>
+<span class="text-lg font-bold" style="">PetCare</span>
+</div>
+<p class="text-sm text-slate-500" style="">Điểm đến lý tưởng cho các dịch vụ chăm sóc, nội trú chuyên nghiệp và phụ kiện thú cưng chất lượng cao.</p>
+</div>
+<div>
+<h4 class="font-bold mb-4" style="">Liên kết Nhanh</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Về chúng tôi</a></li>
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Dịch vụ của chúng tôi</a></li>
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Mua sắm tất cả</a></li>
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Liên hệ</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4" style="">Sản phẩm</h4>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Thức ăn cho chó</a></li>
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Đồ chơi thú cưng</a></li>
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Phụ kiện vòng cổ</a></li>
+<li class="" style=""><a class="hover:text-primary transition-colors" href="#" style="">Chăm sóc y tế</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4" style="">Bản tin</h4>
+<p class="text-sm text-slate-500 mb-4" style="">Đăng ký để nhận mẹo chăm sóc thú cưng và các ưu đãi độc quyền!</p>
+<div class="flex gap-2">
+<input class="flex-1 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm px-4 focus:ring-2 focus:ring-primary/50" placeholder="Địa chỉ Email" type="email"/>
+<button class="bg-primary text-slate-900 px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors" style="">
+<span class="material-symbols-outlined" style="">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-400" style="">© 2024 PetCare Shop. Bảo lưu mọi quyền.</div>
+</footer>
+<script>
+    // Simple infinite scroll simulation logic
+    const grid = document.getElementById('product-grid');
+    const loader = document.getElementById('scroll-loader');
+    let productCount = 6;
+    let loading = false;
+
+    window.addEventListener('scroll', () => {
+        if (loading || productCount >= 48) return;
+
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        if (scrollTop + clientHeight >= scrollHeight - 300) {
+            loadMoreProducts();
+        }
+    });
+
+    function loadMoreProducts() {
+        loading = true;
+        loader.style.opacity = '1';
+        
+        // Simulate API call delay
+        setTimeout(() => {
+            const currentItems = Array.from(grid.children).slice(0, 3);
+            currentItems.forEach(item => {
+                const clone = item.cloneNode(true);
+                // Randomize a few things to make it look real
+                const badge = clone.querySelector('.absolute.top-3.left-3');
+                if (badge) badge.remove();
+                grid.appendChild(clone);
+            });
+            
+            productCount += 3;
+            loading = false;
+            
+            if (productCount >= 48) {
+                loader.innerHTML = '<p class="text-sm text-slate-400">Bạn đã xem hết sản phẩm</p>';
+            }
+        }, 1500);
+    }
+</script>
+</body></html>

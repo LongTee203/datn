@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#10eafe",
+                    "on-primary-fixed": "#434545",
+                    "tertiary-dim": "#005861",
+                    "tertiary-container": "#10eafe",
+                    "primary": "#5a5c5c",
+                    "on-tertiary": "#d4f9ff",
+                    "on-surface-variant": "#3b6447",
+                    "on-tertiary-fixed": "#003d43",
+                    "on-secondary": "#ccffd6",
+                    "surface-dim": "#a0e4b1",
+                    "on-background": "#0c361d",
+                    "outline": "#568061",
+                    "secondary-fixed": "#87faab",
+                    "surface": "#deffe2",
+                    "on-primary": "#f2f3f3",
+                    "inverse-on-surface": "#7ca785",
+                    "surface-container-highest": "#acecbb",
+                    "primary-dim": "#4e5050",
+                    "inverse-surface": "#001205",
+                    "secondary": "#006a38",
+                    "on-error-container": "#520c00",
+                    "secondary-fixed-dim": "#78eb9e",
+                    "tertiary-fixed-dim": "#00dbee",
+                    "on-secondary-fixed-variant": "#006a38",
+                    "on-surface": "#0c361d",
+                    "surface-bright": "#deffe2",
+                    "inverse-primary": "#ffffff",
+                    "surface-container-low": "#cafdd4",
+                    "surface-container-high": "#b5f0c2",
+                    "on-primary-fixed-variant": "#5f6161",
+                    "outline-variant": "#8cb795",
+                    "on-secondary-container": "#005f31",
+                    "surface-tint": "#5a5c5c",
+                    "secondary-dim": "#005c30",
+                    "on-primary-container": "#555757",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffefec",
+                    "error": "#b02500",
+                    "on-tertiary-fixed-variant": "#005c64",
+                    "tertiary": "#00656f",
+                    "on-secondary-fixed": "#004a25",
+                    "primary-container": "#ebebeb",
+                    "error-container": "#f95630",
+                    "primary-fixed-dim": "#dcdddd",
+                    "surface-variant": "#acecbb",
+                    "on-tertiary-container": "#005159",
+                    "background": "#deffe2",
+                    "surface-container": "#bef5c9",
+                    "secondary-container": "#87faab",
+                    "primary-fixed": "#ebebeb",
+                    "error-dim": "#b92902"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Be Vietnam Pro"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #ffffff;
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-7xl mx-auto bg-white/70 backdrop-blur-xl transition-all duration-200">
+<div class="flex items-center gap-2">
+<span class="text-2xl font-bold tracking-tighter text-secondary">The Organic Sanctuary</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-secondary font-semibold border-b-2 border-secondary" href="#">Thanh toán</a>
+<a class="text-on-surface-variant/60 hover:text-secondary transition-colors" href="#">Cửa hàng</a>
+<a class="text-on-surface-variant/60 hover:text-secondary transition-colors" href="#">Dịch vụ</a>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-full font-semibold bg-primary-container text-on-primary-container hover:bg-primary-fixed-dim transition-all">Sign In</button>
+<button class="px-6 py-2 rounded-full font-semibold bg-secondary text-on-secondary hover:opacity-90 transition-all">Join Now</button>
+</div>
+</nav>
+<main class="pt-24 pb-20 px-6 max-w-7xl mx-auto">
+<!-- Header Section -->
+<header class="mb-12">
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface mb-2">Thanh toán</h1>
+<p class="text-on-surface-variant text-lg">Hoàn tất đơn hàng của bạn để mang lại niềm vui cho thú cưng.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left Column: Checkout Forms -->
+<div class="lg:col-span-7 space-y-12">
+<!-- Section 1: Thông tin giao hàng -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">1</span>
+<h2 class="text-2xl font-bold">Thông tin giao hàng</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-semibold mb-2 ml-1">Họ và tên</label>
+<input class="w-full px-6 py-4 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-secondary transition-all" placeholder="Nguyễn Văn A" type="text"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-semibold mb-2 ml-1">Số điện thoại</label>
+<input class="w-full px-6 py-4 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-secondary transition-all" placeholder="090 123 4567" type="tel"/>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-semibold mb-2 ml-1">Địa chỉ cụ thể</label>
+<input class="w-full px-6 py-4 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-secondary transition-all" placeholder="Số nhà, tên đường, phường/xã..." type="text"/>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-semibold mb-2 ml-1">Tỉnh / Thành phố</label>
+<select class="w-full px-6 py-4 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-secondary appearance-none transition-all">
+<option>Chọn tỉnh thành</option>
+<option>Hà Nội</option>
+<option>TP. Hồ Chí Minh</option>
+<option>Đà Nẵng</option>
+</select>
+</div>
+<div class="col-span-2 md:col-span-1">
+<label class="block text-sm font-semibold mb-2 ml-1">Quận / Huyện</label>
+<select class="w-full px-6 py-4 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-secondary appearance-none transition-all">
+<option>Chọn quận huyện</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Section 2: Phương thức vận chuyển -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">2</span>
+<h2 class="text-2xl font-bold">Phương thức vận chuyển</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="relative flex items-center p-6 rounded-lg bg-surface-container-low border-2 border-transparent has-[:checked]:border-secondary cursor-pointer transition-all">
+<input checked="" class="hidden" name="shipping" type="radio"/>
+<div class="flex-1">
+<div class="font-bold">Giao hàng tiêu chuẩn</div>
+<div class="text-sm text-on-surface-variant">Dự kiến nhận: 3-5 ngày</div>
+</div>
+<div class="font-bold text-secondary">30.000đ</div>
+</label>
+<label class="relative flex items-center p-6 rounded-lg bg-surface-container-low border-2 border-transparent has-[:checked]:border-secondary cursor-pointer transition-all">
+<input class="hidden" name="shipping" type="radio"/>
+<div class="flex-1">
+<div class="font-bold">Giao hàng hỏa tốc</div>
+<div class="text-sm text-on-surface-variant">Dự kiến nhận: 2-4 giờ</div>
+</div>
+<div class="font-bold text-secondary">55.000đ</div>
+</label>
+</div>
+</section>
+<!-- Section 3: Phương thức thanh toán -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">3</span>
+<h2 class="text-2xl font-bold">Phương thức thanh toán</h2>
+</div>
+<div class="space-y-4">
+<label class="flex items-center gap-4 p-6 rounded-lg bg-surface-container-lowest border-2 border-outline-variant/20 has-[:checked]:border-secondary cursor-pointer transition-all shadow-sm">
+<input checked="" class="w-5 h-5 text-secondary border-outline focus:ring-secondary" name="payment" type="radio"/>
+<span class="material-symbols-outlined text-tertiary">account_balance</span>
+<div class="flex-1">
+<div class="font-bold">Chuyển khoản ngân hàng</div>
+<div class="text-sm text-on-surface-variant">Thanh toán qua mã QR hoặc STK</div>
+</div>
+</label>
+<label class="flex items-center gap-4 p-6 rounded-lg bg-surface-container-lowest border-2 border-outline-variant/20 has-[:checked]:border-secondary cursor-pointer transition-all shadow-sm">
+<input class="w-5 h-5 text-secondary border-outline focus:ring-secondary" name="payment" type="radio"/>
+<span class="material-symbols-outlined text-tertiary">payments</span>
+<div class="flex-1">
+<div class="font-bold">Thanh toán khi nhận hàng (COD)</div>
+<div class="text-sm text-on-surface-variant">Thanh toán tiền mặt cho shipper</div>
+</div>
+</label>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary -->
+<div class="lg:col-span-5">
+<aside class="sticky top-28 bg-surface-container-lowest p-8 rounded-lg border border-outline-variant/10 shadow-xl">
+<h2 class="text-2xl font-bold mb-8">Tóm tắt đơn hàng</h2>
+<!-- Cart Items -->
+<div class="space-y-6 mb-8">
+<div class="flex gap-4">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Premium organic dog treats in a modern eco-friendly packaging on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtcpvAyaSQqQQWzmqmsKLO2pNpaibugfdXnpzakCnxe9TMTp4Zzx1BcLQ-M8QYAgXb0RcEflOrZfRO9xtZ_yily4eREVKXuObHgLkGhutEjiELtqk2zuQH_UYFlTkGxxcWi33czyNcDQmyyVW5IPm7fk23_7g__29OYqCruCQbSS1nD9Nf50n7zyLzGTcfp7ZtDuNbW8ygpGccYjhsFBc1eIMP-ygzaa9Ad61WV8EucXB2vy_euOAKZty-a8nb9gmchIgpgViop3oy"/>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-on-surface">Bánh thưởng hữu cơ vị gà</h3>
+<p class="text-sm text-on-surface-variant">Số lượng: 2</p>
+<div class="flex justify-between items-center mt-1">
+<span class="font-bold text-secondary">320.000đ</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="High quality biodegradable cat litter made from natural materials in a professional minimalist bag" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxxe-hmCXLAm4z2rKSVpRYpAgGxI4o_5EpUJzTvuQ_4lkeFOgbt-1j0eRO9V9r3a6fyzKPA9PYOPb8qaCoCpf_wPshQOj4qS8QqCut0wUvHkxlKw4b1rWuqaWokCw9G27NCvRGi14JLA7RRiI1UIHuNWZ5S7W7I-1u8xwiTIG51EGQ7qR5twpvYygdZU7HplZybB8IJBUzYitkl5QHtCZ0y3cwozkEkmKCW9c3wmW0IM21oqppcxQWEIm4-gJCao1pylrAgqq02EK1"/>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-on-surface">Cát vệ sinh thiên nhiên</h3>
+<p class="text-sm text-on-surface-variant">Số lượng: 1</p>
+<div class="flex justify-between items-center mt-1">
+<span class="font-bold text-secondary">185.000đ</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Promo Code -->
+<div class="flex gap-2 mb-8">
+<input class="flex-1 px-6 py-3 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-secondary transition-all text-sm" placeholder="Mã giảm giá" type="text"/>
+<button class="px-6 py-3 rounded-full bg-primary-container text-on-primary-container font-semibold text-sm hover:bg-primary hover:text-on-primary transition-all">Áp dụng</button>
+</div>
+<!-- Totals -->
+<div class="space-y-3 pt-6 border-t border-outline-variant/10">
+<div class="flex justify-between text-on-surface-variant">
+<span>Tạm tính</span>
+<span>505.000đ</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Phí vận chuyển</span>
+<span>30.000đ</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Giảm giá</span>
+<span class="text-error">-0đ</span>
+</div>
+<div class="flex justify-between text-xl font-bold pt-4 mt-2 border-t border-dashed border-outline-variant/30">
+<span>Tổng cộng</span>
+<span class="text-secondary">535.000đ</span>
+</div>
+</div>
+<button class="w-full py-5 mt-10 rounded-full bg-secondary text-on-secondary font-bold text-lg hover:opacity-95 transform active:scale-95 transition-all shadow-lg">
+                        Xác nhận đặt hàng
+                    </button>
+<p class="text-center text-xs text-on-surface-variant mt-6 px-4">
+                        Bằng cách nhấn xác nhận, bạn đồng ý với các <a class="underline" href="#">Điều khoản &amp; Chính sách</a> của The Organic Sanctuary.
+                    </p>
+</aside>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-emerald-50 w-full py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-outline-variant/10">
+<div class="flex flex-col gap-2">
+<span class="text-lg font-bold text-secondary">The Organic Sanctuary</span>
+<p class="text-sm font-be-vietnam-pro text-on-surface-variant max-w-xs">© 2024 The Organic Sanctuary PetCare. Nurturing with intention.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-sm font-be-vietnam-pro text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm font-be-vietnam-pro text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="text-sm font-be-vietnam-pro text-on-surface-variant hover:text-secondary transition-colors" href="#">Help Center</a>
+<a class="text-sm font-be-vietnam-pro text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact Us</a>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary opacity-60 hover:opacity-100 cursor-pointer">social_leaderboard</span>
+<span class="material-symbols-outlined text-secondary opacity-60 hover:opacity-100 cursor-pointer">potted_plant</span>
+<span class="material-symbols-outlined text-secondary opacity-60 hover:opacity-100 cursor-pointer">pets</span>
+</div>
+</footer>
+</body></html>

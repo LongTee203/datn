@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#29664c",
+                        "on-primary": "#c8ffe0",
+                        "primary-dim": "#1b5a40",
+                        "on-surface": "#00362a",
+                        "on-surface-variant": "#2f6555",
+                        "background": "#ffffff",
+                        "surface-container-low": "#f8fdfa",
+                        "outline": "#4b8170",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Be Vietnam Pro"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #ffffff;
+            color: #00362a;
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-on-surface selection:bg-primary/10">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+<div class="flex justify-between items-center px-6 py-4 max-w-5xl mx-auto">
+<div class="text-xl font-bold text-primary tracking-tight">
+                The Organic Sanctuary
+            </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-sm font-semibold text-on-surface/70 hover:text-primary transition-colors" href="#">Dịch vụ</a>
+<a class="text-sm font-semibold text-on-surface/70 hover:text-primary transition-colors" href="#">Cửa hàng</a>
+<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="#">Về chúng tôi</a>
+<a class="text-sm font-semibold text-on-surface/70 hover:text-primary transition-colors" href="#">Liên hệ</a>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary-dim transition-colors">
+                Bắt đầu
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-20">
+<!-- Brief Introduction -->
+<section class="px-6 mb-20">
+<div class="max-w-3xl mx-auto text-center">
+<h1 class="text-4xl md:text-5xl font-extrabold text-on-surface mb-6 tracking-tight">
+                    Về <span class="text-primary italic">The Organic Sanctuary</span>
+</h1>
+<p class="text-lg text-on-surface-variant leading-relaxed">
+                    Chúng tôi là nơi hội tụ của tình yêu thương và sự tử tế, mang đến không gian chăm sóc thú cưng chuẩn hữu cơ đầu tiên tại Việt Nam. Tại đây, mọi người bạn bốn chân đều được nâng niu trong một môi trường thuần khiết nhất.
+                </p>
+</div>
+</section>
+<!-- Our Mission -->
+<section class="px-6 py-16 bg-surface-container-low border-y border-gray-50">
+<div class="max-w-3xl mx-auto">
+<h2 class="text-2xl font-bold mb-8 text-primary">Sứ Mệnh Của Chúng Tôi</h2>
+<ul class="space-y-6">
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary flex-shrink-0" data-icon="check_circle">check_circle</span>
+<p class="text-on-surface-variant"><strong class="text-on-surface">Chăm sóc toàn diện:</strong> Kết hợp khoa học hiện đại và liệu pháp tự nhiên để tối ưu hóa sức khỏe thú cưng.</p>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary flex-shrink-0" data-icon="check_circle">check_circle</span>
+<p class="text-on-surface-variant"><strong class="text-on-surface">Cam kết Organic:</strong> Sử dụng 100% sản phẩm nguồn gốc thiên nhiên, không hóa chất độc hại.</p>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary flex-shrink-0" data-icon="check_circle">check_circle</span>
+<p class="text-on-surface-variant"><strong class="text-on-surface">Bền vững:</strong> Hành động có trách nhiệm với môi trường thông qua việc giảm thiểu rác thải nhựa.</p>
+</li>
+</ul>
+</div>
+</section>
+<!-- Simple Brand Story -->
+<section class="px-6 py-20">
+<div class="max-w-3xl mx-auto">
+<h2 class="text-2xl font-bold mb-6 text-primary">Câu Chuyện Thương Hiệu</h2>
+<div class="prose prose-emerald text-on-surface-variant leading-relaxed space-y-4">
+<p>
+                        The Organic Sanctuary ra đời từ ý tưởng về một "Nhà Kính Kỹ Thuật Số" (Digital Greenhouse) — nơi công nghệ hiện đại phục vụ cho bản năng tự nhiên của thú cưng. Chúng tôi tin rằng, trong thế giới ngày càng bận rộn, các bé yêu xứng đáng có một chốn dừng chân tĩnh lặng và an toàn.
+                    </p>
+<p>
+                        Khởi nguồn từ một phòng khám nhỏ, chúng tôi đã phát triển thành một hệ sinh thái chăm sóc thú cưng toàn diện, nơi mỗi nhân viên không chỉ là một chuyên gia mà còn là một người bạn đồng hành tận tâm. Chúng tôi không chỉ cung cấp dịch vụ, chúng tôi xây dựng một cộng đồng trân trọng sự sống và môi trường.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Minimal CTA -->
+<section class="px-6 py-10 border-t border-gray-100">
+<div class="max-w-3xl mx-auto text-center">
+<p class="text-on-surface-variant mb-6">Bạn muốn tìm hiểu thêm về các dịch vụ của chúng tôi?</p>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="border border-primary text-primary px-8 py-3 rounded-full font-bold hover:bg-primary/5 transition-colors">Liên hệ tư vấn</button>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:bg-primary-dim transition-colors">Xem bảng giá</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-100">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 px-6 py-12 max-w-5xl mx-auto text-xs text-on-surface/60">
+<div class="flex flex-col gap-2">
+<div class="text-sm font-bold text-primary">The Organic Sanctuary</div>
+<div>© 2024. All rights reserved.</div>
+</div>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
+<a class="hover:text-primary transition-colors" href="#">Điều khoản sử dụng</a>
+<a class="hover:text-primary transition-colors" href="#">Phát triển bền vững</a>
+</div>
+</div>
+</footer>
+</body></html>

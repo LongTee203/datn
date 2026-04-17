@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đặt lịch thành công | PetCare Shop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#dcdddd",
+                    "secondary-fixed-dim": "#78eb9e",
+                    "inverse-primary": "#ffffff",
+                    "error-container": "#f95630",
+                    "outline": "#568061",
+                    "surface-bright": "#deffe2",
+                    "on-secondary-fixed-variant": "#006a38",
+                    "on-tertiary": "#d4f9ff",
+                    "on-primary": "#f2f3f3",
+                    "tertiary-fixed-dim": "#00dbee",
+                    "surface-container-low": "#cafdd4",
+                    "on-error": "#ffefec",
+                    "on-primary-container": "#555757",
+                    "on-secondary": "#ccffd6",
+                    "primary-container": "#ebebeb",
+                    "inverse-surface": "#001205",
+                    "on-surface-variant": "#3b6447",
+                    "surface-variant": "#acecbb",
+                    "primary": "#5a5c5c",
+                    "tertiary-fixed": "#10eafe",
+                    "on-tertiary-fixed-variant": "#005c64",
+                    "secondary-fixed": "#87faab",
+                    "on-secondary-container": "#005f31",
+                    "primary-fixed": "#ebebeb",
+                    "error-dim": "#b92902",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary": "#00656f",
+                    "secondary": "#006a38",
+                    "on-secondary-fixed": "#004a25",
+                    "on-error-container": "#520c00",
+                    "surface-container": "#bef5c9",
+                    "secondary-container": "#87faab",
+                    "surface-dim": "#a0e4b1",
+                    "tertiary-container": "#10eafe",
+                    "surface-tint": "#5a5c5c",
+                    "on-surface": "#0c361d",
+                    "surface-container-highest": "#acecbb",
+                    "tertiary-dim": "#005861",
+                    "on-tertiary-fixed": "#003d43",
+                    "primary-dim": "#4e5050",
+                    "on-background": "#0c361d",
+                    "outline-variant": "#8cb795",
+                    "on-tertiary-container": "#005159",
+                    "inverse-on-surface": "#7ca785",
+                    "secondary-dim": "#005c30",
+                    "background": "#deffe2",
+                    "surface": "#deffe2",
+                    "on-primary-fixed": "#434545",
+                    "error": "#b02500",
+                    "surface-container-high": "#b5f0c2",
+                    "on-primary-fixed-variant": "#5f6161"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {},
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Be Vietnam Pro"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest font-body text-on-surface selection:bg-secondary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 glass-header">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-xl font-bold text-slate-800 font-headline tracking-tight">The Organic Sanctuary</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-slate-600 hover:text-cyan-500 font-medium transition-colors" href="#">Shop</a>
+<a class="text-slate-600 hover:text-cyan-500 font-medium transition-colors" href="#">Services</a>
+<a class="text-slate-600 hover:text-cyan-500 font-medium transition-colors" href="#">Community</a>
+<a class="text-slate-600 hover:text-cyan-500 font-medium transition-colors" href="#">About</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 hover:bg-slate-50/50 rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="p-2 text-slate-600 hover:bg-slate-50/50 rounded-full transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-20 px-4 max-w-5xl mx-auto">
+<!-- Progress Indicator -->
+<div class="flex items-center justify-center mb-12 gap-4">
+<div class="flex items-center gap-2 opacity-40">
+<div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-sm">1</div>
+<span class="hidden sm:block text-xs font-semibold uppercase tracking-wider">Thông tin</span>
+</div>
+<div class="h-px w-12 bg-outline-variant/30"></div>
+<div class="flex items-center gap-2 opacity-40">
+<div class="w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-sm">2</div>
+<span class="hidden sm:block text-xs font-semibold uppercase tracking-wider">Thanh toán</span>
+</div>
+<div class="h-px w-12 bg-outline-variant/30"></div>
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-secondary text-white flex items-center justify-center font-bold">3</div>
+<span class="text-sm font-bold uppercase tracking-wider text-secondary">Hoàn tất</span>
+</div>
+</div>
+<!-- Success Header -->
+<div class="text-center mb-16 relative">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-48 bg-secondary/10 rounded-full blur-3xl -z-10"></div>
+<div class="inline-flex items-center justify-center w-24 h-24 bg-secondary-container text-on-secondary-container rounded-full mb-8 shadow-xl shadow-secondary/10">
+<span class="material-symbols-outlined text-5xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-headline font-extrabold text-on-surface mb-6 tracking-tight">Đặt lịch thành công!</h1>
+<p class="max-w-2xl mx-auto text-lg text-on-surface-variant leading-relaxed mb-8">
+                Cảm ơn bạn đã tin tưởng dịch vụ của PetCare Shop. Lịch hẹn của bạn đã được ghi nhận và chúng tôi sẽ sớm liên hệ lại để xác nhận.
+            </p>
+<div class="inline-block px-6 py-2 bg-surface-container-high rounded-full font-semibold text-secondary-dim tracking-wide border border-outline-variant/20">
+                Mã lịch hẹn: <span class="font-bold">#BK-123456</span>
+</div>
+</div>
+<!-- Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+<!-- Service Card -->
+<div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+<div class="absolute -right-6 -top-6 opacity-10">
+<span class="material-symbols-outlined text-9xl" data-icon="spa">spa</span>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 opacity-70">DỊCH VỤ ĐÃ ĐẶT</h3>
+<p class="text-2xl font-headline font-bold text-on-surface mb-1">Tắm sấy &amp; Spa VIP</p>
+</div>
+<div class="text-3xl font-headline font-black text-secondary">500.000đ</div>
+</div>
+<!-- Appointment Details -->
+<div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+<div class="absolute -right-6 -top-6 opacity-10">
+<span class="material-symbols-outlined text-9xl" data-icon="calendar_today">calendar_today</span>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 opacity-70">THỜI GIAN HẸN</h3>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="event">event</span>
+<span class="font-semibold">Ngày 25/10/2023</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="schedule">schedule</span>
+<span class="font-semibold">Giờ 14:30</span>
+</div>
+</div>
+</div>
+<div class="text-on-surface-variant text-sm font-medium">Vui lòng đến sớm 10 phút.</div>
+</div>
+<!-- Pet Information -->
+<div class="bg-white p-8 rounded-xl relative overflow-hidden flex flex-col justify-between min-h-[220px] shadow-sm">
+<div class="absolute right-[-10px] bottom-[-10px] w-32 h-32 rounded-full overflow-hidden opacity-20 rotate-12">
+<img alt="Pet Avatar" class="w-full h-full object-cover" data-alt="close-up portrait of a cute smiling corgi puppy with soft studio lighting and a clean pastel green background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0TQbj-WkNIeVwk_BLG-SpM3HUI7MyFCi3UCVQ1j4AeWOr7Dz8rKhQxhXFi3O3jUmiHksAGlMGpxG2FLtFa5h2Eer23lQbcds5JN_lVSy2xTL5Ckw_TABZOJaSrXgDcbQxUMEnL3ZrTHLvdgqQX684nyUU7kfA3selESiUFtWROMFL5vA3rBwoOgt9fyaYOqK9EcYfHmHSGDfpSs6itjOwMXPB7A1JLAnk5hkjj0XlGY-HlOePbJM3f7OguVpUFNjMWoJPF58_R8cR"/>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 opacity-70">THÔNG TIN THÚ CƯNG</h3>
+<div class="flex flex-col gap-1">
+<p class="text-2xl font-headline font-bold text-on-surface">Mochi</p>
+<span class="px-3 py-1 bg-secondary-container/30 text-secondary font-bold text-xs rounded-full w-fit">Corgi</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="pets">pets</span>
+<span class="text-sm font-medium text-on-surface-variant italic">Thú cưng sẵn sàng</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+<button class="w-full sm:w-auto px-10 py-5 bg-secondary text-white font-bold rounded-full text-lg shadow-xl shadow-secondary/20 hover:bg-secondary-dim transition-all active:scale-95 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">home</span>
+                Về trang chủ
+            </button>
+<button class="w-full sm:w-auto px-10 py-5 bg-surface-container-high text-on-surface font-bold rounded-full text-lg hover:bg-surface-dim transition-all active:scale-95 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">calendar_month</span>
+                Xem lịch hẹn của tôi
+            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-slate-200 bg-slate-100 dark:bg-slate-950 font-body text-sm">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 py-12 max-w-7xl mx-auto w-full">
+<div class="mb-8 md:mb-0">
+<div class="text-lg font-semibold text-slate-700 mb-2">The Organic Sanctuary</div>
+<p class="text-slate-500">© 2024 The Organic Sanctuary. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-cyan-600 hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-cyan-600 hover:underline transition-all" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-cyan-600 hover:underline transition-all" href="#">Refund Policy</a>
+<a class="text-slate-500 hover:text-cyan-600 hover:underline transition-all" href="#">Contact</a>
+</div>
+</div>
+</footer>
+</body></html>

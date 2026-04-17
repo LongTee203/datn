@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý kho hàng - Pet Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#727d7a",
+                    "inverse-on-surface": "#999e9c",
+                    "secondary-dim": "#395954",
+                    "surface-bright": "#f6faf8",
+                    "error-dim": "#67040d",
+                    "on-error": "#fff7f6",
+                    "secondary": "#446560",
+                    "outline-variant": "#a9b4b1",
+                    "primary-dim": "#005e56",
+                    "secondary-container": "#c6eae3",
+                    "on-secondary": "#e2fff9",
+                    "secondary-fixed": "#c6eae3",
+                    "tertiary-container": "#b6e7fe",
+                    "secondary-fixed-dim": "#b8dcd5",
+                    "on-primary-fixed": "#004841",
+                    "on-surface": "#2a3433",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#d9e5e2",
+                    "surface-variant": "#d9e5e2",
+                    "on-primary-fixed-variant": "#00675e",
+                    "surface-tint": "#006b62",
+                    "on-background": "#2a3433",
+                    "background": "#f6faf8",
+                    "surface-container": "#e7f0ed",
+                    "on-tertiary-fixed": "#074355",
+                    "inverse-primary": "#8bffef",
+                    "primary-container": "#82f6e7",
+                    "error-container": "#fa746f",
+                    "on-secondary-fixed": "#244541",
+                    "on-secondary-container": "#375853",
+                    "inverse-surface": "#0a0f0e",
+                    "surface-container-high": "#e1eae7",
+                    "on-tertiary": "#f2faff",
+                    "tertiary-fixed": "#b6e7fe",
+                    "on-error-container": "#6e0a12",
+                    "primary": "#006b62",
+                    "on-surface-variant": "#56615f",
+                    "primary-fixed-dim": "#73e7d8",
+                    "on-tertiary-container": "#235669",
+                    "tertiary-fixed-dim": "#a8d9ef",
+                    "surface-dim": "#d1dcd9",
+                    "surface": "#f6faf8",
+                    "tertiary": "#346578",
+                    "on-secondary-fixed-variant": "#41615d",
+                    "on-tertiary-fixed-variant": "#2e6073",
+                    "on-primary-container": "#005c54",
+                    "on-primary": "#e2fff9",
+                    "surface-container-low": "#eef5f3",
+                    "tertiary-dim": "#27596c",
+                    "primary-fixed": "#82f6e7",
+                    "error": "#a83836"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="bg-[#eef5f3] dark:bg-slate-900 h-screen w-64 fixed left-0 top-0 overflow-y-auto flex flex-col py-6 px-4 gap-2 z-50">
+<div class="px-2 mb-8">
+<h1 class="text-xl font-bold text-[#006b62] dark:text-[#82f6e7]">Pet Sanctuary</h1>
+<p class="text-xs font-['Plus_Jakarta_Sans'] text-[#2a3433] opacity-60">Hệ thống quản trị</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span> Bảng điều khiển
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">calendar_month</span> Đặt lịch
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">group</span> Khách hàng
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">pets</span> Dịch vụ
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">shopping_cart</span> Đơn hàng
+        </a>
+<!-- Active Tab: Kho hàng -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#82f6e7] text-[#003732] rounded-lg border-l-4 border-[#006b62] font-semibold font-['Plus_Jakarta_Sans'] text-sm scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span> Kho hàng
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">notifications</span> Thông báo
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">edit_note</span> Bài viết
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">payments</span> Thanh toán
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">leaderboard</span> Báo cáo
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2a3433] opacity-80 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#d5e8e3] transition-colors rounded-lg scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span> Cài đặt
+        </a>
+</nav>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md flex justify-between items-center px-8 h-20 ml-64 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] border-none">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full w-96 group focus-within:ring-2 focus-within:ring-[#4BC3B5] transition-all">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body" placeholder="Tìm kiếm sản phẩm trong kho..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<button class="text-on-surface hover:text-[#006b62] transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface hover:text-[#006b62] transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="flex items-center gap-3 border-l pl-6 border-outline-variant/30">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface">Admin Profile</p>
+<p class="text-[10px] text-outline uppercase tracking-wider">Quản lý kho</p>
+</div>
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary-fixed" data-alt="professional male admin portrait with a friendly smile, clean minimalist background, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3baoQlcbXpFhPPYieefPsOmrm1lqGaSzWwvBpqdzdl6lLmOTxwshQVodS8ufDA7GbGgGEguQ8a-t3C_wtuU3y2mAsGZWnWdRrCrIK8Jpqco8dF5ECKoOA0yXTygRduKOhFWPip2q-RzWbY-fNlriGtTqbj1_Iv5-CnHh9DPMAwajbmBKIWLl6kcC1nuIyf9IpRT13V3r90P38TEK-ZWwsV7dKZ43e97eKpOMkGznELjWYQKKRh3z9_4qr2C2TG9fKcE_TP56XGrM"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-20 p-8 min-h-screen">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-3xl font-extrabold text-on-surface tracking-tight mb-1">Quản lý kho hàng</h2>
+<p class="text-on-surface-variant font-medium">Cập nhật và theo dõi vật dụng thú cưng tại cửa hàng.</p>
+</div>
+<button class="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-8 py-3 rounded-full flex items-center gap-2 font-bold shadow-lg hover:shadow-primary/20 transition-all scale-100 hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined">add_circle</span>
+            Nhập kho
+        </button>
+</div>
+<!-- Inventory Summary Bento -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_10px_40px_rgba(42,52,51,0.04)] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="p-3 bg-primary-container/30 text-primary rounded-full material-symbols-outlined">inventory_2</span>
+<span class="text-xs font-bold text-primary bg-primary-container px-2 py-1 rounded-full">+12%</span>
+</div>
+<p class="text-sm font-medium text-on-surface-variant">Tổng sản phẩm</p>
+<h3 class="text-2xl font-extrabold text-on-surface">1,284</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_10px_40px_rgba(42,52,51,0.04)] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="p-3 bg-secondary-container/30 text-secondary rounded-full material-symbols-outlined">category</span>
+</div>
+<p class="text-sm font-medium text-on-surface-variant">Danh mục</p>
+<h3 class="text-2xl font-extrabold text-on-surface">24</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_10px_40px_rgba(42,52,51,0.04)] border-2 border-error/10 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="p-3 bg-error-container/30 text-error rounded-full material-symbols-outlined">warning</span>
+</div>
+<p class="text-sm font-medium text-on-surface-variant">Sắp hết hàng</p>
+<h3 class="text-2xl font-extrabold text-error">08</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_10px_40px_rgba(42,52,51,0.04)] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="p-3 bg-tertiary-container/30 text-tertiary rounded-full material-symbols-outlined">payments</span>
+</div>
+<p class="text-sm font-medium text-on-surface-variant">Giá trị kho</p>
+<h3 class="text-2xl font-extrabold text-on-surface">452M VNĐ</h3>
+</div>
+</div>
+<!-- Low Stock Alert Floating Card (Moved here) -->
+<div class="mb-8 grid grid-cols-1 md:grid-cols-3 gap-8 items-center bg-error-container/10 p-8 rounded-[2rem] relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-error/5 rounded-full blur-3xl"></div>
+<div class="md:col-span-2">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">report</span>
+<h4 class="text-xl font-extrabold text-on-error-container">Cảnh báo tồn kho thấp</h4>
+</div>
+<p class="text-on-error-container/80 font-medium leading-relaxed max-w-xl">
+                Hiện tại có <span class="font-bold text-error">8 sản phẩm</span> đang ở mức cảnh báo (Số lượng &lt; 5). Vui lòng kiểm tra và lên kế hoạch nhập hàng để không làm gián đoạn trải nghiệm của khách hàng.
+            </p>
+</div>
+<div class="flex justify-end">
+<button class="bg-error text-white px-10 py-4 rounded-full font-bold shadow-xl shadow-error/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">local_shipping</span>
+                Tạo đơn nhập gấp
+            </button>
+</div>
+</div>
+<!-- Table Filters -->
+<div class="flex items-center justify-between mb-6 bg-surface-container-low p-4 rounded-xl">
+<div class="flex gap-4">
+<button class="px-6 py-2 bg-white text-primary font-bold rounded-full text-sm shadow-sm">Tất cả</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary font-medium text-sm transition-colors">Thức ăn</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary font-medium text-sm transition-colors">Đồ chơi</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary font-medium text-sm transition-colors">Phụ kiện</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary font-medium text-sm transition-colors">Y tế</button>
+</div>
+<button class="flex items-center gap-2 text-sm font-bold text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+            Bộ lọc nâng cao
+        </button>
+</div>
+<!-- Inventory List (Editorial Table Design) -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0px_10px_40px_rgba(42,52,51,0.06)] overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-high/30">
+<tr>
+<th class="px-8 py-5 text-xs font-bold text-outline uppercase tracking-widest">Sản phẩm</th>
+<th class="px-6 py-5 text-xs font-bold text-outline uppercase tracking-widest text-center">Danh mục</th>
+<th class="px-6 py-5 text-xs font-bold text-outline uppercase tracking-widest text-right">Giá bán</th>
+<th class="px-6 py-5 text-xs font-bold text-outline uppercase tracking-widest text-center">Tồn kho</th>
+<th class="px-6 py-5 text-xs font-bold text-outline uppercase tracking-widest text-center">Trạng thái</th>
+<th class="px-8 py-5 text-xs font-bold text-outline uppercase tracking-widest text-right">Thao tác</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1: Healthy Stock -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-8 py-4">
+<div class="flex items-center gap-4">
+<img class="w-14 h-14 rounded-lg object-cover bg-surface-container shadow-sm" data-alt="premium bag of organic cat food with illustrations of salmon and vegetables, clean studio product photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAALX97FAv123kDgqZaLX4dw7le1sgwaKooLK8N6ojyJa33-HRNVWsR3iwLwZU6Gj5oiDJFbn1JOCUmLuu736SLR46EmUYTUDjOQgGJMbUThlIwXn9Nn0g8KJaU2VFvaEdld5cxq3Frmq2A2676RaR6ZKIkQ2jcd_YJW3sVsLuC0KRjhGBsq-Xp1KcdUKZP3bnZ412R3PIbwsWmnUDEb_ur3ZYKHUKF4yjDFk_lPQ3_5VrOnXN4I7WI1iIgMKPeUXBerGV7bMLNXA8"/>
+<div>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Thức ăn mèo Salmon Delight</p>
+<p class="text-xs text-on-surface-variant">ID: CAT-F-001</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container text-[11px] font-bold rounded-full uppercase">Thức ăn</span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-on-surface">320.000 VNĐ</p>
+</td>
+<td class="px-6 py-4 text-center">
+<p class="font-extrabold text-on-surface">45</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 text-xs font-bold text-primary">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                            Còn hàng
+                        </span>
+</td>
+<td class="px-8 py-4 text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Low Stock (Warning) -->
+<tr class="hover:bg-surface-container transition-colors group bg-error/5">
+<td class="px-8 py-4">
+<div class="flex items-center gap-4">
+<img class="w-14 h-14 rounded-lg object-cover bg-surface-container shadow-sm" data-alt="vibrant blue orthopedic dog bed with soft plush lining on a light wooden floor, high-end pet furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3OaoJ1uwD94mII_lDqJIu8xRGr31R51CaNZK6g9UM99GV5dO61dmEsqL7sSgBpnpG8_WCyTqOJRIzR9MpcgroG6-p6OaIvni3hBWS20zguAsFO9lqXriL5KzepHWAtXoRqt9KB7GVoFPgg7FBs99nxEBQ7SOGozHRJ93Y_fWfJDWNl4DtLSKfQtZqvj2ZlrX549euqtPtGJXrLuRErXhvCh49SKvT2NwJAbGBHB_ChuqqukSSLPj1E1z1wL0vApGHzwzmkC7aU9E"/>
+<div>
+<p class="font-bold text-on-surface group-hover:text-error transition-colors">Đệm ngủ Orthopedic XL</p>
+<p class="text-xs text-on-surface-variant">ID: DOG-A-042</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-tertiary-container/50 text-on-tertiary-container text-[11px] font-bold rounded-full uppercase">Phụ kiện</span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-on-surface">1.250.000 VNĐ</p>
+</td>
+<td class="px-6 py-4 text-center">
+<p class="font-extrabold text-error">3</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 text-xs font-bold text-error">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                            Sắp hết hàng
+                        </span>
+</td>
+<td class="px-8 py-4 text-right">
+<button class="p-2 text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Healthy Stock -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-8 py-4">
+<div class="flex items-center gap-4">
+<img class="w-14 h-14 rounded-lg object-cover bg-surface-container shadow-sm" data-alt="natural rope chew toy for dogs with bone-shaped ends on a white surface, durable pet play accessories" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9bLfWrho1bvAMpE4FCC6ijLeXSWBDbItRBmAEaDiFrqob9YafbVXb-aoM2St4mPr8_UZbSgy9j-2JN3i3VJ7z0yN7mPtm8WfFkuJiAfG8WhU5r3skVJYHyuU7glGNy5JMFSyACYswfiSfr6BhK9qkKYnOaw9zmVSdtZRb78zG9IWLoR7nyG8HCAfcvdcT1Zx-JtrZVu1NazFaud5abc8dCIr_NDSQDjHD0WdQeA_uH_wbcJzI1z9wPwwzX5c2bLEFFASXbSXUOe4"/>
+<div>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Đồ chơi dây thừng bền bỉ</p>
+<p class="text-xs text-on-surface-variant">ID: DOG-T-015</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container text-[11px] font-bold rounded-full uppercase">Đồ chơi</span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-on-surface">85.000 VNĐ</p>
+</td>
+<td class="px-6 py-4 text-center">
+<p class="font-extrabold text-on-surface">112</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 text-xs font-bold text-primary">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                            Còn hàng
+                        </span>
+</td>
+<td class="px-8 py-4 text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Low Stock (Warning) -->
+<tr class="hover:bg-surface-container transition-colors group bg-error/5">
+<td class="px-8 py-4">
+<div class="flex items-center gap-4">
+<img class="w-14 h-14 rounded-lg object-cover bg-surface-container shadow-sm" data-alt="set of specialized pet grooming brushes and scissors in a professional case, hygienic pet care tools" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9075mwPibNxSizH6MJoPgMSMd3iTEiwulAGa79GgW1NFDEh_cs3-lKVdT2bXMsMIYkpoOeMWUQieT_o0j_n8OdxSLElnV71XlyaVH8PFO5Qafq_OSUUSBzxbeJ0EUolDKpuUL3EmqsT52ZoxdcB6UAeNe_njzGFyOdsvd0THRSRwixVpOkrsIMEw0O53y_QdDUOPTxpxws4QcGcWgyaVucfqOWG9qxxXk7etfVO6w8DoVqkV7STkj22rvleeqGBzSn4U8jqKwFak"/>
+<div>
+<p class="font-bold text-on-surface group-hover:text-error transition-colors">Bộ tỉa lông chuyên nghiệp</p>
+<p class="text-xs text-on-surface-variant">ID: TOOL-G-009</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-tertiary-container/50 text-on-tertiary-container text-[11px] font-bold rounded-full uppercase">Y tế</span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-on-surface">750.000 VNĐ</p>
+</td>
+<td class="px-6 py-4 text-center">
+<p class="font-extrabold text-error">2</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 text-xs font-bold text-error">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                            Sắp hết hàng
+                        </span>
+</td>
+<td class="px-8 py-4 text-right">
+<button class="p-2 text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Healthy Stock -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-8 py-4">
+<div class="flex items-center gap-4">
+<img class="w-14 h-14 rounded-lg object-cover bg-surface-container shadow-sm" data-alt="modern automatic water fountain for pets, sleek white ceramic design with flowing water, minimalist home decor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyVRWqG8Cl58HynlVZZJEHLCXYaD9fWbo9X-x6IHMvWfpJbr98S1RJfSTsUPBqi-dZY4vGy-XAljfGp0X12fDG_l15iC2cei97hdgYhm3FQOGt2kW5mvDL9735agZIgUJ3qgT5e29jlr9WE67A15opqKjeNeYY3WEgp_pterNzLCOuT6EEj5ouCKa9gcYMxy6PPq8KsCGmINcGv6iTXgBs4JnoVZ_zVyClngsn9dFlftHRpSjS9RBwXWkrX9HqMJJfpYOi9Zrz5UY"/>
+<div>
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Máy lọc nước thông minh</p>
+<p class="text-xs text-on-surface-variant">ID: ACC-W-088</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-3 py-1 bg-tertiary-container/50 text-on-tertiary-container text-[11px] font-bold rounded-full uppercase">Phụ kiện</span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="font-bold text-on-surface">540.000 VNĐ</p>
+</td>
+<td class="px-6 py-4 text-center">
+<p class="font-extrabold text-on-surface">18</p>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 text-xs font-bold text-primary">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                            Còn hàng
+                        </span>
+</td>
+<td class="px-8 py-4 text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Content -->
+<div class="px-8 py-6 bg-surface-container-low/50 flex justify-between items-center">
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Hiển thị 5 / 1,284 sản phẩm</p>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-on-surface-variant hover:bg-primary hover:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-bold shadow-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-on-surface-variant hover:bg-primary-container transition-all">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-on-surface-variant hover:bg-primary-container transition-all">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-on-surface-variant hover:bg-primary hover:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

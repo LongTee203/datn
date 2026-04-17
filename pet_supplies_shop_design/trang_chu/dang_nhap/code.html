@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đăng nhập | The Organic Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#b2f6df",
+                    "error-dim": "#9f0519",
+                    "secondary-container": "#a0f4c8",
+                    "primary-fixed": "#b9f9d6",
+                    "background": "#d8fff0",
+                    "on-tertiary-container": "#4c2b00",
+                    "surface-variant": "#9decd2",
+                    "primary-fixed-dim": "#abebc8",
+                    "tertiary": "#854f00",
+                    "on-secondary-fixed": "#004930",
+                    "error-container": "#fb5151",
+                    "primary-container": "#b9f9d6",
+                    "on-primary-container": "#246147",
+                    "on-tertiary-fixed-variant": "#583300",
+                    "on-error": "#ffefee",
+                    "error": "#b31b25",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-tint": "#29664c",
+                    "outline-variant": "#81b8a6",
+                    "on-secondary-container": "#005e3f",
+                    "secondary-dim": "#005c3d",
+                    "surface-container-low": "#bffee8",
+                    "surface-container-high": "#a7f1d9",
+                    "on-primary-fixed-variant": "#2f6c51",
+                    "inverse-primary": "#beffdc",
+                    "tertiary-fixed-dim": "#ed9000",
+                    "on-secondary-fixed-variant": "#076947",
+                    "surface-bright": "#d8fff0",
+                    "on-surface": "#00362a",
+                    "secondary": "#076947",
+                    "secondary-fixed-dim": "#92e5bb",
+                    "on-error-container": "#570008",
+                    "primary-dim": "#1b5a40",
+                    "inverse-surface": "#00110c",
+                    "surface": "#d8fff0",
+                    "secondary-fixed": "#a0f4c8",
+                    "outline": "#4b8170",
+                    "surface-container-highest": "#9decd2",
+                    "on-primary": "#c8ffe0",
+                    "inverse-on-surface": "#71a896",
+                    "surface-dim": "#8fe5ca",
+                    "on-background": "#00362a",
+                    "on-secondary": "#c9ffdf",
+                    "on-tertiary-fixed": "#2b1600",
+                    "primary": "#29664c",
+                    "on-surface-variant": "#2f6555",
+                    "on-tertiary": "#fff0e5",
+                    "tertiary-dim": "#744400",
+                    "tertiary-fixed": "#fd9d1a",
+                    "on-primary-fixed": "#0a4f36",
+                    "tertiary-container": "#fd9d1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Be Vietnam Pro"],
+                    "label": ["Be Vietnam Pro"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        h1, h2, .brand-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom ghost border implementation */
+        .ghost-border { border: 1.5px solid rgba(129, 184, 166, 0.2); }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface min-h-screen flex flex-col">
+<!-- Top Navigation (Shell suppressed per rules for Transactional pages, but keeping Brand Identity) -->
+<header class="fixed top-0 left-0 w-full z-50 px-6 py-6 max-w-7xl mx-auto flex justify-between items-center">
+<div class="text-2xl font-bold tracking-tighter text-primary brand-font">
+            The Organic Sanctuary
+        </div>
+<a class="group flex items-center gap-2 text-on-surface-variant font-medium hover:text-primary transition-colors" href="/">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span class="text-sm font-label">Quay lại trang chủ</span>
+</a>
+</header>
+<main class="flex-grow flex items-center justify-center px-6 py-20">
+<div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Branding & Image Section (Asymmetric Editorial Style) -->
+<div class="hidden lg:block relative">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-surface-container opacity-40 rounded-full blur-3xl"></div>
+<div class="relative z-10 space-y-8">
+<h1 class="text-5xl font-extrabold tracking-tight text-on-surface leading-tight">
+                        Nơi tình yêu dành cho <br/>
+<span class="text-primary italic">thú cưng</span> nở rộ.
+                    </h1>
+<p class="text-lg text-on-surface-variant max-w-md font-body leading-relaxed">
+                        Chào mừng bạn quay lại với khu vườn chăm sóc sức khỏe toàn diện nhất cho người bạn bốn chân của mình.
+                    </p>
+<div class="relative rounded-xl overflow-hidden shadow-xl shadow-on-surface/5">
+<img alt="Golden retriever smiling" class="w-full h-[450px] object-cover" data-alt="Close-up of a happy golden retriever dog smiling with soft natural morning sunlight in a lush green garden setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBURl7crUIAxQa-jEGTi9fVmay6jK55LZzfW3ArzQNZ2fPPhOEUJtle5ou6Pgv37hLGVktfbCudVItF-ah3yT8Z-w25_zuW3z_Lbs1kllth23oUy2vRO7DSA2W4PEIFHd-b5KWXdOpHrS1sTlkzDHagqe54Gj5174WS4aGn2Zha6DXAq2HwLlV5JdqbTxNZTWqu1KO_EYYRPbe2sL0m2W3zbL7fPosyWZJRLFdAi2VY_S1666qpSPEuIi1c0dffjQzc-fCORDBxA4nc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+</div>
+</div>
+<!-- Login Form Section -->
+<div class="flex flex-col justify-center items-center lg:items-start">
+<div class="w-full max-w-md p-8 md:p-10 bg-surface-container-low/30 rounded-lg backdrop-blur-sm ghost-border">
+<div class="mb-10 text-center lg:text-left">
+<h2 class="text-3xl font-bold text-on-surface mb-2 brand-font">Đăng nhập</h2>
+<p class="text-on-surface-variant font-body">Tiếp tục hành trình chăm sóc thú cưng của bạn</p>
+</div>
+<form class="space-y-6">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant px-1 font-label" for="email">Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest rounded-full ghost-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-outline/60" id="email" placeholder="example@petcare.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="block text-sm font-semibold text-on-surface-variant font-label" for="password">Mật khẩu</label>
+<a class="text-xs font-semibold text-primary hover:text-primary-dim transition-colors" href="#">Quên mật khẩu?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest rounded-full ghost-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-outline/60" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Login Button -->
+<button class="w-full py-4 bg-primary text-on-primary font-bold rounded-full hover:bg-primary-dim active:scale-[0.98] transition-all flex justify-center items-center gap-2 group shadow-lg shadow-primary/10" type="submit">
+                            Đăng nhập
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<!-- Register Link -->
+<div class="mt-10 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-on-surface-variant text-sm font-body">
+                            Chưa có tài khoản? 
+                            <a class="text-primary font-bold hover:underline underline-offset-4 ml-1" href="#">Đăng ký ngay</a>
+</p>
+</div>
+</div>
+<!-- Trust Badges (Minimalist) -->
+<div class="mt-8 flex gap-6 grayscale opacity-40 hover:opacity-100 transition-opacity duration-500">
+<div class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-on-surface">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">verified_user</span> 
+                        Bảo mật SSL
+                    </div>
+<div class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-on-surface">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">favorite</span> 
+                        Pet Friendly
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Using Shell component structure) -->
+<footer class="w-full py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-4 bg-emerald-50/50">
+<div class="flex flex-col md:items-start items-center gap-2">
+<div class="text-lg font-bold text-emerald-900 brand-font">The Organic Sanctuary</div>
+<p class="text-emerald-800/70 text-sm font-body">© 2024 The Organic Sanctuary PetCare. Nurturing with intention.</p>
+</div>
+<div class="flex gap-6 text-sm font-body text-emerald-700/70">
+<a class="hover:text-tertiary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-tertiary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-tertiary transition-colors" href="#">Help Center</a>
+</div>
+</footer>
+</body></html>

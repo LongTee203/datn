@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PetCare Shop - The Digital Greenhouse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#29664c",
+                        "primary-light": "#e9f0ed",
+                        "secondary": "#1a4231",
+                        "accent": "#d4af37",
+                        "surface": "#ffffff",
+                        "background": "#f8faf9",
+                        "on-surface": "#1c2421",
+                        "on-surface-variant": "#4a5c54"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-safe": "32px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "section-gap": "100px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "caption": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; }
+        .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .custom-shadow { box-shadow: 0 10px 40px -10px rgba(41, 102, 76, 0.08); }
+        .pill-shape { border-radius: 9999px; }
+        .bento-card { border-radius: 20px; transition: all 0.3s ease-out; border: 1px solid #f1f5f3; }
+        .bento-card:hover { transform: translateY(-4px); border-color: #29664c; box-shadow: 0 15px 30px -10px rgba(41, 102, 76, 0.1); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 glass-nav border-b border-gray-100">
+<div class="flex justify-between items-center h-20 px-4 md:px-10 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">pets</span>
+</div>
+<div class="text-2xl font-black text-primary tracking-tighter">PetCare<span class="text-secondary font-light">Shop</span></div>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-sm text-primary border-b-2 border-primary pb-1" href="#">Trang chủ</a>
+<a class="font-label-md text-sm text-slate-600 hover:text-primary transition-all" href="#">Giới thiệu</a>
+<a class="font-label-md text-sm text-slate-600 hover:text-primary transition-all" href="#">Sản phẩm</a>
+<a class="font-label-md text-sm text-slate-600 hover:text-primary transition-all" href="#">Dịch vụ</a>
+<a class="font-label-md text-sm text-slate-600 hover:text-primary transition-all" href="#">Bảng giá</a>
+<a class="font-label-md text-sm text-slate-600 hover:text-primary transition-all" href="#">Kiến thức</a>
+<a class="font-label-md text-sm text-slate-600 hover:text-primary transition-all" href="#">Liên hệ</a>
+</nav>
+<div class="flex items-center gap-4">
+<a class="hidden sm:block font-label-md text-sm text-slate-600 hover:text-primary transition-all font-bold" href="#">Đăng nhập</a>
+<button class="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 pill-shape font-label-md text-sm hover:bg-secondary transition-all active:scale-95">Đặt lịch<span class="hidden sm:inline"> ngay</span></button>
+<button class="md:hidden text-primary" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-full')">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="pt-32 pb-16 px-4 md:px-10 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white">
+<div class="space-y-6 md:space-y-8 text-center lg:text-left">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-light text-primary pill-shape font-label-md text-[10px] md:text-xs uppercase tracking-widest font-bold">
+<span class="material-symbols-outlined text-sm">verified</span> Dịch vụ chăm sóc thú cưng cao cấp
+        </div>
+<h1 class="font-h1 text-on-surface max-w-xl mx-auto lg:mx-0 leading-tight text-4xl md:text-5xl font-extrabold">
+            Nơi gửi gắm <br class="hidden sm:block"/><span class="text-primary italic font-light">yêu thương</span> cho thú cưng của bạn
+        </h1>
+<p class="font-body-lg text-on-surface-variant max-w-lg mx-auto lg:mx-0 text-base md:text-lg">
+            PetCare mang đến tiêu chuẩn chăm sóc 5 sao từ Spa, Khách sạn đến Dịch vụ Y tế, đảm bảo người bạn nhỏ luôn khỏe mạnh và hạnh phúc.
+        </p>
+<div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+<button class="bg-primary text-white px-8 py-4 pill-shape font-label-md text-body-md hover:bg-secondary transition-all shadow-lg shadow-green-100 font-bold w-full sm:w-auto">Đặt lịch ngay</button>
+<button class="bg-white border border-primary text-primary px-8 py-4 pill-shape font-label-md text-body-md hover:bg-primary-light transition-all font-bold w-full sm:w-auto">Xem bảng giá</button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary-light rounded-full blur-3xl opacity-60"></div>
+<img alt="Happy golden retriever" class="w-full aspect-[4/3] object-cover rounded-[2rem] shadow-2xl" data-alt="cheerful golden retriever dog smiling at the camera in a bright clean minimalist studio with soft green and cream tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOCwlwXrXpT5UJDyfPQ2WaIsmasUat8NiWMlej7pV7Hzf0k2pRuHhVDjNvPS3wsZfrLlviYZ6RScN3e58m6ESGRz1xq8t1bjUxG9v51APl88sJ2aduxqC4cwZw5p52-rmvoSEXWQtwe1pvVO1dkQYBG2qafRJiH15rv7B0-BRsepTyh1UGBpF_ry1ky-FN8Fv3GEp4doVpKCIxaSuMlG8yACxYXDhzaFuMbB6hQpxp3_otFgU6qitIOaONyYLynmXXefrvqTJSH2u1"/>
+</div>
+</section>
+<!-- 5 Reasons / About Us -->
+<section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto bg-white">
+<div class="bg-white rounded-[2rem] p-8 md:p-20 flex flex-col items-center gap-10 shadow-sm border border-gray-100">
+<div class="w-full relative">
+<img alt="Vet examining a dog" class="w-full rounded-3xl shadow-xl object-cover" data-alt="veterinarian examining a small dog in a clean bright clinic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJDek3GHxOWwxxkbLu2D7XmjI18YVjENuwzebKYVbgWx-Db0aepZjSyzFV69wKvobdA8mz_VRJqlXeCHiG5WvRp-vl6TyqP1ivK-GPs94QJhaVFKgauosC3gmkT2oIyZJtBxcETLv2jwSE7qsf9HA-EMICcEogjsw9ZYq118B_gQCbXM9oXXI52eaWRehZPzh7CyJRFJdjztEYmRgjyh_Gnz8G-jh05oNnq4axmLT72_p_TCving7ECI4ArMVMCi3UMr4CWEjr58si"/>
+</div>
+<div class="w-full space-y-6">
+<h2 class="font-h2 text-3xl md:text-4xl text-on-surface font-bold text-center lg:text-left">05 Lý Do Chọn <span class="text-primary">PetCare Shop</span></h2>
+<p class="font-body-md text-on-surface-variant leading-relaxed text-base md:text-lg text-center lg:text-left">
+                PetCare Shop được thành lập với sứ mệnh chăm sóc các bé pet toàn diện về thẩm mỹ &amp; sức khỏe. Chúng tôi luôn cam kết mang đến chất lượng dịch vụ tốt nhất, yêu thương và chăm sóc các bé như chính người thân yêu của mình!
+            </p>
+<div class="space-y-6 pt-4">
+<div class="flex items-start gap-4">
+<span class="text-3xl font-black text-primary opacity-30 leading-none mt-1">1</span>
+<p class="text-on-surface font-medium text-sm md:text-base">Trung tâm đầu tiên chuyên sâu về dịch vụ chăm sóc cho pet.</p>
+</div>
+<div class="flex items-start gap-4">
+<span class="text-3xl font-black text-primary opacity-30 leading-none mt-1">2</span>
+<p class="text-on-surface font-medium text-sm md:text-base">Hệ thống hotel, lồng được thiết kế chuyên sâu dành để chăm sóc các bé pet, tránh tình trạng lây nhiễm chéo.</p>
+</div>
+<div class="flex items-start gap-4">
+<span class="text-3xl font-black text-primary opacity-30 leading-none mt-1">3</span>
+<p class="text-on-surface font-medium text-sm md:text-base">Đội ngũ Groomer nhiều kinh nghiệm, yêu thương pet được lựa chọn kĩ càng.</p>
+</div>
+<div class="flex items-start gap-4">
+<span class="text-3xl font-black text-primary opacity-30 leading-none mt-1">4</span>
+<p class="text-on-surface font-medium text-sm md:text-base">Luôn có đội ngũ Bác Sĩ Thú Y chuyên môn cao hỗ trợ tư vấn về sức khỏe.</p>
+</div>
+<div class="flex items-start gap-4">
+<span class="text-3xl font-black text-primary opacity-30 leading-none mt-1">5</span>
+<p class="text-on-surface font-medium text-sm md:text-base">Tại PetCare Shop các bé được chăm sóc như người thân của chúng tôi.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Services (Grid) -->
+<section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto bg-white">
+<div class="text-center mb-10">
+<h2 class="font-h2 text-3xl md:text-4xl mb-3 font-bold">Dịch vụ nổi bật</h2>
+<p class="text-slate-500 font-body-md text-base md:text-lg">Trải nghiệm chăm sóc chuẩn 5 sao cho thú cưng</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- 1 -->
+<div class="bento-card bg-white p-6 custom-shadow flex flex-col justify-between h-full group relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-[0.08] pointer-events-none">
+<img alt="background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5yUhTWYz38OWJUpDyYt4LXSjZvAs7nYm5L0sfs0FxF5y7uZrsUu_lL2Smd1us3UZlQH7Q6iNsM_VYMO8xTVWYavI5MpvMZCF36_2cyMUmq0x4Q5E2ReSx0YTQYGi5CbrRMAw2dnYNqSPPoEkEYbPN0gjPQeCiZEUG51u8lndy5x7a79F2KWKTrAdlZcuBLP3sCfBhDNR0KhCaRpvBN-W_zNXP05JG_l4AvWyvoDNL3nduMl8jDDkkjNCCJP5afbk7Oak2tX8kcfQf"/>
+</div>
+<div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl">content_cut</span>
+</div>
+<h3 class="font-h3 text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Grooming cắt tỉa</h3>
+</div>
+<p class="text-slate-500 text-sm mb-6 leading-relaxed">Cắt tỉa, tắm massage chuyên nghiệp giúp bé yêu luôn sạch sẽ, thơm tho và có diện mạo hoàn hảo nhất.</p>
+</div>
+<a class="font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href="#">Chi tiết <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<!-- 2 -->
+<div class="bento-card bg-white p-6 custom-shadow flex flex-col justify-between h-full group relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-[0.08] pointer-events-none">
+<img alt="background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsLmnS0FQTVcKA7JZX-2Pmme2IdyJIDQBRGYaE9-MH7ED_teW6IckvMV1JVs9hJlS1fIilG7uTXgOEx1_9jvngCpFY1Scrj2zcyj3NG1nB7xc8qhlz1JCkxiSPaifVN5FnDrRfI_dJH-kfbiTmOWecE3wt2RV8C7MVf75iKOT4TNOexni88gEEmT9jHyosO7U7wdB3UhdejvO6k-5Lu7HjZOF21lKvHPGEt0C0CII_30qydfozhBr9rmC6vMMtu2M_Qk6_qthk_XF1"/>
+</div>
+<div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl">set_meal</span>
+</div>
+<h3 class="font-h3 text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Thức ăn cho cún</h3>
+</div>
+<p class="text-slate-500 text-sm mb-6 leading-relaxed">Cung cấp các dòng thức ăn dinh dưỡng cao cấp, chính hãng, phù hợp với mọi lứa tuổi và thể trạng của cún.</p>
+</div>
+<a class="font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href="#">Chi tiết <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<!-- 3 -->
+<div class="bento-card bg-white p-6 custom-shadow flex flex-col justify-between h-full group relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-[0.08] pointer-events-none">
+<img alt="background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3Ll8iUXOfGJnuouv505O7nnVzLvud5VGE30mO2i5-e8AoDp5AlOE0XB1LF8NF5_X_n4grnZ-DofDv3dg8w96LNr0VLXiJHM2wdU-Pd4TloqOX4A4u3O6E2sFmKfnZB0BjgMyIM12geQhG7HfQY7CiyhnFF4n2FF2QW3C1Pjcb9HMR74zP4rIVgjXG4Dh9Z0x-0WaZ2fX6Vk2ia8xwgjDIq9NDz_BHqEUAShb4BCxoxF2sTP-r3lF2xZzir8i0-r0YWWA888TxyE5"/>
+</div>
+<div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl">hotel</span>
+</div>
+<h3 class="font-h3 text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Khách sạn cho cún</h3>
+</div>
+<p class="text-slate-500 text-sm mb-6 leading-relaxed">Không gian lưu trú chuẩn 5 sao, rộng rãi, thoáng mát, vệ sinh sạch sẽ đảm bảo an toàn tuyệt đối cho bé.</p>
+</div>
+<a class="font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href="#">Chi tiết <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<!-- 4 -->
+<div class="bento-card bg-white p-6 custom-shadow flex flex-col justify-between h-full group relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-[0.08] pointer-events-none">
+<img alt="background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvZJb7pZs6XfJ3w5cnBdKA6ubCDvHAZiN9p1jOiV7ZItYiGyEyKAaYyvINFO4M2pGbPDaFBHd3CzcrCyBsnkOPEK27IijYEks4UxL_op16L_Ilqnam9_nolVssN6D_-zq0b0Z2-DoCSSa9P4x1V9WoobmOMmXCCAFr9HloJPSjmQGCr5ECaEZ0LEBs9JO4JjGczKJ_V2NtvMUMvyXAFE4mNDFwg6-pXpPkObtRqVyGvuYLAJbkzLnd3nPOp8qVphv-tyiQXH6ZT9NA"/>
+</div>
+<div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl">sports_baseball</span>
+</div>
+<h3 class="font-h3 text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Huấn luyện cún</h3>
+</div>
+<p class="text-slate-500 text-sm mb-6 leading-relaxed">Các khóa huấn luyện vâng lời, đi vệ sinh đúng chỗ, sửa lỗi hành vi từ các chuyên gia huấn luyện giàu kinh nghiệm.</p>
+</div>
+<a class="font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href="#">Chi tiết <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<!-- 5 -->
+<div class="bento-card bg-white p-6 custom-shadow flex flex-col justify-between h-full group relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-[0.08] pointer-events-none">
+<img alt="background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOqy46JBSODwOYSJDP0mnNDpz8xDbHAdViTbMQ1sefG2Jo-LTzi0zFHNsVX1ySflsxtXqNaS0CBUjMhGgxwaNvf11O90seTGhnswZcCT6K6Q-YZd8qqhMc-N90RR1xedjQlmwMntkJ3AR9QWbibBnLswj8U87RrIsOHHpzNdHneNS-jx4-aG824e1g_sXk1qzHXDzZiz8kAfosIpypdU-W4H_g5k0NFApV3LhIJ93Gx1VajmFwoe1utu_N7BtMpOHALOvwb95tYpgt"/>
+</div>
+<div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl">vaccines</span>
+</div>
+<h3 class="font-h3 text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Tiêm phòng vắc xin</h3>
+</div>
+<p class="text-slate-500 text-sm mb-6 leading-relaxed">Bảo vệ sức khỏe bé yêu với lịch tiêm phòng đầy đủ, sử dụng các loại thuốc vắc xin đạt chuẩn chất lượng quốc tế.</p>
+</div>
+<a class="font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href="#">Chi tiết <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<!-- 6 -->
+<div class="bento-card bg-white p-6 custom-shadow flex flex-col justify-between h-full group relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-[0.08] pointer-events-none">
+<img alt="background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPF8YAalKVFXrQ-L3eIoQe4eiF8jCcluON8LoGogdZBiNhkW0qbsOtfIzEjvinVsnEun9eo2wQZ_UqRNeJJyojS3H0veLtE8q1_n5N-deSfyD0jmsMt8VE5OcCDUqa_vJBe0DHHjuVI0frmFyF8RhWqzViO7_HjvPk2X5VukPKpSlp8uu4iqYHcxXKdxWTsvLwBWNSshjB0zO-M7033Ym8pC73igijTMfDqcUgb437V8CSKngYietTR2QgSzcLuQQn2SflKPq2OU0b"/>
+</div>
+<div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-2xl">medical_services</span>
+</div>
+<h3 class="font-h3 text-lg font-bold text-on-surface group-hover:text-primary transition-colors">Khám thú y</h3>
+</div>
+<p class="text-slate-500 text-sm mb-6 leading-relaxed">Dịch vụ khám tổng quát, chẩn đoán và điều trị bệnh bằng hệ thống máy móc, thiết bị y khoa hiện đại.</p>
+</div>
+<a class="font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href="#">Chi tiết <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+</div>
+<div class="mt-10 flex justify-center">
+<button class="bg-primary text-white px-8 py-3 pill-shape font-label-md text-base hover:bg-secondary transition-all shadow-lg shadow-green-100 font-bold uppercase tracking-wide w-full sm:w-auto">Đặt lịch ngay</button>
+</div>
+</section>
+<!-- Process -->
+<section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto bg-white border-t border-gray-100">
+<div class="text-center mb-10">
+<h2 class="font-h2 text-2xl md:text-3xl mb-3 font-bold">Quy trình chăm sóc chuyên nghiệp</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="text-center group">
+<div class="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl">event_available</span>
+</div>
+<h4 class="font-bold text-lg mb-2">1. Đặt lịch</h4>
+<p class="text-slate-500 text-sm leading-relaxed">Chọn thời gian và dịch vụ phù hợp qua website hoặc hotline.</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl">clinical_notes</span>
+</div>
+<h4 class="font-bold text-lg mb-2">2. Tiếp nhận</h4>
+<p class="text-slate-500 text-sm leading-relaxed">Kiểm tra sơ bộ tình trạng sức khỏe của bé khi vừa đến shop.</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl">soap</span>
+</div>
+<h4 class="font-bold text-lg mb-2">3. Chăm sóc</h4>
+<p class="text-slate-500 text-sm leading-relaxed">Bác sĩ và chuyên viên tiến hành quy trình chăm sóc chuyên sâu.</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined text-2xl">verified_user</span>
+</div>
+<h4 class="font-bold text-lg mb-2">4. Hoàn tất</h4>
+<p class="text-slate-500 text-sm leading-relaxed">Bé được bàn giao với diện mạo mới kèm tư vấn chăm sóc tại nhà.</p>
+</div>
+</div>
+</section>
+<!-- Testimonials Slider -->
+<section class="py-16 bg-white border-t border-gray-100">
+<div class="max-w-[1440px] mx-auto px-4 md:px-10">
+<h2 class="font-h2 text-2xl md:text-3xl text-center mb-10 font-bold">Khách hàng nói về chúng tôi</h2>
+<div class="relative w-full overflow-hidden">
+<div class="flex gap-4 md:gap-8 overflow-x-auto pb-6 snap-x snap-mandatory no-scrollbar scroll-smooth">
+<div class="min-w-[300px] md:min-w-[450px] bg-white p-6 md:p-10 rounded-3xl snap-center border border-gray-100 shadow-sm">
+<div class="flex text-accent mb-4 md:mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg italic text-slate-700 leading-relaxed text-base md:text-lg">"Dịch vụ spa ở đây cực kỳ chuyên nghiệp. Bé nhà mình rất nhát nhưng đến đây lại rất ngoan và sạch sẽ."</p>
+<div class="flex items-center gap-4 pt-4 md:pt-6 mt-4 md:mt-6 border-t border-gray-100">
+<div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-light flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<p class="font-bold text-primary text-sm md:text-base">Chị Mai Anh</p>
+<p class="text-xs md:text-sm text-slate-500">Chủ của bé Poodle Bông</p>
+</div>
+</div>
+</div>
+<div class="min-w-[300px] md:min-w-[450px] bg-white p-6 md:p-10 rounded-3xl snap-center border border-gray-100 shadow-sm">
+<div class="flex text-accent mb-4 md:mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-lg italic text-slate-700 leading-relaxed text-base md:text-lg">"Khách sạn thú cưng sạch thoáng, mình đi du lịch 1 tuần mà hoàn toàn yên tâm vì luôn nhận được ảnh cập nhật."</p>
+<div class="flex items-center gap-4 pt-4 md:pt-6 mt-4 md:mt-6 border-t border-gray-100">
+<div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-light flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<p class="font-bold text-primary text-sm md:text-base">Anh Tuấn</p>
+<p class="text-xs md:text-sm text-slate-500">Chủ của bé Corgi Mập</p>
+</div>
+</div>
+</div>
+<div class="min-w-[300px] md:min-w-[450px] bg-white p-6 md:p-10 rounded-3xl snap-center border border-gray-100 shadow-sm">
+<div class="flex text-accent mb-4 md:mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<p class="font-body-lg italic text-slate-700 leading-relaxed text-base md:text-lg">"Bác sĩ rất nhiệt tình tư vấn chế độ dinh dưỡng. Bé mèo nhà mình đã cải thiện cân nặng rõ rệt sau 1 tháng."</p>
+<div class="flex items-center gap-4 pt-4 md:pt-6 mt-4 md:mt-6 border-t border-gray-100">
+<div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-light flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<p class="font-bold text-primary text-sm md:text-base">Chị Lan</p>
+<p class="text-xs md:text-sm text-slate-500">Chủ của bé British Shorthair</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center gap-2 mt-2 md:mt-4">
+<button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-primary transition-all"></button>
+<button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-primary/30 transition-all"></button>
+<button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-primary/30 transition-all"></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Blog Section -->
+<section class="py-16 bg-white border-t border-gray-100 px-4 md:px-10">
+<div class="max-w-[1440px] mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+<div>
+<h2 class="font-h2 text-2xl md:text-3xl mb-2 font-bold">Kiến thức chăm sóc</h2>
+<p class="text-slate-500 font-body-md text-base md:text-lg">Cập nhật tin tức và kinh nghiệm nuôi thú cưng</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 hover:underline text-sm md:text-base">Tất cả bài viết <span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+<div class="overflow-hidden">
+<img alt="Blog post 1" class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsLmnS0FQTVcKA7JZX-2Pmme2IdyJIDQBRGYaE9-MH7ED_teW6IckvMV1JVs9hJlS1fIilG7uTXgOEx1_9jvngCpFY1Scrj2zcyj3NG1nB7xc8qhlz1JCkxiSPaifVN5FnDrRfI_dJH-kfbiTmOWecE3wt2RV8C7MVf75iKOT4TNOexni88gEEmT9jHyosO7U7wdB3UhdejvO6k-5Lu7HjZOF21lKvHPGEt0C0CII_30qydfozhBr9rmC6vMMtu2M_Qk6_qthk_XF1"/>
+</div>
+<div class="p-6 space-y-3 md:space-y-4">
+<span class="text-[10px] md:text-[11px] font-bold text-primary uppercase tracking-widest bg-primary-light px-3 py-1.5 rounded">Dinh dưỡng</span>
+<h4 class="font-bold text-lg md:text-xl leading-snug">Chế độ ăn cho chó Poodle giúp lông mượt</h4>
+<p class="text-slate-500 text-sm md:text-base line-clamp-2">Tìm hiểu các loại thực phẩm giàu Omega-3 giúp bộ lông bé yêu luôn sáng bóng.</p>
+</div>
+</div>
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+<div class="overflow-hidden">
+<img alt="Blog post 2" class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQKQ78-6ojFyM5MosjK3IFbNcqu15U-cCAjbOwrU6dGgPAfMgYQzc91Pnxc0WCULxkKMm9ogvjkdSRatvoeJPEiM5p3K3CEK2f8ZWedJdZT5B6edno5A1lyrHp2UnZ-PShZciOfCxhkQ48b_HAG-5pjJ2eK50v1HD3m4sWKXgP6rm0WKHhQojT65jsY2tSaP6XbzR5_ReclaPYpdG9Q1A8uWRdmJ6xzNoGdjpYJr-cN28a2jjVm0j_6z9ik5LBZZVP3evz16ty59wq"/>
+</div>
+<div class="p-6 space-y-3 md:space-y-4">
+<span class="text-[10px] md:text-[11px] font-bold text-primary uppercase tracking-widest bg-primary-light px-3 py-1.5 rounded">Hành vi</span>
+<h4 class="font-bold text-lg md:text-xl leading-snug">Cách huấn luyện mèo nghe lời tại nhà</h4>
+<p class="text-slate-500 text-sm md:text-base line-clamp-2">Những mẹo nhỏ giúp bạn và mèo cưng hiểu nhau hơn mỗi ngày.</p>
+</div>
+</div>
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+<div class="overflow-hidden">
+<img alt="Blog post 3" class="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOqy46JBSODwOYSJDP0mnNDpz8xDbHAdViTbMQ1sefG2Jo-LTzi0zFHNsVX1ySflsxtXqNaS0CBUjMhGgxwaNvf11O90seTGhnswZcCT6K6Q-YZd8qqhMc-N90RR1xedjQlmwMntkJ3AR9QWbibBnLswj8U87RrIsOHHpzNdHneNS-jx4-aG824e1g_sXk1qzHXDzZiz8kAfosIpypdU-W4H_g5k0NFApV3LhIJ93Gx1VajmFwoe1utu_N7BtMpOHALOvwb95tYpgt"/>
+</div>
+<div class="p-6 space-y-3 md:space-y-4">
+<span class="text-[10px] md:text-[11px] font-bold text-primary uppercase tracking-widest bg-primary-light px-3 py-1.5 rounded">Sức khỏe</span>
+<h4 class="font-bold text-lg md:text-xl leading-snug">Lịch tiêm phòng quan trọng năm 2024</h4>
+<p class="text-slate-500 text-sm md:text-base line-clamp-2">Đừng bỏ lỡ các mốc tiêm chủng để bảo vệ sức khỏe bé yêu.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Section -->
+<section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto bg-white border-t border-gray-100">
+<div class="text-center mb-10">
+<h2 class="font-h2 text-2xl md:text-3xl mb-2 font-bold">Đội ngũ chăm sóc</h2>
+<p class="text-slate-500 font-body-md text-base md:text-lg">Những chuyên gia tận tâm và giàu kinh nghiệm</p>
+</div>
+<div class="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 flex overflow-x-auto snap-x no-scrollbar pb-4 lg:grid">
+<!-- Member 1 -->
+<div class="min-w-[280px] bg-white rounded-2xl p-6 border border-gray-100 text-center group hover:border-primary transition-colors snap-center">
+<img alt="Dr. Nguyen" class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary-light group-hover:border-primary transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPF8YAalKVFXrQ-L3eIoQe4eiF8jCcluON8LoGogdZBiNhkW0qbsOtfIzEjvinVsnEun9eo2wQZ_UqRNeJJyojS3H0veLtE8q1_n5N-deSfyD0jmsMt8VE5OcCDUqa_vJBe0DHHjuVI0frmFyF8RhWqzViO7_HjvPk2X5VukPKpSlp8uu4iqYHcxXKdxWTsvLwBWNSshjB0zO-M7033Ym8pC73igijTMfDqcUgb437V8CSKngYietTR2QgSzcLuQQn2SflKPq2OU0b"/>
+<h3 class="font-bold text-lg md:text-xl text-on-surface">BS. Nguyễn Nam</h3>
+<p class="text-primary text-xs md:text-sm font-bold mb-2">Bác sĩ Thú y</p>
+<p class="text-slate-500 text-xs md:text-sm">Hơn 10 năm kinh nghiệm trong chẩn đoán và điều trị bệnh lý thú nhỏ.</p>
+</div>
+<!-- Member 2 -->
+<div class="min-w-[280px] bg-white rounded-2xl p-6 border border-gray-100 text-center group hover:border-primary transition-colors snap-center">
+<img alt="Ms. Tran" class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary-light group-hover:border-primary transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5yUhTWYz38OWJUpDyYt4LXSjZvAs7nYm5L0sfs0FxF5y7uZrsUu_lL2Smd1us3UZlQH7Q6iNsM_VYMO8xTVWYavI5MpvMZCF36_2cyMUmq0x4Q5E2ReSx0YTQYGi5CbrRMAw2dnYNqSPPoEkEYbPN0gjPQeCiZEUG51u8lndy5x7a79F2KWKTrAdlZcuBLP3sCfBhDNR0KhCaRpvBN-W_zNXP05JG_l4AvWyvoDNL3nduMl8jDDkkjNCCJP5afbk7Oak2tX8kcfQf"/>
+<h3 class="font-bold text-lg md:text-xl text-on-surface">Trần Linh Trang</h3>
+<p class="text-primary text-xs md:text-sm font-bold mb-2">Chuyên gia Grooming</p>
+<p class="text-slate-500 text-xs md:text-sm">Phù thủy cắt tỉa lông, giúp các bé luôn có diện mạo lộng lẫy nhất.</p>
+</div>
+<!-- Member 3 -->
+<div class="min-w-[280px] bg-white rounded-2xl p-6 border border-gray-100 text-center group hover:border-primary transition-colors snap-center">
+<img alt="Mr. Le" class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary-light group-hover:border-primary transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvZJb7pZs6XfJ3w5cnBdKA6ubCDvHAZiN9p1jOiV7ZItYiGyEyKAaYyvINFO4M2pGbPDaFBHd3CzcrCyBsnkOPEK27IijYEks4UxL_op16L_Ilqnam9_nolVssN6D_-zq0b0Z2-DoCSSa9P4x1V9WoobmOMmXCCAFr9HloJPSjmQGCr5ECaEZ0LEBs9JO4JjGczKJ_V2NtvMUMvyXAFE4mNDFwg6-pXpPkObtRqVyGvuYLAJbkzLnd3nPOp8qVphv-tyiQXH6ZT9NA"/>
+<h3 class="font-bold text-lg md:text-xl text-on-surface">Lê Văn Hùng</h3>
+<p class="text-primary text-xs md:text-sm font-bold mb-2">Huấn luyện viên</p>
+<p class="text-slate-500 text-xs md:text-sm">Chuyên gia chỉnh sửa hành vi và huấn luyện vâng lời cho cún.</p>
+</div>
+<!-- Member 4 -->
+<div class="min-w-[280px] bg-white rounded-2xl p-6 border border-gray-100 text-center group hover:border-primary transition-colors snap-center">
+<img alt="Ms. Pham" class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary-light group-hover:border-primary transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFSWrj7Pfy7eNpH3vx9jy3lgCT2LrIa5UlJEFNktdob8sMiCvsE6UPOUQO9n3FIG3UrmaAfdL6Np1SHyQJMs1RiD8mPOBhr3BWWBcyTflw_WpEpWrmYPtk0J_uJysQ16Wpt33BYWVWyiYBt8D2XQ6HZUJbqSmlYchv6T3zsHBRGE4aAu3lg6XRzz9S9KhFe2h762nvLQgzdsGlc0F3MXl56h1k3-ibZVtrf6K5hHM0mcHLURYZA7kM9_sZFApC7EBi2DXPAPXBUb7b"/>
+<h3 class="font-bold text-lg md:text-xl text-on-surface">Phạm Thanh Tú</h3>
+<p class="text-primary text-xs md:text-sm font-bold mb-2">Chuyên viên Dinh dưỡng</p>
+<p class="text-slate-500 text-xs md:text-sm">Tư vấn chế độ ăn cá nhân hóa giúp thú cưng phát triển khỏe mạnh.</p>
+</div>
+</div>
+</section>
+<!-- Appointment Form -->
+<section class="py-16 px-4 md:px-10 max-w-[1440px] mx-auto bg-white border-t border-gray-100">
+<div class="bg-white rounded-[2rem] shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 border border-gray-100">
+<div class="p-8 md:p-16 space-y-6 md:space-y-8">
+<h2 class="font-h2 text-3xl md:text-4xl font-bold">Đặt lịch hẹn nhanh</h2>
+<p class="text-slate-500 font-body-md text-base md:text-lg">Chỉ mất 30 giây để đặt chỗ chăm sóc cho bé yêu của bạn.</p>
+<form class="space-y-4 md:space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+<input class="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base" placeholder="Họ và tên" type="text"/>
+<input class="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base" placeholder="Số điện thoại" type="tel"/>
+</div>
+<select class="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base appearance-none">
+<option>Chọn dịch vụ</option>
+<option>Grooming cắt tỉa</option>
+<option>Thức ăn cho cún</option>
+<option>Khách sạn cho cún</option>
+<option>Huấn luyện cún</option>
+<option>Tiêm phòng vắc xin</option>
+<option>Khám thú y</option>
+</select>
+<textarea class="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base h-32 md:h-40" placeholder="Thông tin thú cưng (Giống, cân nặng, tình trạng...)"></textarea>
+<button class="w-full bg-primary text-white py-4 md:py-5 rounded-xl font-bold text-sm md:text-base hover:bg-secondary transition-all shadow-lg shadow-green-50 uppercase tracking-wider">GỬI YÊU CẦU ĐẶT LỊCH</button>
+</form>
+</div>
+<div class="hidden lg:block relative bg-primary-light overflow-hidden">
+<img alt="Pet care clinic" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3Ll8iUXOfGJnuouv505O7nnVzLvud5VGE30mO2i5-e8AoDp5AlOE0XB1LF8NF5_X_n4grnZ-DofDv3dg8w96LNr0VLXiJHM2wdU-Pd4TloqOX4A4u3O6E2sFmKfnZB0BjgMyIM12geQhG7HfQY7CiyhnFF4n2FF2QW3C1Pjcb9HMR74zP4rIVgjXG4Dh9Z0x-0WaZ2fX6Vk2ia8xwgjDIq9NDz_BHqEUAShb4BCxoxF2sTP-r3lF2xZzir8i0-r0YWWA888TxyE5"/>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#1a3829] text-white pt-16 pb-8 px-4 md:px-10">
+<div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+<div class="space-y-4 md:space-y-6">
+<div class="flex items-center gap-2 mb-4 md:mb-6">
+<div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl">pets</span>
+</div>
+<div class="text-2xl font-black text-white tracking-tighter">PetCare<span class="text-primary-light font-light">Shop</span></div>
+</div>
+<p class="text-primary-light text-sm leading-relaxed">Nơi cung cấp dịch vụ chăm sóc thú cưng toàn diện với tiêu chuẩn 5 sao. Chúng tôi yêu thương thú cưng của bạn như chính gia đình mình.</p>
+</div>
+<div class="space-y-4 md:space-y-6">
+<h4 class="font-bold text-lg mb-4 md:mb-6">Thông tin liên hệ</h4>
+<ul class="space-y-3 md:space-y-4 text-primary-light text-sm">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-xl">location_on</span>
+<span>123 Đường Thú Cưng, Quận 1, TP. HCM</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-xl">call</span>
+<span>Hotline: 1900 1234</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-xl">mail</span>
+<span>Email: contact@petcareshop.vn</span>
+</li>
+</ul>
+</div>
+<div class="space-y-4 md:space-y-6">
+<h4 class="font-bold text-lg mb-4 md:mb-6">Liên kết hữu ích</h4>
+<ul class="space-y-3 md:space-y-4 text-primary-light text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Về chúng tôi</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Dịch vụ</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Bảng giá</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Chính sách bảo mật</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Điều khoản sử dụng</a></li>
+</ul>
+</div>
+<div class="space-y-4 md:space-y-6">
+<h4 class="font-bold text-lg mb-4 md:mb-6">Giờ mở cửa</h4>
+<ul class="space-y-3 md:space-y-4 text-primary-light text-sm">
+<li class="flex justify-between border-b border-[#29664c] pb-2">
+<span>Thứ 2 - Thứ 6</span>
+<span>08:00 - 20:00</span>
+</li>
+<li class="flex justify-between border-b border-[#29664c] pb-2">
+<span>Thứ 7 - Chủ Nhật</span>
+<span>09:00 - 18:00</span>
+</li>
+<li class="flex justify-between border-b border-[#29664c] pb-2 text-accent font-semibold">
+<span>Ngày lễ</span>
+<span>Nghỉ</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="max-w-[1440px] mx-auto border-t border-[#29664c] pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-primary-light text-sm text-center md:text-left">© 2024 PetCare Shop. All rights reserved.</p>
+</div>
+</footer>
+<!-- Mobile Menu Overlay -->
+<div class="fixed inset-0 z-[60] bg-white transform translate-x-full transition-transform duration-300 md:hidden" id="mobile-menu">
+<div class="flex flex-col h-full">
+<!-- Mobile Menu Header -->
+<div class="flex justify-between items-center h-20 px-4 border-b border-gray-100">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">pets</span>
+</div>
+<div class="text-2xl font-black text-primary tracking-tighter">PetCare<span class="text-secondary font-light">Shop</span></div>
+</div>
+<button class="text-primary" onclick="document.getElementById('mobile-menu').classList.add('translate-x-full')">
+<span class="material-symbols-outlined text-4xl">close</span>
+</button>
+</div>
+<!-- Mobile Menu Links -->
+<nav class="flex flex-col p-6 gap-6">
+<a class="text-xl font-bold text-primary border-b border-gray-50 pb-2" href="#">Trang chủ</a>
+<a class="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="#">Giới thiệu</a>
+<a class="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="#">Sản phẩm</a>
+<a class="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="#">Dịch vụ</a>
+<a class="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="#">Bảng giá</a>
+<a class="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="#">Kiến thức</a>
+<a class="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="#">Liên hệ</a>
+</nav>
+<!-- Mobile Menu Footer -->
+<div class="mt-auto p-6 border-t border-gray-100 flex flex-col gap-4">
+<a class="text-center py-4 text-primary font-bold border border-primary rounded-xl" href="#">Đăng nhập</a>
+<button class="bg-primary text-white py-4 rounded-xl font-bold uppercase tracking-wide">Đặt lịch ngay</button>
+</div>
+</div>
+</div></body></html>

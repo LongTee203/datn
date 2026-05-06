@@ -2,12 +2,14 @@
 
 @theme {
   /* ── PetCare Plus (Homepage) ── */
-  --color-primary: #2D6A4F;
-  --color-primary-light: #ecfdf5;
-  --color-background-light: #f8faf9;
-  --color-background-dark: #06100c;
-  --color-accent-orange: #ff9f43;
-  --color-accent-teal: #0fb9b1;
+  --color-primary: #29664c;
+  --color-primary-light: #e9f0ed;
+  --color-secondary: #1a4231;
+  --color-accent: #d4af37;
+  --color-surface: #ffffff;
+  --color-background: #f8faf9;
+  --color-on-surface: #1c2421;
+  --color-on-surface-variant: #4a5c54;
 
   /* ── Auth / About / Contact (Organic Sanctuary shared) ── */
   --color-primary-dim: #1b5a40;
@@ -38,6 +40,13 @@
   --font-headline: "Plus Jakarta Sans", sans-serif;
   --font-body: "Be Vietnam Pro", sans-serif;
   --font-label: "Be Vietnam Pro", sans-serif;
+  --font-h1: "Plus Jakarta Sans", sans-serif;
+  --font-h2: "Plus Jakarta Sans", sans-serif;
+  --font-h3: "Plus Jakarta Sans", sans-serif;
+  --font-body-lg: "Plus Jakarta Sans", sans-serif;
+  --font-body-md: "Plus Jakarta Sans", sans-serif;
+  --font-label-md: "Plus Jakarta Sans", sans-serif;
+  --font-caption: "Plus Jakarta Sans", sans-serif;
 }
 
 :root {

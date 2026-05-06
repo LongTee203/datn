@@ -2,129 +2,66 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-[#06100c] border-t border-gray-100 dark:border-gray-800 pt-20 pb-10">
-      <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-        {/* ── Brand Column ── */}
-        <div className="col-span-1">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="bg-primary p-1.5 rounded-full">
-              <span className="material-symbols-outlined text-white text-xl">
-                pets
-              </span>
+    <footer className="bg-[#1a3829] text-white pt-16 md:pt-20 pb-8 md:pb-10 px-4 md:px-10 mt-auto w-full z-10 relative">
+      <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-16">
+        <div className="space-y-4 md:space-y-6">
+          <div className="flex items-center gap-2 mb-4 md:mb-6">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+              <span className="material-symbols-outlined text-primary text-2xl">pets</span>
             </div>
-            <h2 className="text-[#111811] dark:text-white text-xl font-black font-headline">
-              PetCare Plus
-            </h2>
+            <div className="text-2xl font-black text-white tracking-tighter">
+              PetCare<span className="text-primary-light font-light">Shop</span>
+            </div>
           </div>
-          <p className="text-gray-500 text-sm leading-relaxed mb-6">
-            Cung cấp dịch vụ chăm sóc chất lượng cao và vật tư cao cấp cho
-            thú cưng của bạn từ năm 2010. Hạnh phúc của thú cưng là ưu tiên
-            hàng đầu của chúng tôi.
-          </p>
-          <div className="flex gap-4">
-            {[
-              { icon: "social_leaderboard", label: "Facebook" },
-              { icon: "camera", label: "Instagram" },
-              { icon: "alternate_email", label: "Email" },
-            ].map(({ icon, label }) => (
-              <a
-                key={icon}
-                href="#"
-                aria-label={label}
-                className="size-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-all"
-              >
-                <span className="material-symbols-outlined">{icon}</span>
-              </a>
-            ))}
-          </div>
+          <p className="text-primary-light text-sm leading-relaxed">Nơi cung cấp dịch vụ chăm sóc thú cưng toàn diện với tiêu chuẩn 5 sao. Chúng tôi yêu thương thú cưng của bạn như chính gia đình mình.</p>
         </div>
-
-        {/* ── Services Column ── */}
-        <div>
-          <h4 className="font-bold mb-6 font-headline">Dịch vụ</h4>
-          <ul className="flex flex-col gap-4 text-sm text-gray-500">
-            {[
-              ["Tiệm làm đẹp", "/services#grooming"],
-              ["Lưu trú thú cưng", "/services#hotel"],
-              ["Phòng khám thú y", "/services#vet"],
-              ["Huấn luyện chó", "/services#training"],
-            ].map(([label, href]) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className="hover:text-primary transition-colors"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+        <div className="space-y-4 md:space-y-6">
+          <h4 className="font-bold text-lg mb-4 md:mb-6">Thông tin liên hệ</h4>
+          <ul className="space-y-3 md:space-y-4 text-primary-light text-sm">
+            <li className="flex items-start gap-3">
+              <span className="material-symbols-outlined text-xl">location_on</span>
+              <span>123 Đường Thú Cưng, Quận 1, TP. HCM</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="material-symbols-outlined text-xl">call</span>
+              <span>Hotline: 1900 1234</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="material-symbols-outlined text-xl">mail</span>
+              <span>Email: contact@petcareshop.vn</span>
+            </li>
           </ul>
         </div>
-
-        {/* ── Support Column ── */}
-        <div>
-          <h4 className="font-bold mb-6 font-headline">Hỗ trợ</h4>
-          <ul className="flex flex-col gap-4 text-sm text-gray-500">
-            {[
-              ["Câu hỏi thường gặp", "#"],
-              ["Chính sách hoàn tiền", "#"],
-              ["Trung tâm trợ giúp", "#"],
-              ["Liên hệ chúng tôi", "/contact"],
-            ].map(([label, href]) => (
-              <li key={label}>
-                <Link
-                  href={href}
-                  className="hover:text-primary transition-colors"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+        <div className="space-y-4 md:space-y-6">
+          <h4 className="font-bold text-lg mb-4 md:mb-6">Liên kết hữu ích</h4>
+          <ul className="space-y-3 md:space-y-4 text-primary-light text-sm">
+            <li><Link className="hover:text-white transition-colors" href="/about">Về chúng tôi</Link></li>
+            <li><Link className="hover:text-white transition-colors" href="/services">Dịch vụ</Link></li>
+            <li><Link className="hover:text-white transition-colors" href="#">Bảng giá</Link></li>
+            <li><Link className="hover:text-white transition-colors" href="#">Chính sách bảo mật</Link></li>
+            <li><Link className="hover:text-white transition-colors" href="#">Điều khoản sử dụng</Link></li>
           </ul>
         </div>
-
-        {/* ── Contact Column ── */}
-        <div>
-          <h4 className="font-bold mb-6 font-headline">Liên hệ</h4>
-          <ul className="flex flex-col gap-4 text-sm text-gray-500">
-            <li className="flex items-start gap-2">
-              <span className="material-symbols-outlined text-primary text-lg">
-                location_on
-              </span>
-              <span>
-                123 Paw Avenue,
-                <br />
-                Pet Valley, CA 90210
-              </span>
+        <div className="space-y-4 md:space-y-6">
+          <h4 className="font-bold text-lg mb-4 md:mb-6">Giờ mở cửa</h4>
+          <ul className="space-y-3 md:space-y-4 text-primary-light text-sm">
+            <li className="flex justify-between border-b border-[#29664c] pb-2">
+              <span>Thứ 2 - Thứ 6</span>
+              <span>08:00 - 20:00</span>
             </li>
-            <li className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-lg">
-                call
-              </span>
-              <span>(555) 123-4567</span>
+            <li className="flex justify-between border-b border-[#29664c] pb-2">
+              <span>Thứ 7 - Chủ Nhật</span>
+              <span>09:00 - 18:00</span>
             </li>
-            <li className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-lg">
-                schedule
-              </span>
-              <span>Mở cửa: 8:00 - 20:00 hàng ngày</span>
+            <li className="flex justify-between border-b border-[#29664c] pb-2 text-accent font-semibold">
+              <span>Ngày lễ</span>
+              <span>Nghỉ</span>
             </li>
           </ul>
         </div>
       </div>
-
-      {/* ── Bottom Bar ── */}
-      <div className="max-w-[1280px] mx-auto px-6 mt-20 pt-8 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-        <p>© 2024 PetCare Plus. Bảo lưu mọi quyền.</p>
-        <div className="flex gap-8">
-          {["Chính sách bảo mật", "Điều khoản dịch vụ", "Cookies"].map(
-            (item) => (
-              <Link key={item} href="#" className="hover:underline">
-                {item}
-              </Link>
-            )
-          )}
-        </div>
+      <div className="max-w-[1440px] mx-auto border-t border-[#29664c] pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className="text-primary-light text-sm text-center md:text-left">© 2024 PetCare Shop. All rights reserved.</p>
       </div>
     </footer>
   );

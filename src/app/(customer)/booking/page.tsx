@@ -36,16 +36,9 @@ export default function BookingPage() {
   return (
     <div className="min-h-screen bg-white text-[#0c361d] flex flex-col items-center">
       {/* Centered brand header (transactional mode) */}
-      <header className="w-full max-w-5xl px-8 py-8 flex justify-center">
-        <div className="flex items-center gap-3">
-          <span className="material-symbols-outlined text-[#006a38] text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-            pets
-          </span>
-          <span className="text-2xl font-bold text-[#0c361d] font-headline tracking-tight">PetCare Shop</span>
-        </div>
-      </header>
 
-      <main className="w-full max-w-4xl px-4 pb-20 flex flex-col items-center">
+
+      <main className="w-full max-w-4xl px-4 pb-20 pt-32 flex flex-col items-center">
         {/* Progress indicator */}
         <div className="flex items-center gap-2 mb-10">
           <div className="w-8 h-8 rounded-full bg-[#87faab] flex items-center justify-center text-[#005f31] font-bold text-sm">1</div>
@@ -214,15 +207,7 @@ export default function BookingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-10 px-8 mt-auto bg-white border-t border-slate-100 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
-        <span className="text-lg font-bold text-slate-800 font-headline">PetCare Shop</span>
-        <div className="flex flex-wrap justify-center gap-6 text-slate-400">
-          {["Privacy Policy", "Terms of Service", "Contact Support"].map((t) => (
-            <a key={t} href="#" className="hover:text-slate-700 transition-colors">{t}</a>
-          ))}
-        </div>
-        <p className="text-slate-400">© 2024 PetCare Shop.</p>
-      </footer>
+
     </div>
   );
 }

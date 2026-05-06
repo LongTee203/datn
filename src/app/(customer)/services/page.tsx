@@ -74,7 +74,7 @@ const services = [
 export default function ServicesPage() {
   return (
     <div className="bg-white font-body text-[#0c361d] antialiased">
-      <main className="pt-8 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24">
+      <main className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24">
         {/* ── Hero Banner ── */}
         <section className="relative rounded-xl overflow-hidden min-h-[400px] flex items-center bg-[#cafdd4]">
           <div className="absolute inset-0 z-0">

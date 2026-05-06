@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="bg-white text-gray-900 selection:bg-primary/10 selection:text-primary">
-      <main className="pt-8 pb-20 max-w-5xl mx-auto px-6">
+      <main className="pt-32 pb-20 max-w-5xl mx-auto px-6">
         {/* ── Page Header ── */}
         <header className="mb-16">
           <h1 className="text-4xl font-extrabold tracking-tight mb-4 text-gray-900 font-headline">

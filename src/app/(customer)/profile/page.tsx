@@ -32,7 +32,7 @@ export default function ProfilePage() {
 
   return (
     <div className="bg-white text-[#00362a] min-h-screen">
-      <main className="max-w-7xl mx-auto p-6 md:p-12 space-y-12 pt-8">
+      <main className="max-w-7xl mx-auto px-6 pb-6 md:px-12 md:pb-12 space-y-12 pt-32 md:pt-40">
 
         {/* ── Hero Bento: Personal Info + Spending Card ── */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">

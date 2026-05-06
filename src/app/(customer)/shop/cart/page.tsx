@@ -13,7 +13,7 @@ export default function CartPage() {
 
   return (
     <div className="bg-white text-[#0c361d] min-h-screen">
-      <main className="pt-8 pb-16 px-6 max-w-7xl mx-auto">
+      <main className="pt-32 pb-16 px-6 max-w-7xl mx-auto">
         {/* Header */}
         <header className="mb-12">
           <div className="flex items-center gap-4 mb-2">
@@ -161,13 +161,14 @@ export default function CartPage() {
                 </div>
 
                 <div className="space-y-3">
-                  <button
+                  <Link
+                    href="/shop/checkout"
                     className="w-full py-4 rounded-full font-extrabold text-lg hover:scale-[0.98] transition-transform flex items-center justify-center gap-2"
                     style={{ backgroundColor: "#87faab", color: "#005f31" }}
                   >
                     Tiến hành thanh toán
                     <span className="material-symbols-outlined">arrow_forward</span>
-                  </button>
+                  </Link>
                   <Link
                     href="/shop"
                     className="block w-full text-center py-4 rounded-full font-bold border border-emerald-200 text-emerald-800 hover:bg-white transition-colors"

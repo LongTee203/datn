@@ -208,7 +208,7 @@ export default function ShopPage() {
 
   return (
     <div className="bg-[#f6f8f6] min-h-screen text-slate-900">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
 
         {/* ── Top bar: breadcrumb + cart icon ── */}
         <div className="flex items-center justify-between mb-6">

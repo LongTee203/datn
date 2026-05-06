@@ -25,7 +25,7 @@ const missions = [
 export default function AboutPage() {
   return (
     <div className="bg-white text-[#00362a] selection:bg-primary/10">
-      <main className="pt-8 pb-20">
+      <main className="pt-32 pb-20">
         {/* ── Brief Introduction ── */}
         <section className="px-6 mb-20">
           <div className="max-w-3xl mx-auto text-center">

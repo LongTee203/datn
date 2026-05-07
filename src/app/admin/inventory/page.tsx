@@ -11,6 +11,11 @@ interface Product {
   price: string;
   stock: number;
   image: string;
+  desc?: string;
+  rating?: number;
+  reviews?: number;
+  details?: string;
+  images?: string[];
 }
 
 const initialProducts: Product[] = [
@@ -73,6 +78,15 @@ export default function InventoryPage() {
     supplier: ''
   });
 
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [detailForm, setDetailForm] = useState({
+    desc: '',
+    details: '',
+    images: [] as string[],
+    newImageUrl: ''
+  });
+
   const categories: Category[] = ['Tất cả', 'Thức ăn', 'Đồ chơi', 'Phụ kiện', 'Y tế'];
 
   const filteredProducts = products.filter(p => filterCategory === 'Tất cả' || p.category === filterCategory);
@@ -97,6 +111,30 @@ export default function InventoryPage() {
       });
       setIsImportModalOpen(true);
     }
+  };
+
+  const handleEditDetails = (product: Product) => {
+    setEditingProduct(product);
+    setDetailForm({
+      desc: product.desc || 'Dòng sản phẩm thượng hạng được chế biến từ cá hồi tươi đánh bắt bền vững, kết hợp cùng các loại rau củ hữu cơ.',
+      details: product.details || 'Sản phẩm được nghiên cứu bởi các chuyên gia thú y hàng đầu, đảm bảo cung cấp tỉ lệ vàng giữa Protein và chất xơ.',
+      images: product.images || [product.image],
+      newImageUrl: ''
+    });
+    setIsDetailModalOpen(true);
+  };
+
+  const handleDetailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingProduct) {
+      setProducts(products.map(p => 
+        p.id === editingProduct.id 
+          ? { ...p, desc: detailForm.desc, details: detailForm.details, images: detailForm.images }
+          : p
+      ));
+    }
+    setIsDetailModalOpen(false);
+    setEditingProduct(null);
   };
 
   const handleImportSubmit = (e: React.FormEvent) => {
@@ -278,13 +316,22 @@ export default function InventoryPage() {
                     )}
                   </td>
                   <td className="px-8 py-4 text-right">
-                    <button 
-                      onClick={() => deleteProduct(product.id)}
-                      className="p-2 text-[#727d7a] hover:text-[#a83836] hover:bg-[#fa746f]/10 rounded-full transition-colors"
-                      title="Xóa sản phẩm"
-                    >
-                      <span className="material-symbols-outlined">delete</span>
-                    </button>
+                    <div className="flex items-center justify-end gap-2">
+                      <button 
+                        onClick={() => handleEditDetails(product)}
+                        className="p-2 text-[#727d7a] hover:text-[#006b62] hover:bg-[#006b62]/10 rounded-full transition-colors"
+                        title="Chi tiết sản phẩm"
+                      >
+                        <span className="material-symbols-outlined">edit_document</span>
+                      </button>
+                      <button 
+                        onClick={() => deleteProduct(product.id)}
+                        className="p-2 text-[#727d7a] hover:text-[#a83836] hover:bg-[#fa746f]/10 rounded-full transition-colors"
+                        title="Xóa sản phẩm"
+                      >
+                        <span className="material-symbols-outlined">delete</span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );
@@ -395,6 +442,114 @@ export default function InventoryPage() {
                   className="px-6 py-3 rounded-full font-bold text-white bg-[#006b62] hover:bg-[#005e56] transition-colors shadow-lg shadow-[#006b62]/20"
                 >
                   Xác nhận nhập
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Product Details Modal */}
+      {isDetailModalOpen && editingProduct && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button 
+              onClick={() => setIsDetailModalOpen(false)}
+              className="absolute top-6 right-6 text-[#56615f] hover:text-[#2a3433] hover:bg-gray-100 p-2 rounded-full transition-colors"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <h3 className="text-2xl font-extrabold text-[#2a3433] mb-2 tracking-tight flex items-center gap-2">
+              <span className="material-symbols-outlined text-[#006b62]">edit_document</span>
+              Chỉnh sửa chi tiết
+            </h3>
+            <p className="text-[#56615f] font-medium mb-6">Mã SP: {editingProduct.sku} - {editingProduct.name}</p>
+            
+            <form className="space-y-5" onSubmit={handleDetailSubmit}>
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Thêm ảnh sản phẩm</label>
+                <div className="flex gap-2 mb-3">
+                  <input 
+                    type="text" 
+                    value={detailForm.newImageUrl}
+                    onChange={(e) => setDetailForm({...detailForm, newImageUrl: e.target.value})}
+                    placeholder="Nhập đường dẫn hình ảnh (URL)..." 
+                    className="flex-1 bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" 
+                  />
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      if (detailForm.newImageUrl) {
+                        setDetailForm({
+                          ...detailForm, 
+                          images: [...detailForm.images, detailForm.newImageUrl],
+                          newImageUrl: ''
+                        });
+                      }
+                    }}
+                    className="bg-[#006b62] text-white px-4 rounded-xl font-bold hover:bg-[#005e56] transition-colors"
+                  >
+                    Thêm ảnh
+                  </button>
+                </div>
+                {detailForm.images.length > 0 && (
+                  <div className="flex gap-2 flex-wrap">
+                    {detailForm.images.map((img, idx) => (
+                      <div key={idx} className="relative group w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
+                        <img src={img} alt="Preview" className="w-full h-full object-cover" />
+                        <button 
+                          type="button"
+                          onClick={() => setDetailForm({
+                            ...detailForm,
+                            images: detailForm.images.filter((_, i) => i !== idx)
+                          })}
+                          className="absolute inset-0 bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <span className="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Mô tả sản phẩm</label>
+                <textarea 
+                  required 
+                  rows={3}
+                  value={detailForm.desc}
+                  onChange={(e) => setDetailForm({...detailForm, desc: e.target.value})}
+                  placeholder="Nhập mô tả sản phẩm (ví dụ: Dòng sản phẩm thượng hạng...)" 
+                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all resize-none" 
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Thông tin chi tiết sản phẩm</label>
+                <textarea 
+                  required 
+                  rows={4}
+                  value={detailForm.details}
+                  onChange={(e) => setDetailForm({...detailForm, details: e.target.value})}
+                  placeholder="Nhập thông tin chi tiết, công dụng, đặc điểm..." 
+                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all resize-none" 
+                />
+              </div>
+
+              <div className="pt-4 flex justify-end gap-3 mt-4 border-t border-[#a9b4b1]/20">
+                <button 
+                  type="button"
+                  onClick={() => setIsDetailModalOpen(false)}
+                  className="px-6 py-3 rounded-full font-bold text-[#56615f] bg-[#eef5f3] hover:bg-[#d9e5e2] transition-colors"
+                >
+                  Hủy bỏ
+                </button>
+                <button 
+                  type="submit"
+                  className="px-6 py-3 rounded-full font-bold text-white bg-[#006b62] hover:bg-[#005e56] transition-colors shadow-lg shadow-[#006b62]/20"
+                >
+                  Lưu thay đổi
                 </button>
               </div>
             </form>

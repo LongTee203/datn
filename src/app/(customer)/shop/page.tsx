@@ -213,7 +213,7 @@ export default function ShopPage() {
         {/* ── Top bar: breadcrumb + cart icon ── */}
         <div className="flex items-center justify-between mb-6">
           <nav className="flex text-sm text-slate-500 gap-2 items-center">
-            <Link href="/home" className="hover:text-[#2D6A4F] transition-colors">
+            <Link href="/" className="hover:text-[#2D6A4F] transition-colors">
               Trang chủ
             </Link>
             <span className="material-symbols-outlined text-xs">chevron_right</span>

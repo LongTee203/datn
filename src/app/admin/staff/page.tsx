@@ -2,8 +2,132 @@
 
 import React, { useState } from 'react';
 
+type StaffStatus = 'Đang làm' | 'Nghỉ phép' | 'Nghỉ';
+
+interface Staff {
+  id: string;
+  name: string;
+  role: string;
+  phone: string;
+  status: StaffStatus;
+  shift: string;
+  avatar: string;
+}
+
+const initialStaff: Staff[] = [
+  {
+    id: 's1',
+    name: 'Trần Thị Minh',
+    role: 'Bác sĩ thú y',
+    phone: '0901 234 567',
+    status: 'Đang làm',
+    shift: '08:00 - 17:00',
+    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAcT3QhWCAgbV5CV4IaZu-4PM3LcqDDTwwa_wOf1Agk0IUaX8jFoqnHZEgMCNZKhCwXGyN5qyFWAuvEw5-VwGo_SuttfMcDNoY1PtfVI6ImJOTLfkrPAr0f9ttxJkCB8k0xi0t_cQp4U8QblUUeHliA-gDU18lgjmxSGPn4g0KpRYsMjFURfIw8GoXJ1tV1cZYjEOW_OSuY8_AqQwXKDFfgl4x44psneBxtcWMsDlYEXWcj5qkvd0DBbStQub9uLXjOh9WXB2f-X1w'
+  },
+  {
+    id: 's2',
+    name: 'Nguyễn Văn An',
+    role: 'Grooming Spa',
+    phone: '0908 765 432',
+    status: 'Nghỉ phép',
+    shift: 'Nghỉ',
+    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBeVVCKJdpWQiPQd9NgN1x8sncD4-Dr3LtZUhvbQCFBg87keLKxgLUKhTQJDj_xfpHt_Pmsa6xwvSJ6_BUagwB1njXzLCAUyMP2rrW58VnfmAQ9j1mW6HMgKOZsB_7hwNBnPt12IqAgSB_g-V7GGkXepx740UqdHWlQbtxEW8lxEdVPKgDhPlOt8EhLwztRIV_cskheflYv4fjf6f3mA03srLuealA2axl3xcmmhWVzYn_vt3ABICyQdE4JKin_bUodUJUtRs02weQ'
+  },
+  {
+    id: 's3',
+    name: 'Lê Mỹ Linh',
+    role: 'Tư vấn viên',
+    phone: '0977 888 999',
+    status: 'Nghỉ',
+    shift: 'Nghỉ',
+    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCEJQ2AvMyhZIZgImgLNQLzgZfjiDunJlQDdJl3Rc7uRv8i8Wa0JkcfKhQCVGWi5snAmcjJnwA4tWKGmGEOdaTvG19wzZO_CdOina5XlSdv6rDo-XBW8aMTUDqx3Zh6G6l6WsDdHqovLZeRWF1K6kEbNr2QzdbQ_ONrWUVRrSz3fUaqae3mvh-OeL9Du1chwg2fHNYE4_ZflBczKEsxslsWFBmWnRGmWIyxEg5eoQsljG_Gi71n9g88i_ExITLKDTT3a0kUK1dYwFw'
+  }
+];
+
+const staffSchedules: Record<string, { span: number; type: string; label: string; pet?: string; service?: string }[]> = {
+  's1': [
+    { span: 2, type: 'exam', label: 'KHÁM BỆNH', pet: 'Poodle (Milo)', service: 'Khám tổng quát' },
+    { span: 1, type: 'empty', label: '' },
+    { span: 3, type: 'surgery', label: 'PHẪU THUẬT', pet: 'Mèo Anh (Tom)', service: 'Triệt sản' },
+    { span: 1, type: 'break', label: '' },
+    { span: 3, type: 'exam', label: 'KHÁM BỆNH', pet: 'Corgi (Bella)', service: 'Tiêm phòng' },
+    { span: 5, type: 'empty', label: '' },
+  ],
+  's2': [
+    { span: 3, type: 'trim', label: 'CẮT TỈA SPA', pet: 'Phốc Sóc (Misa)', service: 'Cắt tỉa gọn' },
+    { span: 2, type: 'break', label: '' },
+    { span: 4, type: 'spa', label: 'SPA FULL COMBO', pet: 'Husky (Max)', service: 'Tắm & Sấy, Cắt móng' },
+    { span: 6, type: 'empty', label: '' },
+  ],
+  's3': [
+    { span: 1, type: 'empty', label: '' },
+    { span: 4, type: 'consult', label: 'TƯ VẤN KH', pet: 'Khách mới', service: 'Tư vấn dinh dưỡng' },
+    { span: 1, type: 'break', label: '' },
+    { span: 2, type: 'consult', label: 'TƯ VẤN KH', pet: 'Khách VIP', service: 'Tư vấn đồ dùng' },
+    { span: 7, type: 'empty', label: '' },
+  ]
+};
+
 export default function StaffPage() {
   const [viewMode, setViewMode] = useState<'day' | 'week'>('day');
+  const [staffList, setStaffList] = useState<Staff[]>(initialStaff);
+  const [selectedStaffId, setSelectedStaffId] = useState<string | null>(null);
+  
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [addForm, setAddForm] = useState({ name: '', role: '', phone: '', avatar: '' });
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingStaff, setEditingStaff] = useState<Staff | null>(null);
+  const [editForm, setEditForm] = useState({ name: '', role: '', phone: '', avatar: '' });
+
+  const [showAvatarInput, setShowAvatarInput] = useState(false);
+
+  const openEditModal = (staff: Staff) => {
+    setEditingStaff(staff);
+    setEditForm({ name: staff.name, role: staff.role, phone: staff.phone, avatar: staff.avatar });
+    setShowAvatarInput(false);
+    setIsEditModalOpen(true);
+  };
+
+  const handleAddSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newStaff: Staff = {
+      id: `s${Date.now()}`,
+      name: addForm.name,
+      role: addForm.role,
+      phone: addForm.phone,
+      avatar: addForm.avatar || 'https://placehold.co/150x150/eef5f3/56615f?text=New',
+      status: 'Đang làm',
+      shift: '08:00 - 17:00'
+    };
+    setStaffList([...staffList, newStaff]);
+    setIsAddModalOpen(false);
+    setAddForm({ name: '', role: '', phone: '', avatar: '' });
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingStaff) {
+      setStaffList(staffList.map(s => 
+        s.id === editingStaff.id 
+          ? { ...s, name: editForm.name, role: editForm.role, phone: editForm.phone, avatar: editForm.avatar } 
+          : s
+      ));
+    }
+    setIsEditModalOpen(false);
+    setEditingStaff(null);
+  };
+
+  const deleteStaff = (id: string) => {
+    if(confirm("Bạn có chắc chắn muốn xóa nhân viên này?")) {
+      setStaffList(staffList.filter(s => s.id !== id));
+      setIsEditModalOpen(false);
+    }
+  };
+
+  const updateStatus = (id: string, newStatus: StaffStatus) => {
+    setStaffList(staffList.map(s => s.id === id ? { ...s, status: newStatus } : s));
+  };
 
   return (
     <div className="min-h-screen">
@@ -28,7 +152,10 @@ export default function StaffPage() {
               Lịch tuần
             </button>
           </div>
-          <button className="bg-[#006b62] text-[#e2fff9] px-6 py-2.5 h-fit rounded-full font-bold text-sm shadow-lg shadow-[#006b62]/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+          <button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-[#006b62] text-[#e2fff9] px-6 py-2.5 h-fit rounded-full font-bold text-sm shadow-lg shadow-[#006b62]/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+          >
             <span className="material-symbols-outlined text-base">add</span>
             Thêm nhân viên
           </button>
@@ -105,77 +232,67 @@ export default function StaffPage() {
           </div>
 
           {/* Khu vực 3: Bảng danh sách */}
-          <div className="bg-white rounded-2xl overflow-hidden shadow-sm mb-8">
+          <div className="bg-white rounded-2xl shadow-sm mb-8">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#e7f0ed] text-[#a9b4b1]">
-                  <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f]">Ảnh đại diện</th>
+                  <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f] rounded-tl-2xl">Ảnh đại diện</th>
                   <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f]">Họ tên</th>
                   <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f]">Chức vụ</th>
                   <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f]">SĐT</th>
                   <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f]">Trạng thái</th>
                   <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f]">Ca hôm nay</th>
-                  <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f] text-center">Thao tác</th>
+                  <th className="px-6 py-4 text-[10px] font-extrabold uppercase tracking-widest text-[#56615f] text-center rounded-tr-2xl">Thao tác</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#eef5f3]">
-                <tr className="hover:bg-[#e1eae7]/30 transition-all cursor-pointer">
-                  <td className="px-6 py-4">
-                    <img className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcT3QhWCAgbV5CV4IaZu-4PM3LcqDDTwwa_wOf1Agk0IUaX8jFoqnHZEgMCNZKhCwXGyN5qyFWAuvEw5-VwGo_SuttfMcDNoY1PtfVI6ImJOTLfkrPAr0f9ttxJkCB8k0xi0t_cQp4U8QblUUeHliA-gDU18lgjmxSGPn4g0KpRYsMjFURfIw8GoXJ1tV1cZYjEOW_OSuY8_AqQwXKDFfgl4x44psneBxtcWMsDlYEXWcj5qkvd0DBbStQub9uLXjOh9WXB2f-X1w" alt="Staff" />
-                  </td>
-                  <td className="px-6 py-4 font-bold text-[#2a3433]">Trần Thị Minh</td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">Bác sĩ thú y</td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">0901 234 567</td>
-                  <td className="px-6 py-4">
-                    <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Đang làm</span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">08:00 - 17:00</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-center gap-2">
-                      <button className="p-1.5 hover:bg-[#006b62]/10 rounded-lg text-[#006b62] transition-all"><span className="material-symbols-outlined text-lg">visibility</span></button>
-                      <button className="p-1.5 hover:bg-[#446560]/10 rounded-lg text-[#446560] transition-all"><span className="material-symbols-outlined text-lg">edit</span></button>
-                      <button className="p-1.5 hover:bg-[#a83836]/10 rounded-lg text-[#a83836] transition-all"><span className="material-symbols-outlined text-lg">delete</span></button>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-[#e1eae7]/30 transition-all cursor-pointer">
-                  <td className="px-6 py-4">
-                    <img className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeVVCKJdpWQiPQd9NgN1x8sncD4-Dr3LtZUhvbQCFBg87keLKxgLUKhTQJDj_xfpHt_Pmsa6xwvSJ6_BUagwB1njXzLCAUyMP2rrW58VnfmAQ9j1mW6HMgKOZsB_7hwNBnPt12IqAgSB_g-V7GGkXepx740UqdHWlQbtxEW8lxEdVPKgDhPlOt8EhLwztRIV_cskheflYv4fjf6f3mA03srLuealA2axl3xcmmhWVzYn_vt3ABICyQdE4JKin_bUodUJUtRs02weQ" alt="Staff" />
-                  </td>
-                  <td className="px-6 py-4 font-bold text-[#2a3433]">Nguyễn Văn An</td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">Grooming Spa</td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">0908 765 432</td>
-                  <td className="px-6 py-4">
-                    <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Nghỉ phép</span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">Nghỉ</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-center gap-2">
-                      <button className="p-1.5 hover:bg-[#006b62]/10 rounded-lg text-[#006b62] transition-all"><span className="material-symbols-outlined text-lg">visibility</span></button>
-                      <button className="p-1.5 hover:bg-[#446560]/10 rounded-lg text-[#446560] transition-all"><span className="material-symbols-outlined text-lg">edit</span></button>
-                      <button className="p-1.5 hover:bg-[#a83836]/10 rounded-lg text-[#a83836] transition-all"><span className="material-symbols-outlined text-lg">delete</span></button>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="hover:bg-[#e1eae7]/30 transition-all cursor-pointer">
-                  <td className="px-6 py-4">
-                    <img className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEJQ2AvMyhZIZgImgLNQLzgZfjiDunJlQDdJl3Rc7uRv8i8Wa0JkcfKhQCVGWi5snAmcjJnwA4tWKGmGEOdaTvG19wzZO_CdOina5XlSdv6rDo-XBW8aMTUDqx3Zh6G6l6WsDdHqovLZeRWF1K6kEbNr2QzdbQ_ONrWUVRrSz3fUaqae3mvh-OeL9Du1chwg2fHNYE4_ZflBczKEsxslsWFBmWnRGmWIyxEg5eoQsljG_Gi71n9g88i_ExITLKDTT3a0kUK1dYwFw" alt="Staff" />
-                  </td>
-                  <td className="px-6 py-4 font-bold text-[#2a3433]">Lê Mỹ Linh</td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">Tư vấn viên</td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">0977 888 999</td>
-                  <td className="px-6 py-4">
-                    <span className="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Nghỉ</span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-[#56615f]">Nghỉ</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-center gap-2">
-                      <button className="p-1.5 hover:bg-[#006b62]/10 rounded-lg text-[#006b62] transition-all"><span className="material-symbols-outlined text-lg">visibility</span></button>
-                      <button className="p-1.5 hover:bg-[#446560]/10 rounded-lg text-[#446560] transition-all"><span className="material-symbols-outlined text-lg">edit</span></button>
-                      <button className="p-1.5 hover:bg-[#a83836]/10 rounded-lg text-[#a83836] transition-all"><span className="material-symbols-outlined text-lg">delete</span></button>
-                    </div>
-                  </td>
-                </tr>
+                {staffList.map(staff => (
+                  <tr 
+                    key={staff.id} 
+                    className={`hover:bg-[#e1eae7]/50 transition-all cursor-pointer ${selectedStaffId === staff.id ? 'bg-[#e1eae7]/80 shadow-inner' : ''}`}
+                    onClick={() => setSelectedStaffId(selectedStaffId === staff.id ? null : staff.id)}
+                  >
+                    <td className="px-6 py-4">
+                      <img className="w-10 h-10 rounded-full object-cover" src={staff.avatar} alt={staff.name} />
+                    </td>
+                    <td className="px-6 py-4 font-bold text-[#2a3433]">{staff.name}</td>
+                    <td className="px-6 py-4 text-sm text-[#56615f]">{staff.role}</td>
+                    <td className="px-6 py-4 text-sm text-[#56615f]">{staff.phone}</td>
+                    <td className="px-6 py-4">
+                      <span className={`text-[10px] font-bold px-2 py-1 rounded-full uppercase ${
+                        staff.status === 'Đang làm' ? 'bg-emerald-100 text-emerald-800' :
+                        staff.status === 'Nghỉ phép' ? 'bg-amber-100 text-amber-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {staff.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-[#56615f]">{staff.shift}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center justify-center gap-2" onClick={e => e.stopPropagation()}>
+                        <button 
+                          onClick={() => openEditModal(staff)}
+                          className="p-1.5 hover:bg-[#006b62]/10 rounded-lg text-[#006b62] transition-all flex items-center gap-1"
+                          title="Xem & Chỉnh sửa"
+                        >
+                          <span className="material-symbols-outlined text-lg">edit_document</span>
+                          <span className="text-xs font-semibold hidden lg:block">Chỉnh sửa</span>
+                        </button>
+                        <div className="relative group">
+                          <button className="p-1.5 hover:bg-[#446560]/10 rounded-lg text-[#446560] transition-all flex items-center" title="Thao tác khác">
+                            <span className="material-symbols-outlined text-lg">more_vert</span>
+                          </button>
+                          <div className="absolute top-full right-0 mt-1 bg-white shadow-lg rounded-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10 w-40 overflow-hidden flex flex-col">
+                            <div className="px-4 py-2 text-[10px] font-bold text-gray-400 bg-gray-50 border-b border-gray-100 uppercase">Đổi trạng thái</div>
+                            <button onClick={() => updateStatus(staff.id, 'Đang làm')} className="text-left px-4 py-2 text-xs font-semibold hover:bg-gray-50 text-emerald-700">Đang làm</button>
+                            <button onClick={() => updateStatus(staff.id, 'Nghỉ phép')} className="text-left px-4 py-2 text-xs font-semibold hover:bg-gray-50 text-amber-700">Nghỉ phép</button>
+                            <button onClick={() => updateStatus(staff.id, 'Nghỉ')} className="text-left px-4 py-2 text-xs font-semibold hover:bg-gray-50 text-red-700">Nghỉ</button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -189,56 +306,73 @@ export default function StaffPage() {
               </div>
             </div>
             <div className="overflow-x-auto">
-              <div className="min-w-[800px]">
+              <div className="min-w-[1000px]">
                 {/* Time Header */}
                 <div className="grid grid-cols-[150px_1fr] border-b border-[#e7f0ed] pb-4">
                   <div className="text-xs font-bold text-[#a9b4b1]">Nhân viên</div>
-                  <div className="grid grid-cols-10 text-center text-[10px] font-bold text-[#a9b4b1]">
+                  <div className="grid text-center text-[10px] font-bold text-[#a9b4b1]" style={{ gridTemplateColumns: 'repeat(15, minmax(0, 1fr))' }}>
                     <div>08h</div><div>09h</div><div>10h</div><div>11h</div><div>12h</div>
                     <div>13h</div><div>14h</div><div>15h</div><div>16h</div><div>17h</div>
+                    <div>18h</div><div>19h</div><div>20h</div><div>21h</div><div>22h</div>
                   </div>
                 </div>
-                {/* Employee 1 Timeline */}
-                <div className="grid grid-cols-[150px_1fr] py-4 items-center border-b border-[#e7f0ed]/50">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-[10px] font-bold text-emerald-800">TM</div>
-                    <span className="text-xs font-semibold">Minh Trần</span>
-                  </div>
-                  <div className="grid grid-cols-10 h-8 gap-1">
-                    <div className="col-span-2 bg-emerald-500/20 border-l-4 border-emerald-500 rounded-lg flex items-center px-2 text-[8px] font-bold text-emerald-800">KHÁM BỆNH</div>
-                    <div className="col-span-1"></div>
-                    <div className="col-span-3 bg-[#82f6e7]/40 border-l-4 border-[#006b62] rounded-lg flex items-center px-2 text-[8px] font-bold text-[#005c54]">PHẪU THUẬT</div>
-                    <div className="col-span-1 bg-[#e7f0ed] rounded-lg"></div>
-                    <div className="col-span-3 bg-emerald-500/20 border-l-4 border-emerald-500 rounded-lg flex items-center px-2 text-[8px] font-bold text-emerald-800">KHÁM BỆNH</div>
-                  </div>
-                </div>
-                {/* Employee 2 Timeline */}
-                <div className="grid grid-cols-[150px_1fr] py-4 items-center border-b border-[#e7f0ed]/50">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-800">VA</div>
-                    <span className="text-xs font-semibold">Văn An</span>
-                  </div>
-                  <div className="grid grid-cols-10 h-8 gap-1">
-                    <div className="col-span-3 bg-[#b6e7fe]/40 border-l-4 border-[#346578] rounded-lg flex items-center px-2 text-[8px] font-bold text-[#235669]">CẮT TỈA SPA</div>
-                    <div className="col-span-2 bg-[#e7f0ed] rounded-lg"></div>
-                    <div className="col-span-4 bg-[#b6e7fe]/40 border-l-4 border-[#346578] rounded-lg flex items-center px-2 text-[8px] font-bold text-[#235669]">SPA FULL COMBO</div>
-                    <div className="col-span-1"></div>
-                  </div>
-                </div>
-                {/* Employee 3 Timeline */}
-                <div className="grid grid-cols-[150px_1fr] py-4 items-center">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-[10px] font-bold text-purple-800">ML</div>
-                    <span className="text-xs font-semibold">Mỹ Linh</span>
-                  </div>
-                  <div className="grid grid-cols-10 h-8 gap-1">
-                    <div className="col-span-1"></div>
-                    <div className="col-span-4 bg-purple-200/50 border-l-4 border-purple-600 rounded-lg flex items-center px-2 text-[8px] font-bold text-purple-900">TƯ VẤN KH</div>
-                    <div className="col-span-1 bg-[#e7f0ed] rounded-lg"></div>
-                    <div className="col-span-2 bg-purple-200/50 border-l-4 border-purple-600 rounded-lg flex items-center px-2 text-[8px] font-bold text-purple-900">TƯ VẤN KH</div>
-                    <div className="col-span-2"></div>
-                  </div>
-                </div>
+                {staffList.filter(s => selectedStaffId ? s.id === selectedStaffId : true).map((staff) => {
+                  const schedule = staffSchedules[staff.id] || [{ span: 15, type: 'empty', label: '' }];
+                  const isExpanded = selectedStaffId === staff.id;
+                  
+                  return (
+                    <div key={staff.id} className="grid grid-cols-[150px_1fr] py-4 items-center border-b border-[#e7f0ed]/50">
+                      <div className="flex items-center gap-2">
+                        <img className="w-8 h-8 rounded-full object-cover shadow-sm" src={staff.avatar} alt={staff.name} />
+                        <span className="text-xs font-bold text-[#2a3433]">{staff.name.split(' ').slice(-2).join(' ')}</span>
+                      </div>
+                      <div className={`grid gap-1 transition-all duration-300 ${isExpanded ? 'h-24' : 'h-8'}`} style={{ gridTemplateColumns: 'repeat(15, minmax(0, 1fr))' }}>
+                        {schedule.map((slot, idx) => {
+                          if (slot.type === 'empty') return <div key={idx} style={{ gridColumn: `span ${slot.span} / span ${slot.span}` }}></div>;
+                          
+                          let baseClass = "rounded-lg transition-all overflow-hidden relative";
+                          if (!isExpanded) {
+                            baseClass += " flex items-center justify-center px-2 text-[8px] font-bold whitespace-nowrap";
+                          } else {
+                            baseClass += " flex flex-col items-start p-2 text-xs font-bold";
+                          }
+                          
+                          let colorClass = "";
+                          switch(slot.type) {
+                            case 'exam': colorClass = "bg-emerald-500/20 border-l-4 border-emerald-500 text-emerald-800"; break;
+                            case 'surgery': colorClass = "bg-[#82f6e7]/40 border-l-4 border-[#006b62] text-[#005c54]"; break;
+                            case 'trim': colorClass = "bg-[#b6e7fe]/40 border-l-4 border-[#346578] text-[#235669]"; break;
+                            case 'spa': colorClass = "bg-[#b6e7fe]/40 border-l-4 border-[#346578] text-[#235669]"; break;
+                            case 'consult': colorClass = "bg-purple-200/50 border-l-4 border-purple-600 text-purple-900"; break;
+                            case 'break': colorClass = "bg-[#e7f0ed]"; break;
+                          }
+                          
+                          return (
+                            <div key={idx} style={{ gridColumn: `span ${slot.span} / span ${slot.span}` }} className={`${baseClass} ${colorClass}`}>
+                              {slot.type !== 'break' && (
+                                <>
+                                  <span className={isExpanded ? "mb-1 text-[10px] uppercase opacity-70 tracking-wider" : ""}>{slot.label}</span>
+                                  {isExpanded && slot.pet && (
+                                    <div className="flex items-center gap-1 text-[10px] font-semibold mt-auto bg-white/50 px-1.5 py-0.5 rounded shadow-sm text-current">
+                                      <span className="material-symbols-outlined text-[12px]">pets</span>
+                                      {slot.pet}
+                                    </div>
+                                  )}
+                                  {isExpanded && slot.service && (
+                                    <div className="flex items-center gap-1 text-[10px] font-semibold mt-1 bg-white/50 px-1.5 py-0.5 rounded shadow-sm text-current">
+                                      <span className="material-symbols-outlined text-[12px]">info</span>
+                                      {slot.service}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             {/* Timeline Legend */}
@@ -439,6 +573,121 @@ export default function StaffPage() {
               <div className="w-3 h-3 rounded-full bg-[#f44336]"></div>
               <span className="text-[0.75rem] text-[#56615f] font-medium">Khám bệnh</span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Staff Modal */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
+            <button 
+              onClick={() => {
+                setIsAddModalOpen(false);
+                setShowAvatarInput(false);
+              }} 
+              className="absolute top-6 right-6 text-gray-500 hover:text-gray-900"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <h3 className="text-xl font-bold text-[#2a3433] mb-6">Thêm Nhân Viên</h3>
+            <form onSubmit={handleAddSubmit} className="space-y-4">
+              <div className="flex flex-col items-center mb-4">
+                <img 
+                  src={addForm.avatar || 'https://placehold.co/150'} 
+                  className="w-24 h-24 rounded-full object-cover border-4 border-[#eef5f3] cursor-pointer hover:opacity-80 transition-opacity" 
+                  alt="Avatar" 
+                  onClick={() => setShowAvatarInput(!showAvatarInput)}
+                  title="Nhấn để thay đổi ảnh"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">Nhấn vào ảnh để cập nhật Link URL</p>
+                {showAvatarInput && (
+                  <div className="w-full mt-3">
+                    <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Link Ảnh đại diện</label>
+                    <input value={addForm.avatar} onChange={e => setAddForm({...addForm, avatar: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none text-sm" placeholder="Nhập đường dẫn hình ảnh (URL)" />
+                  </div>
+                )}
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Họ và tên</label>
+                <input required value={addForm.name} onChange={e => setAddForm({...addForm, name: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none" placeholder="Nhập họ và tên" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Chức vụ</label>
+                <input required value={addForm.role} onChange={e => setAddForm({...addForm, role: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none" placeholder="Ví dụ: Bác sĩ, Tư vấn viên" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Số điện thoại</label>
+                <input required value={addForm.phone} onChange={e => setAddForm({...addForm, phone: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none" placeholder="Nhập số điện thoại" />
+              </div>
+              <div className="flex justify-end gap-3 mt-6">
+                <button type="button" onClick={() => setIsAddModalOpen(false)} className="px-6 py-2 rounded-full font-bold bg-gray-100 text-gray-600">Hủy</button>
+                <button type="submit" className="px-6 py-2 rounded-full font-bold bg-[#006b62] text-white shadow-lg">Xác nhận</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit/View Staff Modal */}
+      {isEditModalOpen && editingStaff && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
+            <button 
+              onClick={() => {
+                setIsEditModalOpen(false);
+                setShowAvatarInput(false);
+              }} 
+              className="absolute top-6 right-6 text-gray-500 hover:text-gray-900"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-[#2a3433]">Thông tin nhân viên</h3>
+            </div>
+            <form onSubmit={handleEditSubmit} className="space-y-4">
+              <div className="flex flex-col items-center mb-4">
+                <img 
+                  src={editForm.avatar || 'https://placehold.co/150'} 
+                  className="w-24 h-24 rounded-full object-cover border-4 border-[#eef5f3] cursor-pointer hover:opacity-80 transition-opacity" 
+                  alt="Avatar" 
+                  onClick={() => setShowAvatarInput(!showAvatarInput)}
+                  title="Nhấn để thay đổi ảnh"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">Nhấn vào ảnh để cập nhật Link URL</p>
+                {showAvatarInput && (
+                  <div className="w-full mt-3">
+                    <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Link Ảnh đại diện</label>
+                    <input value={editForm.avatar} onChange={e => setEditForm({...editForm, avatar: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none text-sm" placeholder="Nhập đường dẫn hình ảnh (URL)" />
+                  </div>
+                )}
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Họ và tên</label>
+                <input required value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Chức vụ</label>
+                <input required value={editForm.role} onChange={e => setEditForm({...editForm, role: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-[#56615f] mb-2 uppercase">Số điện thoại</label>
+                <input required value={editForm.phone} onChange={e => setEditForm({...editForm, phone: e.target.value})} className="w-full bg-[#eef5f3] rounded-xl px-4 py-3 outline-none" />
+              </div>
+              <div className="flex justify-between items-center mt-8 pt-4 border-t border-gray-100">
+                <button 
+                  type="button" 
+                  onClick={() => deleteStaff(editingStaff.id)}
+                  className="px-5 py-2 rounded-full font-bold bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-sm"
+                >
+                  Xóa nhân viên
+                </button>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => setIsEditModalOpen(false)} className="px-5 py-2 rounded-full font-bold bg-gray-100 text-gray-600 text-sm">Đóng</button>
+                  <button type="submit" className="px-5 py-2 rounded-full font-bold bg-[#006b62] text-white shadow-lg text-sm">Lưu</button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -22,7 +22,7 @@ export function middleware(request: NextRequest) {
 
   // ── 1. If already logged in, redirect away from /login & /register ──
   if (AUTH_ONLY_ROUTES.includes(pathname) && session) {
-    const dest = session.role === "admin" ? "/admin/dashboard" : "/home";
+    const dest = session.role === "admin" ? "/admin/dashboard" : "/";
     return NextResponse.redirect(new URL(dest, request.url));
   }
 
@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
     }
     if (session.role !== "admin") {
       // Customer trying to access admin → send to customer home
-      return NextResponse.redirect(new URL("/home", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 

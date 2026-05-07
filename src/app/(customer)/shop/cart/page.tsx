@@ -7,8 +7,8 @@ import { useCart } from "@/context/CartContext";
 export default function CartPage() {
   const { items, totalCount, totalPrice, removeItem, updateQty } = useCart();
 
-  const shipping = totalPrice > 0 ? 30000 / 23000 : 0; // ~$1.30 shipping
-  const discount = totalPrice > 50 ? 5 : 0;
+  const shipping = totalPrice > 0 ? 30000 : 0;
+  const discount = totalPrice > 500000 ? 50000 : 0;
   const grandTotal = totalPrice + shipping - discount;
 
   return (
@@ -109,11 +109,11 @@ export default function CartPage() {
                   {/* Price */}
                   <div className="text-right flex-shrink-0">
                     <p className="text-2xl font-bold text-[#2D6A4F]">
-                      ${(item.price * item.qty).toFixed(2)}
+                      {(item.price * item.qty).toLocaleString("vi-VN")}đ
                     </p>
                     {item.qty > 1 && (
                       <p className="text-xs text-[#3b6447]">
-                        ${item.price.toFixed(2)} × {item.qty}
+                        {item.price.toLocaleString("vi-VN")}đ × {item.qty}
                       </p>
                     )}
                   </div>
@@ -132,20 +132,20 @@ export default function CartPage() {
                   <div className="flex justify-between text-[#3b6447]">
                     <span>Tạm tính</span>
                     <span className="font-semibold text-[#0c361d]">
-                      ${totalPrice.toFixed(2)}
+                      {totalPrice.toLocaleString("vi-VN")}đ
                     </span>
                   </div>
                   <div className="flex justify-between text-[#3b6447]">
                     <span>Phí vận chuyển</span>
                     <span className="font-semibold text-[#0c361d]">
-                      ${shipping.toFixed(2)}
+                      {shipping.toLocaleString("vi-VN")}đ
                     </span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-[#3b6447]">
                       <span>Giảm giá</span>
                       <span className="font-semibold text-emerald-600">
-                        -${discount.toFixed(2)}
+                        -{discount.toLocaleString("vi-VN")}đ
                       </span>
                     </div>
                   )}
@@ -153,7 +153,7 @@ export default function CartPage() {
                     <div className="flex justify-between">
                       <span className="text-lg font-bold text-[#0c361d]">Tổng cộng</span>
                       <span className="text-2xl font-extrabold text-[#2D6A4F]">
-                        ${grandTotal.toFixed(2)}
+                        {grandTotal.toLocaleString("vi-VN")}đ
                       </span>
                     </div>
                     <p className="text-xs text-[#3b6447] text-right mt-1">(Đã bao gồm VAT)</p>

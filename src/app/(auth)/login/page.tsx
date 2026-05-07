@@ -47,14 +47,16 @@ export default function LoginPage() {
     >
       {/* ── Minimal Auth Header ── */}
       <header className="fixed top-0 left-0 w-full z-50 px-6 py-6 max-w-7xl mx-auto flex justify-between items-center">
-        <div
-          className="text-2xl font-black tracking-tighter font-headline"
-          style={{ color: "#29664c" }}
-        >
-          PetCare Plus
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+            <span className="material-symbols-outlined text-white text-2xl">pets</span>
+          </div>
+          <div className="text-2xl font-black text-primary tracking-tighter">
+            PetCare<span className="text-secondary font-light">Shop</span>
+          </div>
         </div>
         <Link
-          href="/home"
+          href="/"
           className="group flex items-center gap-2 font-medium text-sm transition-colors"
           style={{ color: "#2f6555" }}
         >
@@ -230,8 +232,11 @@ export default function LoginPage() {
       {/* ── Auth Footer ── */}
       <footer className="w-full py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-4 bg-emerald-50/50">
         <div className="flex flex-col md:items-start items-center gap-2">
-          <div className="text-lg font-bold text-emerald-900 font-headline">PetCare Plus</div>
-          <p className="text-emerald-800/70 text-sm">© 2024 PetCare Plus. Nurturing with intention.</p>
+          <div className="text-lg font-bold text-primary font-headline flex items-center gap-1">
+            <span className="material-symbols-outlined text-primary text-xl">pets</span>
+            PetCare<span className="text-secondary font-light">Shop</span>
+          </div>
+          <p className="text-emerald-800/70 text-sm">© 2024 PetCareShop. Nurturing with intention.</p>
         </div>
         <div className="flex gap-6 text-sm text-emerald-700/70">
           {["Privacy Policy", "Terms of Service", "Help Center"].map((item) => (

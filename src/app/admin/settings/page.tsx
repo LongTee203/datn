@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 export default function SettingsPage() {
   return (
@@ -6,15 +6,15 @@ export default function SettingsPage() {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Page Header */}
         <div className="mb-10">
-          <h1 className="text-3xl font-extrabold text-[#2a3433] tracking-tight mb-2">Cài đặt hệ thống</h1>
-          <p className="text-[#56615f] text-sm md:text-base">Quản lý thông tin cửa hàng và tùy chỉnh các chức năng vận hành hệ thống.</p>
+          <h1 className="text-3xl font-extrabold text-[#2a3433] tracking-tight mb-2">CÃ i Ä‘áº·t há»‡ thá»‘ng</h1>
+          <p className="text-[#56615f] text-sm md:text-base">Quáº£n lÃ½ thÃ´ng tin cá»­a hÃ ng vÃ  tÃ¹y chá»‰nh cÃ¡c chá»©c nÄƒng váº­n hÃ nh há»‡ thá»‘ng.</p>
         </div>
 
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Left Column: Primary Settings (Spans 8 cols) */}
           <div className="lg:col-span-8 space-y-6 lg:space-y-8">
-            {/* Section 1: Thông tin cửa hàng */}
+            {/* Section 1: ThÃ´ng tin cá»­a hÃ ng */}
             <section className="bg-white rounded-[1.5rem] p-6 md:p-8 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden group">
               {/* Subtle decorative gradient */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#006b62] to-[#82f6e7] opacity-50"></div>
@@ -22,7 +22,7 @@ export default function SettingsPage() {
                 <div className="w-10 h-10 rounded-full bg-[#c6eae3]/50 flex items-center justify-center text-[#375853]">
                   <span className="material-symbols-outlined icon-fill">storefront</span>
                 </div>
-                <h3 className="text-xl font-bold text-[#2a3433]">Thông tin cửa hàng</h3>
+                <h3 className="text-xl font-bold text-[#2a3433]">ThÃ´ng tin cá»­a hÃ ng</h3>
               </div>
               <form className="space-y-5">
                 {/* Logo Upload */}
@@ -34,26 +34,26 @@ export default function SettingsPage() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-[#2a3433] mb-1">Logo cửa hàng</h4>
-                    <p className="text-xs text-[#56615f] mb-3">JPG, PNG hoặc GIF. Tối đa 2MB.</p>
-                    <button className="px-4 py-2 bg-[#e1eae7] text-[#2a3433] text-xs font-semibold rounded-full hover:bg-[#d9e5e2] transition-colors" type="button">Đổi logo</button>
+                    <h4 className="text-sm font-medium text-[#2a3433] mb-1">Logo cá»­a hÃ ng</h4>
+                    <p className="text-xs text-[#56615f] mb-3">JPG, PNG hoáº·c GIF. Tá»‘i Ä‘a 2MB.</p>
+                    <button className="px-4 py-2 bg-[#e1eae7] text-[#2a3433] text-xs font-semibold rounded-full hover:bg-[#d9e5e2] transition-colors" type="button">Äá»•i logo</button>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Tên cửa hàng</label>
-                    <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="text" defaultValue="Pet Sanctuary Main" />
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">TÃªn cá»­a hÃ ng</label>
+                    <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="text" defaultValue="PetCareShop Main" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Số điện thoại</label>
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Sá»‘ Ä‘iá»‡n thoáº¡i</label>
                     <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="tel" defaultValue="0987 654 321" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Email liên hệ</label>
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Email liÃªn há»‡</label>
                     <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="email" defaultValue="hello@petsanctuary.com" />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Giờ mở cửa</label>
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Giá» má»Ÿ cá»­a</label>
                     <div className="flex items-center gap-2">
                       <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="time" defaultValue="08:00" />
                       <span className="text-[#56615f]">-</span>
@@ -62,8 +62,8 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Địa chỉ chi tiết</label>
-                  <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="text" defaultValue="123 Đường Thú Cưng, Quận 1, TP.HCM" />
+                  <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Äá»‹a chá»‰ chi tiáº¿t</label>
+                  <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="text" defaultValue="123 ÄÆ°á»ng ThÃº CÆ°ng, Quáº­n 1, TP.HCM" />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
@@ -74,7 +74,7 @@ export default function SettingsPage() {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Số Zalo</label>
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Sá»‘ Zalo</label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#56615f] text-sm font-bold">Z</span>
                       <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="tel" defaultValue="0987 654 321" />
@@ -82,31 +82,31 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div className="pt-4 flex justify-end">
-                  <button className="bg-gradient-to-r from-[#006b62] to-[#005e56] text-[#e2fff9] px-8 py-3 rounded-full text-sm font-bold hover:shadow-lg hover:shadow-[#006b62]/20 transition-all hover:-translate-y-0.5" type="button">Lưu thay đổi</button>
+                  <button className="bg-gradient-to-r from-[#006b62] to-[#005e56] text-[#e2fff9] px-8 py-3 rounded-full text-sm font-bold hover:shadow-lg hover:shadow-[#006b62]/20 transition-all hover:-translate-y-0.5" type="button">LÆ°u thay Ä‘á»•i</button>
                 </div>
               </form>
             </section>
 
-            {/* Section 2: Cài đặt đặt lịch */}
+            {/* Section 2: CÃ i Ä‘áº·t Ä‘áº·t lá»‹ch */}
             <section className="bg-white rounded-[1.5rem] p-6 md:p-8 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden group">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 rounded-full bg-[#c6eae3]/50 flex items-center justify-center text-[#375853]">
                   <span className="material-symbols-outlined icon-fill">event_available</span>
                 </div>
-                <h3 className="text-xl font-bold text-[#2a3433]">Cài đặt đặt lịch</h3>
+                <h3 className="text-xl font-bold text-[#2a3433]">CÃ i Ä‘áº·t Ä‘áº·t lá»‹ch</h3>
               </div>
               <div className="space-y-6">
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="flex-1 space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Thời lượng mặc định/Dịch vụ</label>
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Thá»i lÆ°á»£ng máº·c Ä‘á»‹nh/Dá»‹ch vá»¥</label>
                     <div className="flex bg-[#eef5f3] p-1 rounded-xl">
-                      <button className="flex-1 py-2 text-sm font-medium rounded-lg bg-white text-[#006b62] shadow-sm">30 Phút</button>
-                      <button className="flex-1 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:text-[#2a3433]">60 Phút</button>
-                      <button className="flex-1 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:text-[#2a3433]">90 Phút</button>
+                      <button className="flex-1 py-2 text-sm font-medium rounded-lg bg-white text-[#006b62] shadow-sm">30 PhÃºt</button>
+                      <button className="flex-1 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:text-[#2a3433]">60 PhÃºt</button>
+                      <button className="flex-1 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:text-[#2a3433]">90 PhÃºt</button>
                     </div>
                   </div>
                   <div className="flex-1 space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Khách tối đa/Khung giờ</label>
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">KhÃ¡ch tá»‘i Ä‘a/Khung giá»</label>
                     <div className="relative">
                       <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="number" defaultValue="3" />
                       <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col">
@@ -118,17 +118,17 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="flex-1 space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Số ngày đặt trước tối đa</label>
-                    <select className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433] appearance-none" defaultValue="14 Ngày">
-                      <option>7 Ngày</option>
-                      <option>14 Ngày</option>
-                      <option>30 Ngày</option>
+                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Sá»‘ ngÃ y Ä‘áº·t trÆ°á»›c tá»‘i Ä‘a</label>
+                    <select className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433] appearance-none" defaultValue="14 NgÃ y">
+                      <option>7 NgÃ y</option>
+                      <option>14 NgÃ y</option>
+                      <option>30 NgÃ y</option>
                     </select>
                   </div>
                   <div className="flex-1 flex items-center justify-between bg-[#eef5f3] rounded-xl p-4">
                     <div>
-                      <h4 className="text-sm font-semibold text-[#2a3433]">Yêu cầu cọc trước</h4>
-                      <p className="text-xs text-[#56615f]">Giảm tỷ lệ hủy lịch ảo</p>
+                      <h4 className="text-sm font-semibold text-[#2a3433]">YÃªu cáº§u cá»c trÆ°á»›c</h4>
+                      <p className="text-xs text-[#56615f]">Giáº£m tá»· lá»‡ há»§y lá»‹ch áº£o</p>
                     </div>
                     {/* Toggle Switch */}
                     <div className="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
@@ -143,7 +143,7 @@ export default function SettingsPage() {
 
           {/* Right Column: Secondary Settings (Spans 4 cols) */}
           <div className="lg:col-span-4 space-y-6 lg:space-y-8">
-            {/* Section 5: Tài khoản quản trị */}
+            {/* Section 5: TÃ i khoáº£n quáº£n trá»‹ */}
             <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden group">
               {/* Glassmorphism accent behind avatar */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#006b62]/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
@@ -151,13 +151,13 @@ export default function SettingsPage() {
                 <div className="w-10 h-10 rounded-full bg-[#b6e7fe]/50 flex items-center justify-center text-[#235669]">
                   <span className="material-symbols-outlined icon-fill">admin_panel_settings</span>
                 </div>
-                <h3 className="text-xl font-bold text-[#2a3433]">Tài khoản</h3>
+                <h3 className="text-xl font-bold text-[#2a3433]">TÃ i khoáº£n</h3>
               </div>
               <div className="flex flex-col items-center text-center pb-6 border-b border-[#d9e5e2]/50">
                 <div className="w-20 h-20 rounded-full overflow-hidden mb-3 border-4 border-[#e7f0ed]">
                   <img alt="Admin Avatar" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP8W9n58GgYicgQtmhfeMrkyJHsT2j_jqKiMiv2sBF8iNAyk4sjCfIil_JW2uzijn39ICyN4Vy5iQTaL3KXSkfSzVglWufLaVqVuh6kMdIXBi3M9G52adjZecLYweiAQfIDGUKftldJOpFWea3uMNyhrWiIdgpXoNuXqd2Yq2q6T3nHf8Pi1gxUQSWMo2XTqTRJYkbQvwWlnNA0YDgvcFDBdYTxX85yQ9ihCNNCnPl8flLEaAjMT_e-tq8pPan9P0bt2KmpY7vtAE" />
                 </div>
-                <h4 className="text-base font-bold text-[#2a3433]">Nguyễn Trần Lan Anh</h4>
+                <h4 className="text-base font-bold text-[#2a3433]">Nguyá»…n Tráº§n Lan Anh</h4>
                 <p className="text-xs text-[#56615f] mt-1">lananh.admin@sanctuary.com</p>
                 <span className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#006b62]/10 text-[#006b62] uppercase tracking-wider">
                   Super Admin
@@ -166,22 +166,22 @@ export default function SettingsPage() {
               <div className="pt-4 space-y-3">
                 <a className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#eef5f3] transition-colors text-sm font-medium text-[#2a3433]" href="#">
                   <span className="material-symbols-outlined text-[#727d7a]">key</span>
-                  Đổi mật khẩu
+                  Äá»•i máº­t kháº©u
                 </a>
                 <a className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#a83836]/5 transition-colors text-sm font-medium text-[#a83836]" href="#">
                   <span className="material-symbols-outlined text-[#a83836]">logout</span>
-                  Đăng xuất
+                  ÄÄƒng xuáº¥t
                 </a>
               </div>
             </section>
 
-            {/* Section 3: Cài đặt thanh toán */}
+            {/* Section 3: CÃ i Ä‘áº·t thanh toÃ¡n */}
             <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 rounded-full bg-[#c6eae3]/50 flex items-center justify-center text-[#375853]">
                   <span className="material-symbols-outlined icon-fill">payments</span>
                 </div>
-                <h3 className="text-lg font-bold text-[#2a3433]">Thanh toán</h3>
+                <h3 className="text-lg font-bold text-[#2a3433]">Thanh toÃ¡n</h3>
               </div>
               <div className="space-y-4">
                 {/* Payment Method 1 */}
@@ -189,7 +189,7 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-[#56615f]">local_shipping</span>
                     <div>
-                      <p className="text-sm font-medium text-[#2a3433]">Thanh toán tiền mặt (COD)</p>
+                      <p className="text-sm font-medium text-[#2a3433]">Thanh toÃ¡n tiá»n máº·t (COD)</p>
                     </div>
                   </div>
                   <div className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
@@ -202,7 +202,7 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-[#56615f]">account_balance</span>
                     <div>
-                      <p className="text-sm font-medium text-[#2a3433]">Chuyển khoản Ngân hàng</p>
+                      <p className="text-sm font-medium text-[#2a3433]">Chuyá»ƒn khoáº£n NgÃ¢n hÃ ng</p>
                     </div>
                   </div>
                   <div className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
@@ -215,7 +215,7 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-[#56615f]">qr_code_scanner</span>
                     <div>
-                      <p className="text-sm font-medium text-[#2a3433]">Quét mã QR Pay</p>
+                      <p className="text-sm font-medium text-[#2a3433]">QuÃ©t mÃ£ QR Pay</p>
                     </div>
                   </div>
                   <div className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
@@ -229,36 +229,36 @@ export default function SettingsPage() {
 
           {/* Bottom Full Width Span (12 cols) */}
           <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mt-2">
-            {/* Section 4: Cài đặt thông báo */}
+            {/* Section 4: CÃ i Ä‘áº·t thÃ´ng bÃ¡o */}
             <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] lg:col-span-1">
               <div className="flex items-center gap-3 mb-5">
                 <span className="material-symbols-outlined text-[#006b62]">notifications_active</span>
-                <h3 className="text-lg font-bold text-[#2a3433]">Thông báo</h3>
+                <h3 className="text-lg font-bold text-[#2a3433]">ThÃ´ng bÃ¡o</h3>
               </div>
               <div className="space-y-4">
                 <div className="flex justify-between items-center border-b border-[#d9e5e2]/50 pb-3">
-                  <span className="text-sm text-[#2a3433]">Xác nhận qua Email</span>
+                  <span className="text-sm text-[#2a3433]">XÃ¡c nháº­n qua Email</span>
                   <div className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                     <input defaultChecked className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-[3px] appearance-none cursor-pointer z-10" id="t-email" type="checkbox" />
                     <label className="toggle-label block overflow-hidden h-4 rounded-full bg-[#d9e5e2] cursor-pointer" htmlFor="t-email"></label>
                   </div>
                 </div>
                 <div className="flex justify-between items-center border-b border-[#d9e5e2]/50 pb-3">
-                  <span className="text-sm text-[#2a3433]">Nhắc lịch qua SMS</span>
+                  <span className="text-sm text-[#2a3433]">Nháº¯c lá»‹ch qua SMS</span>
                   <div className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                     <input defaultChecked className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-[3px] appearance-none cursor-pointer z-10" id="t-sms" type="checkbox" />
                     <label className="toggle-label block overflow-hidden h-4 rounded-full bg-[#d9e5e2] cursor-pointer" htmlFor="t-sms"></label>
                   </div>
                 </div>
                 <div className="flex justify-between items-center border-b border-[#d9e5e2]/50 pb-3">
-                  <span className="text-sm text-[#2a3433]">Cảnh báo đơn hàng mới</span>
+                  <span className="text-sm text-[#2a3433]">Cáº£nh bÃ¡o Ä‘Æ¡n hÃ ng má»›i</span>
                   <div className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                     <input defaultChecked className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-[3px] appearance-none cursor-pointer z-10" id="t-order" type="checkbox" />
                     <label className="toggle-label block overflow-hidden h-4 rounded-full bg-[#d9e5e2] cursor-pointer" htmlFor="t-order"></label>
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-[#2a3433]">Cảnh báo sắp hết hàng</span>
+                  <span className="text-sm text-[#2a3433]">Cáº£nh bÃ¡o sáº¯p háº¿t hÃ ng</span>
                   <div className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                     <input className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-[3px] appearance-none cursor-pointer z-10" id="t-stock" type="checkbox" />
                     <label className="toggle-label block overflow-hidden h-4 rounded-full bg-[#d9e5e2] cursor-pointer" htmlFor="t-stock"></label>
@@ -267,21 +267,21 @@ export default function SettingsPage() {
               </div>
             </section>
 
-            {/* Section 6: Giao diện hệ thống */}
+            {/* Section 6: Giao diá»‡n há»‡ thá»‘ng */}
             <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] lg:col-span-1">
               <div className="flex items-center gap-3 mb-5">
                 <span className="material-symbols-outlined text-[#006b62]">palette</span>
-                <h3 className="text-lg font-bold text-[#2a3433]">Giao diện</h3>
+                <h3 className="text-lg font-bold text-[#2a3433]">Giao diá»‡n</h3>
               </div>
               <div className="space-y-5">
                 <div>
-                  <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider block mb-2">Chế độ hiển thị</label>
+                  <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider block mb-2">Cháº¿ Ä‘á»™ hiá»ƒn thá»‹</label>
                   <div className="flex bg-[#eef5f3] p-1 rounded-xl">
                     <button className="flex-1 py-1.5 flex justify-center items-center gap-2 text-sm font-medium rounded-lg bg-white text-[#006b62] shadow-sm">
-                      <span className="material-symbols-outlined text-[18px]">light_mode</span> Sáng
+                      <span className="material-symbols-outlined text-[18px]">light_mode</span> SÃ¡ng
                     </button>
                     <button className="flex-1 py-1.5 flex justify-center items-center gap-2 text-sm font-medium rounded-lg text-[#56615f] hover:text-[#2a3433]">
-                      <span className="material-symbols-outlined text-[18px]">dark_mode</span> Tối
+                      <span className="material-symbols-outlined text-[18px]">dark_mode</span> Tá»‘i
                     </button>
                   </div>
                 </div>
@@ -294,3 +294,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

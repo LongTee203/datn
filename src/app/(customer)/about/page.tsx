@@ -1,24 +1,24 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Về Chúng Tôi | PetCare Plus",
+  title: "Vá» ChÃºng TÃ´i | PetCareShop",
   description:
-    "Chúng tôi là nơi hội tụ của tình yêu thương và sự tử tế, mang đến không gian chăm sóc thú cưng chuẩn hữu cơ đầu tiên tại Việt Nam.",
+    "ChÃºng tÃ´i lÃ  nÆ¡i há»™i tá»¥ cá»§a tÃ¬nh yÃªu thÆ°Æ¡ng vÃ  sá»± tá»­ táº¿, mang Ä‘áº¿n khÃ´ng gian chÄƒm sÃ³c thÃº cÆ°ng chuáº©n há»¯u cÆ¡ Ä‘áº§u tiÃªn táº¡i Viá»‡t Nam.",
 };
 
 const missions = [
   {
-    title: "Chăm sóc toàn diện:",
-    body: "Kết hợp khoa học hiện đại và liệu pháp tự nhiên để tối ưu hóa sức khỏe thú cưng.",
+    title: "ChÄƒm sÃ³c toÃ n diá»‡n:",
+    body: "Káº¿t há»£p khoa há»c hiá»‡n Ä‘áº¡i vÃ  liá»‡u phÃ¡p tá»± nhiÃªn Ä‘á»ƒ tá»‘i Æ°u hÃ³a sá»©c khá»e thÃº cÆ°ng.",
   },
   {
-    title: "Cam kết Organic:",
-    body: "Sử dụng 100% sản phẩm nguồn gốc thiên nhiên, không hóa chất độc hại.",
+    title: "Cam káº¿t Organic:",
+    body: "Sá»­ dá»¥ng 100% sáº£n pháº©m nguá»“n gá»‘c thiÃªn nhiÃªn, khÃ´ng hÃ³a cháº¥t Ä‘á»™c háº¡i.",
   },
   {
-    title: "Bền vững:",
-    body: "Hành động có trách nhiệm với môi trường thông qua việc giảm thiểu rác thải nhựa.",
+    title: "Bá»n vá»¯ng:",
+    body: "HÃ nh Ä‘á»™ng cÃ³ trÃ¡ch nhiá»‡m vá»›i mÃ´i trÆ°á»ng thÃ´ng qua viá»‡c giáº£m thiá»ƒu rÃ¡c tháº£i nhá»±a.",
   },
 ];
 
@@ -26,27 +26,27 @@ export default function AboutPage() {
   return (
     <div className="bg-white text-[#00362a] selection:bg-primary/10">
       <main className="pt-32 pb-20">
-        {/* ── Brief Introduction ── */}
+        {/* â”€â”€ Brief Introduction â”€â”€ */}
         <section className="px-6 mb-20">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-extrabold text-[#00362a] mb-6 tracking-tight font-headline">
-              Về{" "}
+              Vá»{" "}
               <span className="text-primary italic">The Organic Sanctuary</span>
             </h1>
             <p className="text-lg text-[#2f6555] leading-relaxed">
-              Chúng tôi là nơi hội tụ của tình yêu thương và sự tử tế, mang
-              đến không gian chăm sóc thú cưng chuẩn hữu cơ đầu tiên tại Việt
-              Nam. Tại đây, mọi người bạn bốn chân đều được nâng niu trong một
-              môi trường thuần khiết nhất.
+              ChÃºng tÃ´i lÃ  nÆ¡i há»™i tá»¥ cá»§a tÃ¬nh yÃªu thÆ°Æ¡ng vÃ  sá»± tá»­ táº¿, mang
+              Ä‘áº¿n khÃ´ng gian chÄƒm sÃ³c thÃº cÆ°ng chuáº©n há»¯u cÆ¡ Ä‘áº§u tiÃªn táº¡i Viá»‡t
+              Nam. Táº¡i Ä‘Ã¢y, má»i ngÆ°á»i báº¡n bá»‘n chÃ¢n Ä‘á»u Ä‘Æ°á»£c nÃ¢ng niu trong má»™t
+              mÃ´i trÆ°á»ng thuáº§n khiáº¿t nháº¥t.
             </p>
           </div>
         </section>
 
-        {/* ── Our Mission ── */}
+        {/* â”€â”€ Our Mission â”€â”€ */}
         <section className="px-6 py-16 bg-[#f8fdfa] border-y border-gray-50">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-8 text-primary font-headline">
-              Sứ Mệnh Của Chúng Tôi
+              Sá»© Má»‡nh Cá»§a ChÃºng TÃ´i
             </h2>
             <ul className="space-y-6">
               {missions.map(({ title, body }) => (
@@ -63,49 +63,49 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── Brand Story ── */}
+        {/* â”€â”€ Brand Story â”€â”€ */}
         <section className="px-6 py-20">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-6 text-primary font-headline">
-              Câu Chuyện Thương Hiệu
+              CÃ¢u Chuyá»‡n ThÆ°Æ¡ng Hiá»‡u
             </h2>
             <div className="text-[#2f6555] leading-relaxed space-y-4">
               <p>
-                The Organic Sanctuary ra đời từ ý tưởng về một &ldquo;Nhà Kính
-                Kỹ Thuật Số&rdquo; (Digital Greenhouse) — nơi công nghệ hiện
-                đại phục vụ cho bản năng tự nhiên của thú cưng. Chúng tôi tin
-                rằng, trong thế giới ngày càng bận rộn, các bé yêu xứng đáng
-                có một chốn dừng chân tĩnh lặng và an toàn.
+                The Organic Sanctuary ra Ä‘á»i tá»« Ã½ tÆ°á»Ÿng vá» má»™t &ldquo;NhÃ  KÃ­nh
+                Ká»¹ Thuáº­t Sá»‘&rdquo; (Digital Greenhouse) â€” nÆ¡i cÃ´ng nghá»‡ hiá»‡n
+                Ä‘áº¡i phá»¥c vá»¥ cho báº£n nÄƒng tá»± nhiÃªn cá»§a thÃº cÆ°ng. ChÃºng tÃ´i tin
+                ráº±ng, trong tháº¿ giá»›i ngÃ y cÃ ng báº­n rá»™n, cÃ¡c bÃ© yÃªu xá»©ng Ä‘Ã¡ng
+                cÃ³ má»™t chá»‘n dá»«ng chÃ¢n tÄ©nh láº·ng vÃ  an toÃ n.
               </p>
               <p>
-                Khởi nguồn từ một phòng khám nhỏ, chúng tôi đã phát triển
-                thành một hệ sinh thái chăm sóc thú cưng toàn diện, nơi mỗi
-                nhân viên không chỉ là một chuyên gia mà còn là một người bạn
-                đồng hành tận tâm. Chúng tôi không chỉ cung cấp dịch vụ, chúng
-                tôi xây dựng một cộng đồng trân trọng sự sống và môi trường.
+                Khá»Ÿi nguá»“n tá»« má»™t phÃ²ng khÃ¡m nhá», chÃºng tÃ´i Ä‘Ã£ phÃ¡t triá»ƒn
+                thÃ nh má»™t há»‡ sinh thÃ¡i chÄƒm sÃ³c thÃº cÆ°ng toÃ n diá»‡n, nÆ¡i má»—i
+                nhÃ¢n viÃªn khÃ´ng chá»‰ lÃ  má»™t chuyÃªn gia mÃ  cÃ²n lÃ  má»™t ngÆ°á»i báº¡n
+                Ä‘á»“ng hÃ nh táº­n tÃ¢m. ChÃºng tÃ´i khÃ´ng chá»‰ cung cáº¥p dá»‹ch vá»¥, chÃºng
+                tÃ´i xÃ¢y dá»±ng má»™t cá»™ng Ä‘á»“ng trÃ¢n trá»ng sá»± sá»‘ng vÃ  mÃ´i trÆ°á»ng.
               </p>
             </div>
           </div>
         </section>
 
-        {/* ── Minimal CTA ── */}
+        {/* â”€â”€ Minimal CTA â”€â”€ */}
         <section className="px-6 py-10 border-t border-gray-100">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-[#2f6555] mb-6">
-              Bạn muốn tìm hiểu thêm về các dịch vụ của chúng tôi?
+              Báº¡n muá»‘n tÃ¬m hiá»ƒu thÃªm vá» cÃ¡c dá»‹ch vá»¥ cá»§a chÃºng tÃ´i?
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 href="/contact"
                 className="border border-primary text-primary px-8 py-3 rounded-full font-bold hover:bg-primary/5 transition-colors"
               >
-                Liên hệ tư vấn
+                LiÃªn há»‡ tÆ° váº¥n
               </Link>
               <Link
                 href="/services"
                 className="bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:bg-primary-dim transition-colors"
               >
-                Xem bảng giá
+                Xem báº£ng giÃ¡
               </Link>
             </div>
           </div>
@@ -114,3 +114,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

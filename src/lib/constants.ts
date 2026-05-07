@@ -2,7 +2,7 @@
  * Application-wide constants
  */
 
-export const APP_NAME = 'PetCare Plus';
+export const APP_NAME = 'PetCareShop';
 export const APP_DESCRIPTION = 'Chuyên Gia Làm Đẹp, Lưu Trú & Chăm Sóc Thú Y';
 
 export const ROUTES = {

@@ -11,8 +11,8 @@ export default function CheckoutPage() {
   const { items, totalPrice, totalCount, clearCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const shipping = totalPrice > 0 ? 1.30 : 0;
-  const discount = totalPrice > 50 ? 5 : 0;
+  const shipping = totalPrice > 0 ? 30000 : 0;
+  const discount = totalPrice > 500000 ? 50000 : 0;
   const grandTotal = totalPrice + shipping - discount;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -91,9 +91,7 @@ export default function CheckoutPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-on-surface-variant mb-2">Quận / Huyện</label>
-                <select required className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
-                  <option value="">Chọn quận/huyện</option>
-                </select>
+                <input required type="text" className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Nhập quận/huyện..." />
               </div>
             </div>
           </section>
@@ -148,7 +146,7 @@ export default function CheckoutPage() {
                     <h4 className="text-sm font-bold text-on-surface line-clamp-1">{item.name}</h4>
                     <p className="text-xs text-on-surface-variant">SL: {item.qty}</p>
                   </div>
-                  <p className="text-sm font-bold text-primary">${(item.price * item.qty).toFixed(2)}</p>
+                  <p className="text-sm font-bold text-primary">{(item.price * item.qty).toLocaleString("vi-VN")}đ</p>
                 </div>
               ))}
             </div>
@@ -156,21 +154,21 @@ export default function CheckoutPage() {
             <div className="space-y-3 pt-6 border-t border-gray-100 mb-8">
               <div className="flex justify-between text-sm text-on-surface-variant">
                 <span>Tạm tính</span>
-                <span className="font-bold text-on-surface">${totalPrice.toFixed(2)}</span>
+                <span className="font-bold text-on-surface">{totalPrice.toLocaleString("vi-VN")}đ</span>
               </div>
               <div className="flex justify-between text-sm text-on-surface-variant">
                 <span>Phí vận chuyển</span>
-                <span className="font-bold text-on-surface">${shipping.toFixed(2)}</span>
+                <span className="font-bold text-on-surface">{shipping.toLocaleString("vi-VN")}đ</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-sm text-emerald-600">
                   <span>Giảm giá</span>
-                  <span className="font-bold">-${discount.toFixed(2)}</span>
+                  <span className="font-bold">-{discount.toLocaleString("vi-VN")}đ</span>
                 </div>
               )}
               <div className="flex justify-between pt-4 border-t border-gray-100">
                 <span className="text-lg font-bold text-on-surface">Tổng cộng</span>
-                <span className="text-2xl font-black text-primary">${grandTotal.toFixed(2)}</span>
+                <span className="text-2xl font-black text-primary">{grandTotal.toLocaleString("vi-VN")}đ</span>
               </div>
             </div>
 

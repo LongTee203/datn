@@ -33,13 +33,12 @@ export default function AdminLayout({
         className="w-64 shrink-0 flex flex-col fixed left-0 top-0 h-screen z-50 bg-[#eef5f3] py-6 px-4 gap-2 font-['Plus_Jakarta_Sans'] text-[14px]"
       >
         {/* Logo */}
-        <div className="flex items-center gap-3 px-2 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-[#006b62] flex items-center justify-center text-[#e2fff9] shadow-sm">
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>pets</span>
+        <div className="flex items-center gap-2 px-2 mb-8">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+            <span className="material-symbols-outlined text-white text-2xl">pets</span>
           </div>
-          <div>
-            <h1 className="text-lg font-extrabold text-[#006b62]">Pet Sanctuary</h1>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[#727d7a] mt-1">The Digital Sanctuary</p>
+          <div className="text-2xl font-black text-primary tracking-tighter">
+            PetCare<span className="text-secondary font-light">Shop</span>
           </div>
         </div>
 

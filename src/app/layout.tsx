@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Be_Vietnam_Pro } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
@@ -19,9 +19,9 @@ const beVietnam = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "PetCare Plus | Chuyên Gia Làm Đẹp, Lưu Trú & Chăm Sóc Thú Y",
+  title: "PetCareShop | ChuyÃªn Gia LÃ m Äáº¹p, LÆ°u TrÃº & ChÄƒm SÃ³c ThÃº Y",
   description:
-    "Điểm đến lý tưởng cho dịch vụ làm đẹp chuyên nghiệp, lưu trú cao cấp và chăm sóc thú y tận tâm.",
+    "Äiá»ƒm Ä‘áº¿n lÃ½ tÆ°á»Ÿng cho dá»‹ch vá»¥ lÃ m Ä‘áº¹p chuyÃªn nghiá»‡p, lÆ°u trÃº cao cáº¥p vÃ  chÄƒm sÃ³c thÃº y táº­n tÃ¢m.",
 };
 
 export default function RootLayout({
@@ -43,3 +43,4 @@ export default function RootLayout({
     </html>
   );
 }
+

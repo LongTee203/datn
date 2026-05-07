@@ -16,7 +16,7 @@ export default function RootPage() {
             <span className="material-symbols-outlined text-sm">verified</span> Dịch vụ chăm sóc thú cưng cao cấp
           </div>
           <h1 className="font-h1 text-on-surface max-w-xl mx-auto lg:mx-0 leading-tight text-4xl md:text-5xl font-extrabold">
-            Nơi gửi gắm <br className="hidden sm:block lg:hidden"/><span className="text-primary italic font-light">yêu thương</span> cho thú cưng của bạn
+            Nơi gửi gắm yêu thương cho thú cưng của bạn
           </h1>
           <p className="font-body-lg text-on-surface-variant max-w-lg mx-auto lg:mx-0 text-base md:text-lg">
             PetCare mang đến tiêu chuẩn chăm sóc 5 sao từ Spa, Khách sạn đến Dịch vụ Y tế, đảm bảo người bạn nhỏ luôn khỏe mạnh và hạnh phúc.
@@ -32,9 +32,9 @@ export default function RootPage() {
         </div>
         <div className="relative">
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-primary-light rounded-full blur-3xl opacity-60"></div>
-          <img 
-            alt="Happy golden retriever" 
-            className="w-full aspect-[4/3] object-cover rounded-[2rem] md:rounded-[2.5rem] shadow-2xl" 
+          <img
+            alt="Happy golden retriever"
+            className="w-full aspect-[4/3] object-cover rounded-[2rem] md:rounded-[2.5rem] shadow-2xl"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOCwlwXrXpT5UJDyfPQ2WaIsmasUat8NiWMlej7pV7Hzf0k2pRuHhVDjNvPS3wsZfrLlviYZ6RScN3e58m6ESGRz1xq8t1bjUxG9v51APl88sJ2aduxqC4cwZw5p52-rmvoSEXWQtwe1pvVO1dkQYBG2qafRJiH15rv7B0-BRsepTyh1UGBpF_ry1ky-FN8Fv3GEp4doVpKCIxaSuMlG8yACxYXDhzaFuMbB6hQpxp3_otFgU6qitIOaONyYLynmXXefrvqTJSH2u1"
           />
         </div>
@@ -44,9 +44,9 @@ export default function RootPage() {
       <section className="py-16 md:py-20 px-4 md:px-10 max-w-[1440px] mx-auto w-full">
         <div className="bg-white rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 lg:p-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-16 shadow-sm border border-gray-100">
           <div className="w-full lg:w-1/2 relative lg:order-1">
-            <img 
-              alt="Vet examining a dog" 
-              className="w-full rounded-3xl shadow-xl object-cover" 
+            <img
+              alt="Vet examining a dog"
+              className="w-full rounded-3xl shadow-xl object-cover"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJDek3GHxOWwxxkbLu2D7XmjI18YVjENuwzebKYVbgWx-Db0aepZjSyzFV69wKvobdA8mz_VRJqlXeCHiG5WvRp-vl6TyqP1ivK-GPs94QJhaVFKgauosC3gmkT2oIyZJtBxcETLv2jwSE7qsf9HA-EMICcEogjsw9ZYq118B_gQCbXM9oXXI52eaWRehZPzh7CyJRFJdjztEYmRgjyh_Gnz8G-jh05oNnq4axmLT72_p_TCving7ECI4ArMVMCi3UMr4CWEjr58si"
             />
           </div>
@@ -152,7 +152,7 @@ export default function RootPage() {
               ].map((testi, idx) => (
                 <div key={idx} className="min-w-[300px] md:min-w-[450px] bg-white p-6 md:p-10 rounded-3xl snap-center border border-gray-100 shadow-sm">
                   <div className="flex text-accent mb-4 md:mb-6">
-                    {[1,2,3,4,5].map(s => (
+                    {[1, 2, 3, 4, 5].map(s => (
                       <span key={s} className="material-symbols-outlined" style={{ fontVariationSettings: `'FILL' ${s <= testi.stars ? 1 : 0}` }}>
                         {s <= testi.stars ? "star" : (s - 0.5 === testi.stars ? "star_half" : "star")}
                       </span>
@@ -244,8 +244,8 @@ export default function RootPage() {
             <p className="text-slate-500 font-body-md text-base md:text-lg">Chỉ mất 30 giây để đặt chỗ chăm sóc cho bé yêu của bạn.</p>
             <form className="space-y-4 md:space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <input className="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base outline-none transition-colors" placeholder="Họ và tên" type="text"/>
-                <input className="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base outline-none transition-colors" placeholder="Số điện thoại" type="tel"/>
+                <input className="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base outline-none transition-colors" placeholder="Họ và tên" type="text" />
+                <input className="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base outline-none transition-colors" placeholder="Số điện thoại" type="tel" />
               </div>
               <select className="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base appearance-none outline-none transition-colors">
                 <option>Chọn dịch vụ</option>
@@ -263,7 +263,7 @@ export default function RootPage() {
             </form>
           </div>
           <div className="hidden lg:block relative bg-primary-light overflow-hidden">
-            <img alt="Pet care clinic" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3Ll8iUXOfGJnuouv505O7nnVzLvud5VGE30mO2i5-e8AoDp5AlOE0XB1LF8NF5_X_n4grnZ-DofDv3dg8w96LNr0VLXiJHM2wdU-Pd4TloqOX4A4u3O6E2sFmKfnZB0BjgMyIM12geQhG7HfQY7CiyhnFF4n2FF2QW3C1Pjcb9HMR74zP4rIVgjXG4Dh9Z0x-0WaZ2fX6Vk2ia8xwgjDIq9NDz_BHqEUAShb4BCxoxF2sTP-r3lF2xZzir8i0-r0YWWA888TxyE5"/>
+            <img alt="Pet care clinic" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3Ll8iUXOfGJnuouv505O7nnVzLvud5VGE30mO2i5-e8AoDp5AlOE0XB1LF8NF5_X_n4grnZ-DofDv3dg8w96LNr0VLXiJHM2wdU-Pd4TloqOX4A4u3O6E2sFmKfnZB0BjgMyIM12geQhG7HfQY7CiyhnFF4n2FF2QW3C1Pjcb9HMR74zP4rIVgjXG4Dh9Z0x-0WaZ2fX6Vk2ia8xwgjDIq9NDz_BHqEUAShb4BCxoxF2sTP-r3lF2xZzir8i0-r0YWWA888TxyE5" />
           </div>
         </div>
       </section>

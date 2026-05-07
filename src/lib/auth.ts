@@ -38,5 +38,5 @@ export function parseSession(cookieString: string): SessionPayload | null {
 
 /** Redirect destination after login based on role */
 export function homeForRole(role: UserRole): string {
-  return role === "admin" ? "/admin/dashboard" : "/home";
+  return role === "admin" ? "/admin/dashboard" : "/";
 }

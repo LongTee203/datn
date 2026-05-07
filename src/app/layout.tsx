@@ -19,9 +19,9 @@ const beVietnam = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "PetCareShop | ChuyÃªn Gia LÃ m Äáº¹p, LÆ°u TrÃº & ChÄƒm SÃ³c ThÃº Y",
+  title: "PetCareShop | Cửa Hàng Chăm Sóc Thú Cưng Uy Tín",
   description:
-    "Äiá»ƒm Ä‘áº¿n lÃ½ tÆ°á»Ÿng cho dá»‹ch vá»¥ lÃ m Ä‘áº¹p chuyÃªn nghiá»‡p, lÆ°u trÃº cao cáº¥p vÃ  chÄƒm sÃ³c thÃº y táº­n tÃ¢m.",
+    "PetCare Shop cung cấp dịch vụ chăm sóc thú cưng chuyên nghiệp gồm spa, tắm rửa, cắt tỉa, khám sức khỏe và cửa hàng phụ kiện thú cưng chất lượng cao.",
 };
 
 export default function RootLayout({

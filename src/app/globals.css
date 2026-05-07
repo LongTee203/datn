@@ -1,7 +1,7 @@
 ﻿@import "tailwindcss";
 
 @theme {
-  /* â”€â”€ PetCareShop (Homepage) â”€â”€ */
+  /*   PetCareShop (Homepage)   */
   --color-primary: #29664c;
   --color-primary-light: #e9f0ed;
   --color-secondary: #1a4231;
@@ -11,7 +11,7 @@
   --color-on-surface: #1c2421;
   --color-on-surface-variant: #4a5c54;
 
-  /* â”€â”€ Auth / About / Contact (Organic Sanctuary shared) â”€â”€ */
+  /*   Auth / About / Contact (Organic Sanctuary shared)   */
   --color-primary-dim: #1b5a40;
   --color-on-primary: #c8ffe0;
   --color-surface-container-lowest: #ffffff;
@@ -26,7 +26,7 @@
   --color-tertiary-fixed: #fd9d1a;
   --color-on-primary-container: #246147;
 
-  /* â”€â”€ Services Page (PetCare Shop) â”€â”€ */
+  /*   Services Page (PetCare Shop)   */
   --color-secondary: #006a38;
   --color-on-secondary: #ccffd6;
   --color-secondary-dim: #005c30;
@@ -35,7 +35,7 @@
   --color-surface-services: #deffe2;
   --color-on-surface-services: #0c361d;
 
-  /* â”€â”€ Typography â”€â”€ */
+  /*   Typography   */
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-headline: "Plus Jakarta Sans", sans-serif;
   --font-body: "Be Vietnam Pro", sans-serif;
@@ -71,7 +71,7 @@ h6 {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-/* â”€â”€ Material Symbols Outlined â”€â”€ */
+/*  Material Symbols Outlined  */
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined";
   font-weight: normal;
@@ -94,7 +94,7 @@ h6 {
   font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
-/* â”€â”€ Scrollbar hide utility â”€â”€ */
+/*   Scrollbar hide utility   */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -103,12 +103,12 @@ h6 {
   scrollbar-width: none;
 }
 
-/* â”€â”€ Ghost border (auth forms) â”€â”€ */
+/*   Ghost border (auth forms)   */
 .ghost-border {
   border: 1.5px solid rgba(129, 184, 166, 0.2);
 }
 
-/* â”€â”€ Glass header (services page) â”€â”€ */
+/*   Glass header (services page)   */
 .glass-header {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(20px);

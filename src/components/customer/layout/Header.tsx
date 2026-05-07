@@ -26,9 +26,9 @@ export default function Header() {
               </div>
             </Link>
           </div>
-          
+
           <nav className="hidden md:flex items-center gap-8">
-            <Link className={`font-label-md text-sm transition-all ${pathname === '/' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/">Trang chủ</Link>
+            <Link className={`font-label-md text-sm transition-all ${pathname === '/' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/dashboard">Trang chủ</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/about' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/about">Giới thiệu</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/shop' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/shop">Sản phẩm</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/services' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/services">Dịch vụ</Link>
@@ -62,7 +62,7 @@ export default function Header() {
             <Link className={`font-label-md text-sm transition-all ${pathname === '/article' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/article">Kiến thức</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/contact' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/contact">Liên hệ</Link>
           </nav>
-          
+
           <div className="flex items-center gap-4 md:gap-6">
             <Link
               href="/shop/cart"
@@ -103,8 +103,8 @@ export default function Header() {
             <Link href="/booking" className="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-label-md text-sm hover:bg-secondary transition-all active:scale-95 inline-block text-center cursor-pointer">
               Đặt lịch<span className="hidden sm:inline"> ngay</span>
             </Link>
-            <button 
-              className="md:hidden text-primary" 
+            <button
+              className="md:hidden text-primary"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <span className="material-symbols-outlined text-3xl">menu</span>
@@ -112,7 +112,7 @@ export default function Header() {
           </div>
         </div>
       </header>
-      
+
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 z-[60] bg-white transform transition-transform duration-300 md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex flex-col h-full">
@@ -130,14 +130,14 @@ export default function Header() {
               <span className="material-symbols-outlined text-4xl">close</span>
             </button>
           </div>
-          
+
           {/* Mobile Menu Links */}
           <nav className="flex flex-col p-6 gap-6 overflow-y-auto">
             <Link className="text-xl font-bold text-primary border-b border-gray-50 pb-2" href="/" onClick={() => setIsMobileMenuOpen(false)}>Trang chủ</Link>
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/about" onClick={() => setIsMobileMenuOpen(false)}>Giới thiệu</Link>
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/shop" onClick={() => setIsMobileMenuOpen(false)}>Sản phẩm</Link>
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/services" onClick={() => setIsMobileMenuOpen(false)}>Dịch vụ</Link>
-            
+
             {/* Nested Links for Bảng giá */}
             <div className="flex flex-col gap-3 pl-4 border-l-2 border-primary-light">
               <span className="font-bold text-primary text-lg">Bảng giá</span>
@@ -156,11 +156,11 @@ export default function Header() {
                 <Link href="/price/vaccine" className="block text-slate-600 hover:text-primary py-1" onClick={() => setIsMobileMenuOpen(false)}>Bảng giá tiêm phòng</Link>
               </div>
             </div>
-            
+
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/article" onClick={() => setIsMobileMenuOpen(false)}>Kiến thức</Link>
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Liên hệ</Link>
           </nav>
-          
+
           {/* Mobile Menu Footer */}
           <div className="mt-auto p-6 border-t border-gray-100 flex flex-col gap-4 bg-white">
             {user ? (

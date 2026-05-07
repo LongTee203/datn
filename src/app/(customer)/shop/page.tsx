@@ -246,11 +246,10 @@ export default function ShopPage() {
                   <button
                     key={i}
                     onClick={() => setActiveCategory(i)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left text-sm transition-colors ${
-                      activeCategory === i
-                        ? "bg-[#2D6A4F]/10 text-[#2D6A4F] font-semibold"
-                        : "hover:bg-slate-100 text-slate-700"
-                    }`}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left text-sm transition-colors ${activeCategory === i
+                      ? "bg-[#2D6A4F]/10 text-[#2D6A4F] font-semibold"
+                      : "hover:bg-slate-100 text-slate-700"
+                      }`}
                   >
                     <span className={`material-symbols-outlined ${activeCategory === i ? "fill-1" : ""}`}>
                       {icon}
@@ -354,11 +353,10 @@ export default function ShopPage() {
                       </div>
                       <button
                         onClick={() => handleAdd(p)}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold transition-all ${
-                          addedId === p.id
-                            ? "bg-green-500 text-white scale-95"
-                            : "bg-[#2D6A4F] text-white hover:opacity-90"
-                        }`}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold transition-all ${addedId === p.id
+                          ? "bg-green-500 text-white scale-95"
+                          : "bg-[#2D6A4F] text-white hover:opacity-90"
+                          }`}
                       >
                         <span className="material-symbols-outlined text-base">
                           {addedId === p.id ? "check" : "add_shopping_cart"}
@@ -382,4 +380,4 @@ export default function ShopPage() {
       </main>
     </div>
   );
-}
+} 

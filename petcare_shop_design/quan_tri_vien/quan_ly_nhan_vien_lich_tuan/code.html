@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản lý nhân viên - Lịch tuần | Pet Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#b6e7fe",
+                    "outline-variant": "#a9b4b1",
+                    "error": "#a83836",
+                    "surface-tint": "#006b62",
+                    "on-primary": "#e2fff9",
+                    "surface-container": "#e7f0ed",
+                    "on-surface": "#2a3433",
+                    "primary": "#006b62",
+                    "on-tertiary": "#f2faff",
+                    "surface-container-high": "#e1eae7",
+                    "secondary-fixed": "#c6eae3",
+                    "on-secondary-container": "#375853",
+                    "on-error": "#fff7f6",
+                    "on-tertiary-fixed-variant": "#2e6073",
+                    "on-primary-fixed": "#004841",
+                    "secondary-dim": "#395954",
+                    "on-surface-variant": "#56615f",
+                    "surface-container-low": "#eef5f3",
+                    "tertiary-dim": "#27596c",
+                    "tertiary-container": "#b6e7fe",
+                    "tertiary-fixed-dim": "#a8d9ef",
+                    "surface-dim": "#d1dcd9",
+                    "secondary-fixed-dim": "#b8dcd5",
+                    "on-tertiary-fixed": "#074355",
+                    "surface": "#f6faf8",
+                    "inverse-primary": "#8bffef",
+                    "primary-container": "#82f6e7",
+                    "on-background": "#2a3433",
+                    "secondary": "#446560",
+                    "surface-container-highest": "#d9e5e2",
+                    "primary-fixed": "#82f6e7",
+                    "on-tertiary-container": "#235669",
+                    "on-secondary-fixed-variant": "#41615d",
+                    "inverse-on-surface": "#999e9c",
+                    "on-secondary-fixed": "#244541",
+                    "outline": "#727d7a",
+                    "surface-bright": "#f6faf8",
+                    "on-secondary": "#e2fff9",
+                    "secondary-container": "#c6eae3",
+                    "tertiary": "#346578",
+                    "background": "#f6faf8",
+                    "error-container": "#fa746f",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#005c54",
+                    "primary-dim": "#005e56",
+                    "primary-fixed-dim": "#73e7d8",
+                    "on-error-container": "#6e0a12",
+                    "inverse-surface": "#0a0f0e",
+                    "on-primary-fixed-variant": "#00675e",
+                    "error-dim": "#67040d",
+                    "surface-variant": "#d9e5e2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Scrollbar styling for a cleaner look */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1dcd9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a9b4b1; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-64 h-screen sticky top-0 left-0 bg-[#eef5f3] dark:bg-slate-950 flex flex-col py-6 px-4 gap-2 transition-all duration-300 font-['Plus_Jakarta_Sans'] text-[14px] z-50">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 bg-[#006b62] rounded-xl flex items-center justify-center text-white shadow-sm">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>pets</span>
+</div>
+<div>
+<h1 class="text-lg font-extrabold text-[#006b62]" style="">Pet Sanctuary</h1>
+<p class="text-[10px] uppercase tracking-widest text-outline-variant font-bold mt-1" style="">The Digital Sanctuary</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 overflow-y-auto no-scrollbar flex-1">
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">dashboard</span>
+<span class="font-medium" style="">Bảng điều khiển</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">event</span>
+<span class="font-medium" style="">Đặt lịch</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">person</span>
+<span class="font-medium" style="">Khách hàng</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">medical_services</span>
+<span class="font-medium" style="">Dịch vụ</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">receipt</span>
+<span class="font-medium" style="">Đơn hàng</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">inventory</span>
+<span class="font-medium" style="">Kho hàng</span>
+</a>
+<!-- Active State for Nhân viên -->
+<a class="flex items-center gap-3 bg-[#82f6e7] text-[#006b62] font-semibold rounded-xl px-4 py-3 border-l-4 border-[#006b62] shadow-sm scale-[0.98] transition-transform" href="#" style="">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>group</span>
+<span class="font-medium" style="">Nhân viên</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">notifications</span>
+<span class="font-medium" style="">Thông báo</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">edit_note</span>
+<span class="font-medium" style="">Bài viết</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">payments</span>
+<span class="font-medium" style="">Thanh toán</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">assessment</span>
+<span class="font-medium" style="">Báo cáo</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">settings</span>
+<span class="font-medium" style="">Cài đặt</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">help</span>
+<span class="font-medium" style="">Trợ giúp</span>
+</a>
+<a class="flex items-center gap-3 text-[#2a3433] dark:text-slate-300 px-4 py-3 hover:translate-x-1 hover:bg-white/40 dark:hover:bg-slate-800 transition-all rounded-xl" href="#" style="">
+<span class="material-symbols-outlined" style="">logout</span>
+<span class="font-medium" style="">Đăng xuất</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 h-screen flex flex-col overflow-hidden relative">
+<!-- TopNavBar -->
+<header class="w-full sticky top-0 z-40 bg-[#f6faf8] dark:bg-slate-900 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] flex justify-between items-center px-8 h-16 border-none font-['Plus_Jakarta_Sans'] text-sm font-medium">
+<div class="flex items-center gap-6 flex-1">
+<span class="text-xl font-bold tracking-tight text-[#006b62] dark:text-[#82f6e7] whitespace-nowrap" style="">Quản lý nhân viên</span>
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-[#006b62]/20 rounded-full transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" style="">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-0" placeholder="Tìm kiếm nhân viên..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-[#eef5f3] dark:hover:bg-slate-800 transition-colors rounded-full p-2 cursor-pointer duration-200 ease-in-out text-[#006b62] dark:text-[#82f6e7]" style="">
+<span class="material-symbols-outlined text-outline" style="">notifications</span>
+</button>
+<button class="hover:bg-[#eef5f3] dark:hover:bg-slate-800 transition-colors rounded-full p-2 cursor-pointer duration-200 ease-in-out text-[#006b62] dark:text-[#82f6e7]" style="">
+<span class="material-symbols-outlined text-outline" style="">help</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group hover:bg-[#eef5f3] dark:hover:bg-slate-800 transition-colors rounded-full py-1 pr-1 pl-3 duration-200 ease-in-out">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-[#2a3433] dark:text-slate-400" style="">Admin Pet</p>
+<p class="text-[10px] text-outline" style="">Quản trị viên</p>
+</div>
+<img class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all" data-alt="Admin Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLQhsIOYskyqoXvfvUpme47w7_mcvooiHX-329hmDuEhNZhNyoBABN-PLB57d7y2sRwZ7qImh9PqINrgXtgbbLyHTmuUTWNYMvOocKrXRgP6HeVy5PmHa5KWqXK3lMaXZNKbe-kZO2VDzxs9oYS3t38fDEQVJeIHfalZ92rfUVuxI0QHhMoIJniZbbrAQgxn5LG_6ZBdQecetwNsyUe5bC9UL5diyU3qQq5nleYxLQwavJ0ZO0M7BGKaoD8dTpyU5OCzAp1Ioa6ec" style=""/>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-8 max-w-[1600px] mx-auto w-full space-y-8">
+<!-- Page Header Area -->
+<div class="flex flex-col md:flex-row justify-between md:items-end gap-6">
+<div>
+<h2 class="text-2xl font-extrabold text-on-surface tracking-tight" style="">Quản lý nhân viên</h2>
+<p class="text-on-surface-variant text-sm mt-1" style="">Lịch làm việc và trạng thái nhân sự</p>
+</div>
+<div class="flex bg-surface-container-low rounded-full p-1 border border-surface-variant/30 shadow-sm w-fit">
+<button class="px-6 py-2 rounded-full text-sm font-medium text-on-surface-variant hover:text-on-surface transition-colors" style="">Lịch ngày</button>
+<button class="px-6 py-2 rounded-full text-sm font-bold text-primary-container bg-primary shadow-sm transition-colors" style="">Lịch tuần</button>
+</div>
+</div>
+<!-- Khu vực 1: Thống kê (Bento/Card Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0px_4px_20px_rgba(42,52,51,0.04)] group hover:shadow-[0px_8px_30px_rgba(0,107,98,0.08)] transition-all">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-primary-container/30 rounded-2xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>groups</span>
+</div>
+<span class="text-[10px] font-bold text-primary bg-primary/5 px-2 py-1 rounded-full" style="">+2% tháng này</span>
+</div>
+<p class="text-sm font-medium text-on-surface-variant" style="">Tổng nhân viên</p>
+<h3 class="text-3xl font-extrabold text-on-surface mt-1" style="">12</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0px_4px_20px_rgba(42,52,51,0.04)] group hover:shadow-[0px_8px_30px_rgba(0,107,98,0.08)] transition-all border-l-4 border-emerald-400">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-secondary-container/30 rounded-2xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>work</span>
+</div>
+</div>
+<p class="text-sm font-medium text-on-surface-variant" style="">Đang làm hôm nay</p>
+<h3 class="text-3xl font-extrabold text-on-surface mt-1" style="">08</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0px_4px_20px_rgba(42,52,51,0.04)] group hover:shadow-[0px_8px_30px_rgba(0,107,98,0.08)] transition-all border-l-4 border-tertiary">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-tertiary-container/30 rounded-2xl flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>event_note</span>
+</div>
+</div>
+<p class="text-sm font-medium text-on-surface-variant" style="">Có lịch hôm nay</p>
+<h3 class="text-3xl font-extrabold text-on-surface mt-1" style="">06</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0px_4px_20px_rgba(42,52,51,0.04)] group hover:shadow-[0px_8px_30px_rgba(0,107,98,0.08)] transition-all border-l-4 border-error">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-error-container/10 rounded-2xl flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>person_off</span>
+</div>
+</div>
+<p class="text-sm font-medium text-on-surface-variant" style="">Nghỉ ca</p>
+<h3 class="text-3xl font-extrabold text-on-surface mt-1" style="">04</h3>
+</div>
+</div>
+<!-- Weekly Calendar (Full Width) -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(42,52,51,0.04)] flex flex-col overflow-hidden h-[800px]">
+<!-- Calendar Header / Controls -->
+<div class="p-6 border-b border-surface-container flex justify-between items-center bg-surface-container-lowest z-10">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_left</span>
+</button>
+<h3 class="text-[1.125rem] font-bold text-on-surface" style="">16 - 22 Tháng 10, 2023</h3>
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_right</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-base" style="">add</span>
+                        Thêm lịch
+                    </button>
+</div>
+<!-- Calendar Grid Container -->
+<div class="flex-1 overflow-auto bg-surface-container-low/20">
+<div class="min-w-[1200px] h-full flex flex-col">
+<!-- Days Header Row -->
+<div class="grid grid-cols-7 border-b border-surface-container sticky top-0 bg-surface-container-lowest z-20 shadow-sm">
+<!-- Mon -->
+<div class="p-4 text-center border-r border-surface-container">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1" style="">Thứ 2</p>
+<p class="text-[1.5rem] font-light text-on-surface" style="">16</p>
+</div>
+<!-- Tue -->
+<div class="p-4 text-center border-r border-surface-container">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1" style="">Thứ 3</p>
+<p class="text-[1.5rem] font-light text-on-surface" style="">17</p>
+</div>
+<!-- Wed -->
+<div class="p-4 text-center border-r border-surface-container bg-primary-container/10">
+<p class="text-[0.75rem] font-bold text-primary uppercase tracking-wider mb-1" style="">Thứ 4</p>
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center mx-auto text-[1.125rem] font-bold shadow-sm" style="">18</div>
+</div>
+<!-- Thu -->
+<div class="p-4 text-center border-r border-surface-container">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1" style="">Thứ 5</p>
+<p class="text-[1.5rem] font-light text-on-surface" style="">19</p>
+</div>
+<!-- Fri -->
+<div class="p-4 text-center border-r border-surface-container">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1" style="">Thứ 6</p>
+<p class="text-[1.5rem] font-light text-on-surface" style="">20</p>
+</div>
+<!-- Sat -->
+<div class="p-4 text-center border-r border-surface-container">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1" style="">Thứ 7</p>
+<p class="text-[1.5rem] font-light text-on-surface" style="">21</p>
+</div>
+<!-- Sun -->
+<div class="p-4 text-center">
+<p class="text-[0.75rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1" style="">Chủ Nhật</p>
+<p class="text-[1.5rem] font-light text-on-surface-variant/70" style="">22</p>
+</div>
+</div>
+<!-- Time Slots Grid -->
+<div class="grid grid-cols-7 flex-1 relative bg-surface-container-lowest">
+<!-- Col 1: Monday -->
+<div class="border-r border-surface-container p-2 flex flex-col gap-2 relative">
+<!-- Block: Tắm -->
+<div class="bg-[#e8f5e9] border border-[#a5d6a7] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow group relative">
+<div class="w-1 absolute left-0 top-3 bottom-3 bg-[#4caf50] rounded-r-full"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="text-[0.75rem] font-bold text-[#2e7d32]" style="">Tắm &amp; Sấy</p>
+<span class="text-[0.65rem] text-[#2e7d32]/70 font-medium bg-[#c8e6c9] px-1.5 py-0.5 rounded" style="">08:00 - 10:00</span>
+</div>
+<p class="text-[0.875rem] font-medium text-on-surface mb-1" style="">Nguyễn Văn A</p>
+<div class="flex items-center gap-1 text-[0.75rem] text-on-surface-variant">
+<span class="material-symbols-outlined text-[1rem]" style="">pets</span>
+<span class="" style="">Poodle (Milo)</span>
+</div>
+</div>
+<!-- Block: Cắt tỉa -->
+<div class="bg-[#e3f2fd] border border-[#90caf9] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow group relative mt-4">
+<div class="w-1 absolute left-0 top-3 bottom-3 bg-[#2196f3] rounded-r-full"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="text-[0.75rem] font-bold text-[#1565c0]" style="">Cắt tỉa lông</p>
+<span class="text-[0.65rem] text-[#1565c0]/70 font-medium bg-[#bbdefb] px-1.5 py-0.5 rounded" style="">13:00 - 15:30</span>
+</div>
+<p class="text-[0.875rem] font-medium text-on-surface mb-1" style="">Trần Thị B</p>
+<div class="flex items-center gap-1 text-[0.75rem] text-on-surface-variant">
+<span class="material-symbols-outlined text-[1rem]" style="">content_cut</span>
+<span class="" style="">Corgi (Bella)</span>
+</div>
+</div>
+</div>
+<!-- Col 2: Tuesday -->
+<div class="border-r border-surface-container p-2 flex flex-col gap-2 relative">
+<!-- Block: Khám bệnh -->
+<div class="bg-[#ffebee] border border-[#ef9a9a] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow group relative mt-10">
+<div class="w-1 absolute left-0 top-3 bottom-3 bg-[#f44336] rounded-r-full"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="text-[0.75rem] font-bold text-[#c62828]" style="">Khám bệnh</p>
+<span class="text-[0.65rem] text-[#c62828]/70 font-medium bg-[#ffcdd2] px-1.5 py-0.5 rounded" style="">10:00 - 11:00</span>
+</div>
+<p class="text-[0.875rem] font-medium text-on-surface mb-1" style="">Bs. Lê C</p>
+<div class="flex items-center gap-1 text-[0.75rem] text-on-surface-variant">
+<span class="material-symbols-outlined text-[1rem]" style="">medical_services</span>
+<span class="" style="">Mèo Anh (Tom)</span>
+</div>
+</div>
+</div>
+<!-- Col 3: Wednesday (Today) -->
+<div class="border-r border-surface-container p-2 flex flex-col gap-2 relative bg-primary-container/5">
+<!-- Current Time Indicator Line -->
+<div class="absolute w-full h-[2px] bg-primary left-0 top-[45%] z-10">
+<div class="absolute -left-1.5 -top-1.5 w-3 h-3 rounded-full bg-primary"></div>
+</div>
+<!-- Block: Spa -->
+<div class="bg-[#f3e5f5] border border-[#ce93d8] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow group relative z-0">
+<div class="w-1 absolute left-0 top-3 bottom-3 bg-[#9c27b0] rounded-r-full"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="text-[0.75rem] font-bold text-[#6a1b9a]" style="">Spa trọn gói</p>
+<span class="text-[0.65rem] text-[#6a1b9a]/70 font-medium bg-[#e1bee7] px-1.5 py-0.5 rounded" style="">09:00 - 12:00</span>
+</div>
+<p class="text-[0.875rem] font-medium text-on-surface mb-1" style="">Nguyễn Văn A</p>
+<div class="flex items-center gap-1 text-[0.75rem] text-on-surface-variant">
+<span class="material-symbols-outlined text-[1rem]" style="">spa</span>
+<span class="" style="">Husky (Max)</span>
+</div>
+</div>
+<!-- Block: Tắm -->
+<div class="bg-[#e8f5e9] border border-[#a5d6a7] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow group relative mt-16 z-0 opacity-60">
+<div class="w-1 absolute left-0 top-3 bottom-3 bg-[#4caf50] rounded-r-full"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="text-[0.75rem] font-bold text-[#2e7d32]" style="">Tắm &amp; Sấy</p>
+<span class="text-[0.65rem] text-[#2e7d32]/70 font-medium bg-[#c8e6c9] px-1.5 py-0.5 rounded" style="">14:00 - 15:00</span>
+</div>
+<p class="text-[0.875rem] font-medium text-on-surface mb-1" style="">Trần Thị B</p>
+</div>
+</div>
+<!-- Col 4: Thursday -->
+<div class="border-r border-surface-container p-2 flex flex-col gap-2 relative">
+<!-- Block: Cắt tỉa -->
+<div class="bg-[#e3f2fd] border border-[#90caf9] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow group relative mt-8">
+<div class="w-1 absolute left-0 top-3 bottom-3 bg-[#2196f3] rounded-r-full"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="text-[0.75rem] font-bold text-[#1565c0]" style="">Cắt tỉa lông</p>
+<span class="text-[0.65rem] text-[#1565c0]/70 font-medium bg-[#bbdefb] px-1.5 py-0.5 rounded" style="">09:30 - 11:30</span>
+</div>
+<p class="text-[0.875rem] font-medium text-on-surface mb-1" style="">Phạm D</p>
+</div>
+</div>
+<!-- Col 5: Friday -->
+<div class="border-r border-surface-container p-2 flex flex-col gap-2 relative">
+<!-- Block: Khám bệnh -->
+<div class="bg-[#ffebee] border border-[#ef9a9a] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow group relative mt-20">
+<div class="w-1 absolute left-0 top-3 bottom-3 bg-[#f44336] rounded-r-full"></div>
+<div class="flex justify-between items-start mb-1">
+<p class="text-[0.75rem] font-bold text-[#c62828]" style="">Khám định kỳ</p>
+<span class="text-[0.65rem] text-[#c62828]/70 font-medium bg-[#ffcdd2] px-1.5 py-0.5 rounded" style="">13:00 - 14:00</span>
+</div>
+<p class="text-[0.875rem] font-medium text-on-surface mb-1" style="">Bs. Lê C</p>
+</div>
+</div>
+<!-- Col 6: Saturday -->
+<div class="border-r border-surface-container p-2 flex flex-col gap-2 relative bg-surface-container-low/30">
+<div class="text-center mt-10 text-[0.875rem] text-on-surface-variant font-medium" style="">
+                                    Trống lịch
+                                </div>
+</div>
+<!-- Col 7: Sunday -->
+<div class="p-2 flex flex-col gap-2 relative bg-surface-container-low/30">
+<div class="flex items-center justify-center h-full opacity-50">
+<div class="text-center">
+<span class="material-symbols-outlined text-[2rem] text-on-surface-variant mb-2 block" style="">event_busy</span>
+<p class="text-[0.875rem] text-on-surface-variant" style="">Nghỉ cuối tuần</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Legend / Spacer -->
+<div class="mt-6 flex flex-wrap gap-6 items-center justify-center md:justify-start px-2 pb-10">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#4caf50]"></div>
+<span class="text-[0.75rem] text-on-surface-variant font-medium" style="">Tắm &amp; Sấy</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#2196f3]"></div>
+<span class="text-[0.75rem] text-on-surface-variant font-medium" style="">Cắt tỉa</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#9c27b0]"></div>
+<span class="text-[0.75rem] text-on-surface-variant font-medium" style="">Spa</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#f44336]"></div>
+<span class="text-[0.75rem] text-on-surface-variant font-medium" style="">Khám bệnh</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>

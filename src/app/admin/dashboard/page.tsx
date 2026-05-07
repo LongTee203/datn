@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   return (
@@ -95,10 +96,6 @@ export default function DashboardPage() {
               <h4 className="text-xl font-bold text-[#2a3433]">Biểu đồ doanh thu & doanh số</h4>
               <p className="text-sm text-[#56615f]">Thống kê 7 ngày gần nhất</p>
             </div>
-            <div className="flex gap-2 bg-[#e7f0ed] p-1 rounded-full">
-              <button className="px-4 py-1.5 bg-white text-[#006b62] text-xs font-bold rounded-full shadow-sm">Tuần</button>
-              <button className="px-4 py-1.5 text-[#56615f] text-xs font-bold rounded-full hover:bg-white/50 transition-colors">Tháng</button>
-            </div>
           </div>
 
           {/* Enhanced Chart Visual with Labels */}
@@ -140,7 +137,7 @@ export default function DashboardPage() {
         <div className="bg-[#e7f0ed] p-6 rounded-[2rem] border-none shadow-[0px_10px_40px_rgba(42,52,51,0.04)]">
           <div className="flex justify-between items-center mb-6">
             <h4 className="text-xl font-bold text-[#2a3433]">Lịch sắp tới</h4>
-            <a className="text-[#006b62] text-xs font-bold hover:underline" href="#">Xem tất cả</a>
+            <Link className="text-[#006b62] text-xs font-bold hover:underline" href="/admin/bookings">Xem tất cả</Link>
           </div>
           <div className="space-y-4">
             {/* Booking Item 1 */}
@@ -220,9 +217,12 @@ export default function DashboardPage() {
             <h4 className="text-xl font-bold text-[#2a3433]">Đơn hàng mới nhất</h4>
             <p className="text-sm text-[#56615f]">Cần được xử lý và vận chuyển</p>
           </div>
-          <button className="bg-[#e1eae7] text-[#56615f] px-5 py-2 rounded-full text-xs font-bold hover:bg-[#d9e5e2] transition-colors">
-            Lọc theo trạng thái
-          </button>
+          <select className="bg-[#e1eae7] text-[#56615f] px-5 py-2 rounded-full text-xs font-bold hover:bg-[#d9e5e2] transition-colors outline-none cursor-pointer appearance-none">
+            <option value="">Lọc theo trạng thái</option>
+            <option value="cho-xac-nhan">Chờ xác nhận</option>
+            <option value="dang-giao">Đang giao</option>
+            <option value="hoan-tat">Hoàn tất</option>
+          </select>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
@@ -252,9 +252,11 @@ export default function DashboardPage() {
                   <span className="bg-[#fa746f]/20 text-[#6e0a12] px-3 py-1 rounded-full text-[10px] font-bold">Chờ xác nhận</span>
                 </td>
                 <td className="py-5 px-4 text-center">
-                  <button className="text-[#006b62] hover:bg-[#82f6e7] p-2 rounded-full transition-colors">
-                    <span className="material-symbols-outlined text-xl">visibility</span>
-                  </button>
+                  <select defaultValue="cho-xac-nhan" className="text-[11px] font-bold bg-[#eef5f3] text-[#006b62] px-2 py-1.5 rounded-lg outline-none border border-[#c6eae3] cursor-pointer">
+                    <option value="cho-xac-nhan">Chờ xác nhận</option>
+                    <option value="dang-giao">Đang giao</option>
+                    <option value="hoan-tat">Hoàn tất</option>
+                  </select>
                 </td>
               </tr>
               {/* Order 2 */}
@@ -272,9 +274,11 @@ export default function DashboardPage() {
                   <span className="bg-[#b6e7fe]/20 text-[#074355] px-3 py-1 rounded-full text-[10px] font-bold">Đang giao</span>
                 </td>
                 <td className="py-5 px-4 text-center">
-                  <button className="text-[#006b62] hover:bg-[#82f6e7] p-2 rounded-full transition-colors">
-                    <span className="material-symbols-outlined text-xl">visibility</span>
-                  </button>
+                  <select defaultValue="dang-giao" className="text-[11px] font-bold bg-[#eef5f3] text-[#006b62] px-2 py-1.5 rounded-lg outline-none border border-[#c6eae3] cursor-pointer">
+                    <option value="cho-xac-nhan">Chờ xác nhận</option>
+                    <option value="dang-giao">Đang giao</option>
+                    <option value="hoan-tat">Hoàn tất</option>
+                  </select>
                 </td>
               </tr>
               {/* Order 3 */}
@@ -292,9 +296,11 @@ export default function DashboardPage() {
                   <span className="bg-[#82f6e7]/30 text-[#005c54] px-3 py-1 rounded-full text-[10px] font-bold">Hoàn tất</span>
                 </td>
                 <td className="py-5 px-4 text-center">
-                  <button className="text-[#006b62] hover:bg-[#82f6e7] p-2 rounded-full transition-colors">
-                    <span className="material-symbols-outlined text-xl">visibility</span>
-                  </button>
+                  <select defaultValue="hoan-tat" className="text-[11px] font-bold bg-[#eef5f3] text-[#006b62] px-2 py-1.5 rounded-lg outline-none border border-[#c6eae3] cursor-pointer">
+                    <option value="cho-xac-nhan">Chờ xác nhận</option>
+                    <option value="dang-giao">Đang giao</option>
+                    <option value="hoan-tat">Hoàn tất</option>
+                  </select>
                 </td>
               </tr>
             </tbody>

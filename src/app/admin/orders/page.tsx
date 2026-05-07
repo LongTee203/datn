@@ -1,6 +1,82 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
+
+type OrderStatus = 'Chờ xử lý' | 'Đang giao' | 'Đã giao' | 'Đã hủy';
+
+interface Order {
+  id: string;
+  customerInitials: string;
+  customerName: string;
+  products: string;
+  extraProducts: string;
+  price: string;
+  payment: string;
+  status: OrderStatus;
+  avatar: string | null;
+  struckThrough: boolean;
+}
+
+const initialOrders: Order[] = [
+  {
+    id: '#ORD-8924',
+    customerInitials: 'NT',
+    customerName: 'Nguyễn Thảo',
+    products: 'Hạt Royal Canin (2kg)...',
+    extraProducts: '+ 2 sản phẩm khác',
+    price: '850.000đ',
+    payment: 'Chuyển khoản',
+    status: 'Đang giao',
+    avatar: null,
+    struckThrough: false
+  },
+  {
+    id: '#ORD-8925',
+    customerInitials: '',
+    customerName: 'Lê Anh Tuấn',
+    products: 'Xương gặm canxi',
+    extraProducts: 'Số lượng: 5',
+    price: '125.000đ',
+    payment: 'Tiền mặt',
+    status: 'Chờ xử lý',
+    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtNp7QT4Dtpk9fv_icX78Jy6pbkAW8b45z5Qct53-CaydZ0h0pDdJLAGsOBWlZ6HCkTnKHYdrZci8UBxNZUrXEeKO5_1_aQxayoycNKXTbejTzeyqQnc7uYux2Yv9V9yBKKCPDriiq1bq4jwdN6-nlMbFspUKV7eqSGNjaNbJExCKf_nlnaeIgSufxn0Yz8MTOe5fenz6Xd0LazS0iQ1H5Ux0gI-47xv8jrMUEi15o7lAkGQ1f2uU7iXyMgOXJ28_e3o7rU2IFfp4',
+    struckThrough: false
+  },
+  {
+    id: '#ORD-8926',
+    customerInitials: 'HM',
+    customerName: 'Hoàng Minh',
+    products: 'Chuồng sắt tĩnh điện',
+    extraProducts: 'Size L - Màu đen',
+    price: '1.200.000đ',
+    payment: 'Chuyển khoản',
+    status: 'Đã giao',
+    avatar: null,
+    struckThrough: false
+  },
+  {
+    id: '#ORD-8927',
+    customerInitials: 'PT',
+    customerName: 'Phạm Thu',
+    products: 'Đồ chơi cần câu mèo',
+    extraProducts: '',
+    price: '45.000đ',
+    payment: 'Tiền mặt',
+    status: 'Đã hủy',
+    avatar: null,
+    struckThrough: true
+  }
+];
 
 export default function OrdersPage() {
+  const [filter, setFilter] = useState<OrderStatus | 'Tất cả'>('Tất cả');
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
+
+  const filteredOrders = orders.filter(o => filter === 'Tất cả' || o.status === filter);
+
+  const updateOrderStatus = (id: string, newStatus: OrderStatus) => {
+    setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus, struckThrough: newStatus === 'Đã hủy' } : o));
+  };
+
   return (
     <div className="min-h-screen">
       {/* Page Header */}
@@ -13,11 +89,15 @@ export default function OrdersPage() {
           </p>
         </div>
         <div className="flex gap-2 bg-[#eef5f3] p-1 rounded-xl">
-          <button className="px-4 py-2 text-sm font-semibold rounded-lg bg-white shadow-sm text-[#006b62] transition-all">Tất cả</button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:bg-[#e1eae7] transition-all">Chờ xử lý</button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:bg-[#e1eae7] transition-all">Đang giao</button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:bg-[#e1eae7] transition-all">Đã giao</button>
-          <button className="px-4 py-2 text-sm font-medium rounded-lg text-[#56615f] hover:bg-[#e1eae7] transition-all">Đã hủy</button>
+          {['Tất cả', 'Chờ xử lý', 'Đang giao', 'Đã giao', 'Đã hủy'].map((status) => (
+            <button
+              key={status}
+              onClick={() => setFilter(status as any)}
+              className={`px-4 py-2 text-sm rounded-lg transition-all ${filter === status ? 'font-semibold bg-white shadow-sm text-[#006b62]' : 'font-medium text-[#56615f] hover:bg-[#e1eae7]'}`}
+            >
+              {status}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -65,7 +145,6 @@ export default function OrdersPage() {
               <p className="text-3xl font-black">245</p>
               <p className="text-[10px] uppercase font-bold opacity-70">Sản phẩm đã bán</p>
             </div>
-            <button className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold hover:bg-white/30 transition-colors">Chi tiết</button>
           </div>
           {/* Abstract shape */}
           <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full"></div>
@@ -86,7 +165,7 @@ export default function OrdersPage() {
             </button>
           </div>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-[300px]">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[#eef5f3]/50">
@@ -100,228 +179,106 @@ export default function OrdersPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#a9b4b1]/5">
-              {/* Row 1 */}
-              <tr className="hover:bg-[#eef5f3]/50 transition-colors group">
-                <td className="py-5 px-6 font-bold text-[#006b62]">#ORD-8924</td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#c6eae3] text-[#446560] flex items-center justify-center text-xs font-bold">NT</div>
-                    <span className="text-sm font-semibold text-[#2a3433]">Nguyễn Thảo</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <p className="text-sm font-medium text-[#2a3433]">Hạt Royal Canin (2kg)...</p>
-                  <p className="text-[10px] text-[#56615f]">+ 2 sản phẩm khác</p>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="text-sm font-extrabold text-[#2a3433]">850.000đ</span>
-                </td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-sm text-[#56615f]" data-icon="credit_card">credit_card</span>
-                    <span className="text-xs font-medium text-[#2a3433]">Thẻ ATM</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-[#82f6e7] text-[#005c54] flex items-center w-fit gap-1">
-                    <span className="w-1 h-1 rounded-full bg-[#006b62] animate-pulse"></span> Đang giao
-                  </span>
-                </td>
-                <td className="py-5 px-6 text-right">
-                  <div className="relative inline-block text-left group/dropdown">
-                    <button className="text-[#56615f] hover:text-[#006b62] transition-colors p-1 rounded-full hover:bg-[#e1eae7]">
-                      <span className="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span>
-                    </button>
-                    <div className="absolute right-0 bottom-full mb-2 w-40 origin-bottom-right bg-white rounded-xl shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all z-50 overflow-hidden">
-                      <div className="py-1">
-                        <div className="px-3 py-2 text-[10px] font-bold text-[#56615f] uppercase tracking-wider border-b border-[#a9b4b1]/10 mb-1">Cập nhật trạng thái</div>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#82f6e7]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#006b62] mr-3"></span>Đang giao
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#c6eae3]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#446560] mr-3"></span>Đã giao
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#a83836] hover:bg-[#fa746f]/10 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#a83836] mr-3"></span>Đã hủy
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#346578] hover:bg-[#b6e7fe]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#346578] mr-3"></span>Chờ xử lý
-                        </button>
+              {filteredOrders.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="text-center py-10 text-[#56615f]">Không có đơn hàng nào phù hợp với bộ lọc.</td>
+                </tr>
+              )}
+              {filteredOrders.map((order) => {
+                const isCanceled = order.struckThrough;
+
+                let statusClass = "";
+                let statusDotClass = "";
+
+                if (order.status === 'Đang giao') {
+                  statusClass = "bg-[#82f6e7] text-[#005c54]";
+                  statusDotClass = "bg-[#006b62] animate-pulse";
+                } else if (order.status === 'Chờ xử lý') {
+                  statusClass = "bg-[#b6e7fe] text-[#235669]";
+                  statusDotClass = "bg-[#346578]";
+                } else if (order.status === 'Đã giao') {
+                  statusClass = "bg-[#c6eae3] text-[#375853]";
+                  statusDotClass = "bg-[#446560]";
+                } else if (order.status === 'Đã hủy') {
+                  statusClass = "bg-[#fa746f]/20 text-[#a83836]";
+                  statusDotClass = "bg-[#a83836]";
+                }
+
+                return (
+                  <tr key={order.id} className="hover:bg-[#eef5f3]/50 transition-colors group">
+                    <td className="py-5 px-6 font-bold text-[#006b62]">{order.id}</td>
+                    <td className="py-5 px-6">
+                      <div className="flex items-center gap-3">
+                        {order.avatar ? (
+                          <img alt="Customer" className={`w-8 h-8 rounded-full object-cover ${isCanceled ? 'opacity-50' : ''}`} src={order.avatar} />
+                        ) : (
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold 
+                            ${order.id === '#ORD-8924' ? 'bg-[#c6eae3] text-[#446560]' :
+                              order.id === '#ORD-8926' ? 'bg-[#82f6e7] text-[#006b62]' : 'bg-[#e7f0ed] text-[#56615f]'}`}>
+                            {order.customerInitials}
+                          </div>
+                        )}
+                        <span className={`text-sm font-semibold ${isCanceled ? 'text-[#56615f]' : 'text-[#2a3433]'}`}>{order.customerName}</span>
                       </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              {/* Row 2 */}
-              <tr className="hover:bg-[#eef5f3]/50 transition-colors group">
-                <td className="py-5 px-6 font-bold text-[#006b62]">#ORD-8925</td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-3">
-                    <img alt="Customer" className="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtNp7QT4Dtpk9fv_icX78Jy6pbkAW8b45z5Qct53-CaydZ0h0pDdJLAGsOBWlZ6HCkTnKHYdrZci8UBxNZUrXEeKO5_1_aQxayoycNKXTbejTzeyqQnc7uYux2Yv9V9yBKKCPDriiq1bq4jwdN6-nlMbFspUKV7eqSGNjaNbJExCKf_nlnaeIgSufxn0Yz8MTOe5fenz6Xd0LazS0iQ1H5Ux0gI-47xv8jrMUEi15o7lAkGQ1f2uU7iXyMgOXJ28_e3o7rU2IFfp4" />
-                    <span className="text-sm font-semibold text-[#2a3433]">Lê Anh Tuấn</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <p className="text-sm font-medium text-[#2a3433]">Xương gặm canxi</p>
-                  <p className="text-[10px] text-[#56615f]">Số lượng: 5</p>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="text-sm font-extrabold text-[#2a3433]">125.000đ</span>
-                </td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-1.5 text-[#56615f]">
-                    <span className="material-symbols-outlined text-sm" data-icon="payments">payments</span>
-                    <span className="text-xs font-medium text-[#2a3433]">Tiền mặt</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-[#b6e7fe] text-[#235669] flex items-center w-fit gap-1">
-                    <span className="w-1 h-1 rounded-full bg-[#346578]"></span> Chờ xử lý
-                  </span>
-                </td>
-                <td className="py-5 px-6 text-right">
-                  <div className="relative inline-block text-left group/dropdown">
-                    <button className="text-[#56615f] hover:text-[#006b62] transition-colors p-1 rounded-full hover:bg-[#e1eae7]">
-                      <span className="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span>
-                    </button>
-                    <div className="absolute right-0 bottom-full mb-2 w-40 origin-bottom-right bg-white rounded-xl shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all z-50 overflow-hidden">
-                      <div className="py-1">
-                        <div className="px-3 py-2 text-[10px] font-bold text-[#56615f] uppercase tracking-wider border-b border-[#a9b4b1]/10 mb-1">Cập nhật trạng thái</div>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#82f6e7]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#006b62] mr-3"></span>Đang giao
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#c6eae3]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#446560] mr-3"></span>Đã giao
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#a83836] hover:bg-[#fa746f]/10 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#a83836] mr-3"></span>Đã hủy
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#346578] hover:bg-[#b6e7fe]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#346578] mr-3"></span>Chờ xử lý
-                        </button>
+                    </td>
+                    <td className="py-5 px-6">
+                      <p className={`text-sm font-medium text-[#2a3433] ${isCanceled ? 'line-through opacity-50' : ''}`}>{order.products}</p>
+                      {order.extraProducts && <p className="text-[10px] text-[#56615f]">{order.extraProducts}</p>}
+                    </td>
+                    <td className="py-5 px-6">
+                      <span className={`text-sm font-extrabold text-[#2a3433] ${isCanceled ? 'opacity-50' : ''}`}>{order.price}</span>
+                    </td>
+                    <td className="py-5 px-6">
+                      <div className={`flex items-center gap-1.5 ${isCanceled ? 'opacity-50 text-[#56615f]' : ''}`}>
+                        <span className={`material-symbols-outlined text-sm ${isCanceled ? '' : 'text-[#56615f]'}`} data-icon={order.payment === 'Tiền mặt' ? 'payments' : 'account_balance'}>
+                          {order.payment === 'Tiền mặt' ? 'payments' : 'account_balance'}
+                        </span>
+                        <span className="text-xs font-medium text-[#2a3433]">{order.payment}</span>
                       </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              {/* Row 3 */}
-              <tr className="hover:bg-[#eef5f3]/50 transition-colors group">
-                <td className="py-5 px-6 font-bold text-[#006b62]">#ORD-8926</td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#82f6e7] text-[#006b62] flex items-center justify-center text-xs font-bold">HM</div>
-                    <span className="text-sm font-semibold text-[#2a3433]">Hoàng Minh</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <p className="text-sm font-medium text-[#2a3433]">Chuồng sắt tĩnh điện</p>
-                  <p className="text-[10px] text-[#56615f]">Size L - Màu đen</p>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="text-sm font-extrabold text-[#2a3433]">1.200.000đ</span>
-                </td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-1.5 text-[#56615f]">
-                    <span className="material-symbols-outlined text-sm" data-icon="account_balance">account_balance</span>
-                    <span className="text-xs font-medium text-[#2a3433]">Chuyển khoản</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-[#c6eae3] text-[#375853] flex items-center w-fit gap-1">
-                    <span className="w-1 h-1 rounded-full bg-[#446560]"></span> Đã giao
-                  </span>
-                </td>
-                <td className="py-5 px-6 text-right">
-                  <div className="relative inline-block text-left group/dropdown">
-                    <button className="text-[#56615f] hover:text-[#006b62] transition-colors p-1 rounded-full hover:bg-[#e1eae7]">
-                      <span className="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span>
-                    </button>
-                    <div className="absolute right-0 bottom-full mb-2 w-40 origin-bottom-right bg-white rounded-xl shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all z-50 overflow-hidden">
-                      <div className="py-1">
-                        <div className="px-3 py-2 text-[10px] font-bold text-[#56615f] uppercase tracking-wider border-b border-[#a9b4b1]/10 mb-1">Cập nhật trạng thái</div>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#82f6e7]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#006b62] mr-3"></span>Đang giao
+                    </td>
+                    <td className="py-5 px-6">
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold flex items-center w-fit gap-1 ${statusClass}`}>
+                        <span className={`w-1 h-1 rounded-full ${statusDotClass}`}></span> {order.status}
+                      </span>
+                    </td>
+                    <td className="py-5 px-6 text-right relative">
+                      <div className="relative inline-block text-left group/dropdown">
+                        <button className="text-[#56615f] hover:text-[#006b62] transition-colors p-1 rounded-full hover:bg-[#e1eae7]">
+                          <span className="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span>
                         </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#c6eae3]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#446560] mr-3"></span>Đã giao
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#a83836] hover:bg-[#fa746f]/10 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#a83836] mr-3"></span>Đã hủy
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#346578] hover:bg-[#b6e7fe]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#346578] mr-3"></span>Chờ xử lý
-                        </button>
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 mr-8 w-40 origin-right bg-white rounded-xl shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all z-[100] overflow-hidden">
+                          <div className="py-1">
+                            <div className="px-3 py-2 text-[10px] font-bold text-[#56615f] uppercase tracking-wider border-b border-[#a9b4b1]/10 mb-1">Cập nhật trạng thái</div>
+                            <button onClick={() => updateOrderStatus(order.id, 'Đang giao')} className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#82f6e7]/30 transition-colors">
+                              <span className="w-2 h-2 rounded-full bg-[#006b62] mr-3"></span>Đang giao
+                            </button>
+                            <button onClick={() => updateOrderStatus(order.id, 'Đã giao')} className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#c6eae3]/30 transition-colors">
+                              <span className="w-2 h-2 rounded-full bg-[#446560] mr-3"></span>Đã giao
+                            </button>
+                            <button onClick={() => updateOrderStatus(order.id, 'Đã hủy')} className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#a83836] hover:bg-[#fa746f]/10 transition-colors">
+                              <span className="w-2 h-2 rounded-full bg-[#a83836] mr-3"></span>Đã hủy
+                            </button>
+                            <button onClick={() => updateOrderStatus(order.id, 'Chờ xử lý')} className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#346578] hover:bg-[#b6e7fe]/30 transition-colors">
+                              <span className="w-2 h-2 rounded-full bg-[#346578] mr-3"></span>Chờ xử lý
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              {/* Row 4 */}
-              <tr className="hover:bg-[#eef5f3]/50 transition-colors group">
-                <td className="py-5 px-6 font-bold text-[#006b62]">#ORD-8927</td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#e7f0ed] text-[#56615f] flex items-center justify-center text-xs font-bold">PT</div>
-                    <span className="text-sm font-semibold text-[#56615f]">Phạm Thu</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <p className="text-sm font-medium text-[#2a3433] line-through opacity-50">Đồ chơi cần câu mèo</p>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="text-sm font-extrabold text-[#2a3433] opacity-50">45.000đ</span>
-                </td>
-                <td className="py-5 px-6">
-                  <div className="flex items-center gap-1.5 opacity-50 text-[#56615f]">
-                    <span className="material-symbols-outlined text-sm" data-icon="payments">payments</span>
-                    <span className="text-xs font-medium text-[#2a3433]">Tiền mặt</span>
-                  </div>
-                </td>
-                <td className="py-5 px-6">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-[#fa746f]/20 text-[#a83836] flex items-center w-fit gap-1">
-                    <span className="w-1 h-1 rounded-full bg-[#a83836]"></span> Đã hủy
-                  </span>
-                </td>
-                <td className="py-5 px-6 text-right">
-                  <div className="relative inline-block text-left group/dropdown">
-                    <button className="text-[#56615f] hover:text-[#006b62] transition-colors p-1 rounded-full hover:bg-[#e1eae7]">
-                      <span className="material-symbols-outlined text-lg" data-icon="more_vert">more_vert</span>
-                    </button>
-                    <div className="absolute right-0 bottom-full mb-2 w-40 origin-bottom-right bg-white rounded-xl shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all z-50 overflow-hidden">
-                      <div className="py-1">
-                        <div className="px-3 py-2 text-[10px] font-bold text-[#56615f] uppercase tracking-wider border-b border-[#a9b4b1]/10 mb-1">Cập nhật trạng thái</div>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#82f6e7]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#006b62] mr-3"></span>Đang giao
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#c6eae3]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#446560] mr-3"></span>Đã giao
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#a83836] hover:bg-[#fa746f]/10 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#a83836] mr-3"></span>Đã hủy
-                        </button>
-                        <button className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#346578] hover:bg-[#b6e7fe]/30 transition-colors">
-                          <span className="w-2 h-2 rounded-full bg-[#346578] mr-3"></span>Chờ xử lý
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
         {/* Pagination */}
         <div className="p-6 bg-[#eef5f3]/30 flex items-center justify-between">
-          <p className="text-xs text-[#56615f] font-medium">Hiển thị 10 trên 1,284 đơn hàng</p>
+          <p className="text-xs text-[#56615f] font-medium">Hiển thị {filteredOrders.length} trên tổng đơn hàng</p>
           <div className="flex gap-1">
             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#e1eae7] transition-colors text-[#56615f]">
               <span className="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
             </button>
             <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#006b62] text-[#e2fff9] text-xs font-bold">1</button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#e1eae7] text-[#2a3433] text-xs font-bold">2</button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#e1eae7] text-[#2a3433] text-xs font-bold">3</button>
-            <span className="w-8 h-8 flex items-center justify-center text-[#2a3433] text-xs">...</span>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#e1eae7] text-[#2a3433] text-xs font-bold">128</button>
             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#e1eae7] transition-colors text-[#56615f]">
               <span className="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
             </button>

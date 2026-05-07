@@ -325,7 +325,9 @@ export default function ShopPage() {
                   className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="relative aspect-square overflow-hidden bg-slate-50">
-                    <Image src={p.img} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <Link href={`/shop/${p.id}`}>
+                      <Image src={p.img} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                    </Link>
                     {p.badge && (
                       <span className={`absolute top-3 left-3 text-[10px] font-bold px-2 py-1 rounded uppercase ${p.badge.color}`}>
                         {p.badge.text}
@@ -342,7 +344,9 @@ export default function ShopPage() {
                       ))}
                       <span className="text-slate-400 text-xs ml-1">({p.reviews})</span>
                     </div>
-                    <h3 className="font-bold text-slate-900 truncate">{p.name}</h3>
+                    <Link href={`/shop/${p.id}`}>
+                      <h3 className="font-bold text-slate-900 truncate hover:text-[#006b62] transition-colors">{p.name}</h3>
+                    </Link>
                     <p className="text-slate-500 text-xs mb-3 line-clamp-1">{p.desc}</p>
                     <div className="flex items-center justify-between gap-2">
                       <div>

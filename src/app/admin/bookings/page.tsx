@@ -1,15 +1,22 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 
 export default function BookingsPage() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       {/* Header Section */}
       <div className="flex justify-between items-end mb-8">
         <div>
           <h2 className="text-3xl font-extrabold text-[#2a3433] tracking-tight mb-2">Quản lý đặt lịch</h2>
           <p className="text-[#56615f] max-w-md">Theo dõi và điều phối các lịch hẹn chăm sóc thú cưng một cách hiệu quả.</p>
         </div>
-        <button className="bg-[#006b62] hover:bg-[#005e56] text-[#e2fff9] px-6 py-3 rounded-full font-bold flex items-center gap-2 shadow-lg shadow-[#006b62]/20 transition-all scale-100 active:scale-95">
+        <button 
+          onClick={() => setIsPopupOpen(true)}
+          className="bg-[#006b62] hover:bg-[#005e56] text-[#e2fff9] px-6 py-3 rounded-full font-bold flex items-center gap-2 shadow-lg shadow-[#006b62]/20 transition-all scale-100 active:scale-95"
+        >
           <span className="material-symbols-outlined" data-icon="add">add</span>
           Thêm lịch đặt mới
         </button>
@@ -236,6 +243,71 @@ export default function BookingsPage() {
           </div>
         </div>
       </div>
+
+      {/* Popup Modal */}
+      {isPopupOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button 
+              onClick={() => setIsPopupOpen(false)}
+              className="absolute top-6 right-6 text-[#56615f] hover:text-[#2a3433] hover:bg-gray-100 p-2 rounded-full transition-colors"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <h3 className="text-2xl font-extrabold text-[#2a3433] mb-6 tracking-tight">Thêm lịch đặt mới</h3>
+            
+            <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); setIsPopupOpen(false); }}>
+              <div className="grid grid-cols-2 gap-5">
+                <div className="col-span-2 sm:col-span-1">
+                  <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Tên thú cưng</label>
+                  <input required type="text" placeholder="Nhập tên thú cưng..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Tên chủ nhân</label>
+                  <input required type="text" placeholder="Nhập tên chủ nhân..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Số điện thoại</label>
+                <input required type="tel" placeholder="Nhập số điện thoại..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Dịch vụ đặt</label>
+                <select required className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all cursor-pointer">
+                  <option value="">Chọn dịch vụ...</option>
+                  <option value="grooming">Cắt tỉa lông</option>
+                  <option value="spa">Spa trọn gói</option>
+                  <option value="vaccine">Tiêm chủng</option>
+                  <option value="hotel">Khách sạn thú cưng</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Ngày giờ sử dụng dịch vụ</label>
+                <input required type="datetime-local" className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+              </div>
+
+              <div className="pt-4 flex justify-end gap-3">
+                <button 
+                  type="button"
+                  onClick={() => setIsPopupOpen(false)}
+                  className="px-6 py-3 rounded-full font-bold text-[#56615f] bg-[#eef5f3] hover:bg-[#d9e5e2] transition-colors"
+                >
+                  Hủy bỏ
+                </button>
+                <button 
+                  type="submit"
+                  className="px-6 py-3 rounded-full font-bold text-white bg-[#006b62] hover:bg-[#005e56] transition-colors shadow-lg shadow-[#006b62]/20"
+                >
+                  Xác nhận đặt
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

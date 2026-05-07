@@ -1,6 +1,103 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
+
+const initialTransactions = [
+  {
+    id: '#TXN-88291',
+    date: '15/10/2023',
+    time: '14:20',
+    content: 'Cắt tỉa lông - Cún Golden (Max)',
+    icon: 'content_cut',
+    iconColor: 'text-[#446560]',
+    iconBg: 'bg-[#c6eae3]/30',
+    amount: '450.000',
+    method: 'Chuyển khoản',
+    status: 'Thành công',
+  },
+  {
+    id: '#TXN-88290',
+    date: '15/10/2023',
+    time: '13:45',
+    content: 'Tiêm phòng dại - Mèo British (Luna)',
+    icon: 'medication',
+    iconColor: 'text-[#006b62]',
+    iconBg: 'bg-[#82f6e7]/30',
+    amount: '250.000',
+    method: 'Tiền mặt',
+    status: 'Đang xử lý',
+  },
+  {
+    id: '#TXN-88289',
+    date: '15/10/2023',
+    time: '11:10',
+    content: 'Thức ăn hạt cao cấp (5kg)',
+    icon: 'shopping_bag',
+    iconColor: 'text-[#346578]',
+    iconBg: 'bg-[#b6e7fe]/30',
+    amount: '1.200.000',
+    method: 'Chuyển khoản',
+    status: 'Thành công',
+  },
+  {
+    id: '#TXN-88288',
+    date: '15/10/2023',
+    time: '09:30',
+    content: 'Dịch vụ lưu trú (3 đêm)',
+    icon: 'hotel',
+    iconColor: 'text-[#446560]',
+    iconBg: 'bg-[#c6eae3]/30',
+    amount: '900.000',
+    method: 'Chuyển khoản',
+    status: 'Hủy',
+  }
+];
 
 export default function PaymentsPage() {
+  const [transactions, setTransactions] = useState(initialTransactions);
+  const [filterStatus, setFilterStatus] = useState('Tất cả trạng thái');
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  // States for new invoice
+  const [newDate, setNewDate] = useState('');
+  const [newTime, setNewTime] = useState('');
+  const [newContent, setNewContent] = useState('');
+  const [newAmount, setNewAmount] = useState('');
+
+  const handleAddInvoice = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newTxn = {
+      id: `#TXN-${Math.floor(Math.random() * 90000) + 10000}`,
+      date: newDate.split('-').reverse().join('/'),
+      time: newTime,
+      content: newContent,
+      icon: 'receipt',
+      iconColor: 'text-[#006b62]',
+      iconBg: 'bg-[#82f6e7]/30',
+      amount: newAmount,
+      method: 'Tiền mặt',
+      status: 'Đang xử lý',
+    };
+    setTransactions([newTxn, ...transactions]);
+    setShowAddModal(false);
+    setNewDate('');
+    setNewTime('');
+    setNewContent('');
+    setNewAmount('');
+  };
+
+  const changeStatus = (id: string, newStatus: string) => {
+    setTransactions(transactions.map(txn => txn.id === id ? { ...txn, status: newStatus } : txn));
+  };
+
+  const changeMethod = (id: string, newMethod: string) => {
+    setTransactions(transactions.map(txn => txn.id === id ? { ...txn, method: newMethod } : txn));
+  };
+
+  const filteredTransactions = filterStatus === 'Tất cả trạng thái' 
+    ? transactions 
+    : transactions.filter(txn => txn.status === filterStatus);
+
   return (
     <div className="min-h-screen">
       {/* Header Section */}
@@ -13,7 +110,10 @@ export default function PaymentsPage() {
           <button className="bg-white text-[#2a3433] font-semibold px-5 py-2.5 rounded-full shadow-sm hover:bg-[#e1eae7] transition-all flex items-center gap-2">
             <span className="material-symbols-outlined text-lg">file_download</span> Xuất báo cáo
           </button>
-          <button className="bg-[#006b62] text-[#e2fff9] font-semibold px-6 py-2.5 rounded-full shadow-md hover:opacity-90 transition-all flex items-center gap-2">
+          <button 
+            onClick={() => setShowAddModal(true)}
+            className="bg-[#006b62] text-[#e2fff9] font-semibold px-6 py-2.5 rounded-full shadow-md hover:opacity-90 transition-all flex items-center gap-2"
+          >
             <span className="material-symbols-outlined text-lg">add</span> Tạo hóa đơn mới
           </button>
         </div>
@@ -54,237 +154,156 @@ export default function PaymentsPage() {
       </div>
 
       {/* Transaction History Table Section */}
-      <div className="bg-white rounded-[1.5rem] overflow-hidden shadow-[0px_10px_40px_rgba(42,52,51,0.06)] mb-10">
-        <div className="px-8 py-6 flex justify-between items-center bg-[#eef5f3]/50">
+      <div className="bg-white rounded-[1.5rem] overflow-visible shadow-[0px_10px_40px_rgba(42,52,51,0.06)] mb-10 pb-4">
+        <div className="px-8 py-6 flex justify-between items-center bg-[#eef5f3]/50 rounded-t-[1.5rem]">
           <h3 className="text-xl font-bold text-[#2a3433]">Lịch sử giao dịch</h3>
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-[#727d7a]">Lọc theo:</span>
-            <select className="text-sm border-none bg-transparent font-bold text-[#006b62] focus:ring-0 outline-none">
-              <option>Tất cả trạng thái</option>
-              <option>Thành công</option>
-              <option>Đang xử lý</option>
-              <option>Thất bại</option>
+            <select 
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="text-sm border-none bg-transparent font-bold text-[#006b62] focus:ring-0 outline-none cursor-pointer"
+            >
+              <option value="Tất cả trạng thái">Tất cả trạng thái</option>
+              <option value="Thành công">Thành công</option>
+              <option value="Đang xử lý">Đang xử lý</option>
+              <option value="Hủy">Hủy</option>
             </select>
           </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
+        <div className="overflow-x-visible">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-[#e7f0ed]/30">
+              <tr className="bg-[#e7f0ed]/30 border-b border-[#a9b4b1]/10">
                 <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider">Mã giao dịch</th>
                 <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider">Thời gian</th>
                 <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider">Nội dung</th>
                 <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider">Số tiền</th>
                 <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider">Hình thức</th>
                 <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider">Trạng thái</th>
-                <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider"></th>
+                <th className="px-8 py-4 text-xs font-bold text-[#727d7a] uppercase tracking-wider w-20"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#a9b4b1]/10">
-              {/* Row 1 */}
-              <tr className="hover:bg-[#e1eae7] transition-colors">
-                <td className="px-8 py-5">
-                  <span className="font-mono text-sm font-bold text-[#006b62]">#TXN-88291</span>
-                </td>
-                <td className="px-8 py-5">
-                  <p className="text-sm font-bold text-[#2a3433]">Hôm nay, 14:20</p>
-                  <p className="text-[10px] text-[#727d7a] font-medium">15/10/2023</p>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#c6eae3]/30 flex items-center justify-center text-[#446560]">
-                      <span className="material-symbols-outlined text-sm">content_cut</span>
+              {filteredTransactions.map((txn) => (
+                <tr key={txn.id} className="hover:bg-[#e1eae7]/50 transition-colors group">
+                  <td className="px-8 py-5">
+                    <span className="font-mono text-sm font-bold text-[#006b62]">{txn.id}</span>
+                  </td>
+                  <td className="px-8 py-5">
+                    <p className="text-sm font-bold text-[#2a3433]">{txn.time}</p>
+                    <p className="text-[10px] text-[#727d7a] font-medium">{txn.date}</p>
+                  </td>
+                  <td className="px-8 py-5">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full ${txn.iconBg} flex items-center justify-center ${txn.iconColor} shrink-0`}>
+                        <span className="material-symbols-outlined text-sm">{txn.icon}</span>
+                      </div>
+                      <span className="text-sm font-semibold text-[#2a3433] truncate max-w-[200px]">{txn.content}</span>
                     </div>
-                    <span className="text-sm font-semibold text-[#2a3433]">Cắt tỉa lông - Cún Golden (Max)</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="text-sm font-extrabold text-[#2a3433]">450.000 ₫</span>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-sm text-[#727d7a]">account_balance</span>
-                    <span className="text-xs font-semibold text-[#727d7a]">Chuyển khoản</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="px-3 py-1 rounded-full bg-[#82f6e7] text-[#005c54] text-[10px] font-bold uppercase">Thành công</span>
-                </td>
-                <td className="px-8 py-5 text-right">
-                  <button className="text-[#727d7a] hover:text-[#006b62] transition-colors">
-                    <span className="material-symbols-outlined">more_vert</span>
-                  </button>
-                </td>
-              </tr>
-              {/* Row 2 */}
-              <tr className="hover:bg-[#e1eae7] transition-colors">
-                <td className="px-8 py-5">
-                  <span className="font-mono text-sm font-bold text-[#006b62]">#TXN-88290</span>
-                </td>
-                <td className="px-8 py-5">
-                  <p className="text-sm font-bold text-[#2a3433]">Hôm nay, 13:45</p>
-                  <p className="text-[10px] text-[#727d7a] font-medium">15/10/2023</p>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#82f6e7]/30 flex items-center justify-center text-[#006b62]">
-                      <span className="material-symbols-outlined text-sm">medication</span>
+                  </td>
+                  <td className="px-8 py-5">
+                    <span className="text-sm font-extrabold text-[#2a3433]">{txn.amount} ₫</span>
+                  </td>
+                  <td className="px-8 py-5 relative">
+                    <select 
+                      value={txn.method}
+                      onChange={(e) => changeMethod(txn.id, e.target.value)}
+                      className="text-xs font-semibold text-[#727d7a] border-none bg-transparent hover:bg-white rounded-md px-1 py-1 cursor-pointer focus:ring-0"
+                    >
+                      <option value="Chuyển khoản">Chuyển khoản</option>
+                      <option value="Tiền mặt">Tiền mặt</option>
+                    </select>
+                  </td>
+                  <td className="px-8 py-5">
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
+                      txn.status === 'Thành công' ? 'bg-[#82f6e7] text-[#005c54]' :
+                      txn.status === 'Đang xử lý' ? 'bg-[#fef0c7] text-[#dc6803]' :
+                      'bg-[#fee4e2] text-[#d92d20]'
+                    }`}>
+                      {txn.status}
+                    </span>
+                  </td>
+                  <td className="px-8 py-5 text-right relative">
+                    <div className="relative inline-block text-left group/menu">
+                      <button className="text-[#727d7a] hover:text-[#006b62] transition-colors p-2 rounded-full hover:bg-white">
+                        <span className="material-symbols-outlined">more_vert</span>
+                      </button>
+                      <div className="absolute right-0 mt-2 w-48 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden group-hover/menu:block z-50">
+                        <div className="py-1">
+                          <div className="px-4 py-2 text-xs font-bold text-[#727d7a] uppercase tracking-wider bg-gray-50 border-b border-gray-100">Thay đổi trạng thái</div>
+                          <button onClick={() => changeStatus(txn.id, 'Thành công')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#eef5f3]">Thành công</button>
+                          <button onClick={() => changeStatus(txn.id, 'Đang xử lý')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#eef5f3]">Đang xử lý</button>
+                          <button onClick={() => changeStatus(txn.id, 'Hủy')} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Hủy</button>
+                          <div className="border-t border-gray-100"></div>
+                          <button className="block w-full text-left px-4 py-2 text-sm text-[#006b62] hover:bg-[#eef5f3] font-semibold flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">print</span> Xuất hóa đơn
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-sm font-semibold text-[#2a3433]">Tiêm phòng dại - Mèo British (Luna)</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="text-sm font-extrabold text-[#2a3433]">250.000 ₫</span>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-sm text-[#727d7a]">payments</span>
-                    <span className="text-xs font-semibold text-[#727d7a]">Tiền mặt</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="px-3 py-1 rounded-full bg-[#82f6e7] text-[#005c54] text-[10px] font-bold uppercase">Thành công</span>
-                </td>
-                <td className="px-8 py-5 text-right">
-                  <button className="text-[#727d7a] hover:text-[#006b62] transition-colors">
-                    <span className="material-symbols-outlined">more_vert</span>
-                  </button>
-                </td>
-              </tr>
-              {/* Row 3 */}
-              <tr className="hover:bg-[#e1eae7] transition-colors">
-                <td className="px-8 py-5">
-                  <span className="font-mono text-sm font-bold text-[#006b62]">#TXN-88289</span>
-                </td>
-                <td className="px-8 py-5">
-                  <p className="text-sm font-bold text-[#2a3433]">Hôm nay, 11:10</p>
-                  <p className="text-[10px] text-[#727d7a] font-medium">15/10/2023</p>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#b6e7fe]/30 flex items-center justify-center text-[#346578]">
-                      <span className="material-symbols-outlined text-sm">shopping_bag</span>
-                    </div>
-                    <span className="text-sm font-semibold text-[#2a3433]">Thức ăn hạt cao cấp (5kg)</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="text-sm font-extrabold text-[#2a3433]">1.200.000 ₫</span>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-sm text-[#727d7a]">account_balance</span>
-                    <span className="text-xs font-semibold text-[#727d7a]">Chuyển khoản</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="px-3 py-1 rounded-full bg-[#82f6e7] text-[#005c54] text-[10px] font-bold uppercase">Thành công</span>
-                </td>
-                <td className="px-8 py-5 text-right">
-                  <button className="text-[#727d7a] hover:text-[#006b62] transition-colors">
-                    <span className="material-symbols-outlined">more_vert</span>
-                  </button>
-                </td>
-              </tr>
-              {/* Row 4 */}
-              <tr className="hover:bg-[#e1eae7] transition-colors">
-                <td className="px-8 py-5">
-                  <span className="font-mono text-sm font-bold text-[#006b62]">#TXN-88288</span>
-                </td>
-                <td className="px-8 py-5">
-                  <p className="text-sm font-bold text-[#2a3433]">Hôm nay, 09:30</p>
-                  <p className="text-[10px] text-[#727d7a] font-medium">15/10/2023</p>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#c6eae3]/30 flex items-center justify-center text-[#446560]">
-                      <span className="material-symbols-outlined text-sm">hotel</span>
-                    </div>
-                    <span className="text-sm font-semibold text-[#2a3433]">Dịch vụ lưu trú (3 đêm)</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="text-sm font-extrabold text-[#2a3433]">900.000 ₫</span>
-                </td>
-                <td className="px-8 py-5">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-sm text-[#727d7a]">account_balance</span>
-                    <span className="text-xs font-semibold text-[#727d7a]">Chuyển khoản</span>
-                  </div>
-                </td>
-                <td className="px-8 py-5">
-                  <span className="px-3 py-1 rounded-full bg-[#82f6e7] text-[#005c54] text-[10px] font-bold uppercase">Thành công</span>
-                </td>
-                <td className="px-8 py-5 text-right">
-                  <button className="text-[#727d7a] hover:text-[#006b62] transition-colors">
-                    <span className="material-symbols-outlined">more_vert</span>
-                  </button>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-        <div className="px-8 py-4 bg-[#eef5f3]/30 flex justify-between items-center">
-          <p className="text-xs font-semibold text-[#727d7a]">Hiển thị 4 trong số 128 giao dịch</p>
-          <div className="flex gap-2">
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#a9b4b1]/30 text-[#727d7a] hover:bg-white transition-colors">
-              <span className="material-symbols-outlined text-lg">chevron_left</span>
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#006b62] text-[#e2fff9] font-bold text-xs">1</button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#a9b4b1]/30 text-[#727d7a] hover:bg-white transition-colors text-xs font-bold">2</button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#a9b4b1]/30 text-[#727d7a] hover:bg-white transition-colors text-xs font-bold">3</button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-[#a9b4b1]/30 text-[#727d7a] hover:bg-white transition-colors">
-              <span className="material-symbols-outlined text-lg">chevron_right</span>
-            </button>
-          </div>
-        </div>
       </div>
 
-      {/* Bottom Insights */}
-      <div className="grid grid-cols-1 gap-6">
-        {/* Mini Chart Placeholder Area */}
-        <div className="bg-[#eef5f3] p-8 rounded-[1.5rem] flex flex-col justify-between min-h-[300px]">
-          <div className="flex justify-between items-start">
-            <div>
-              <h4 className="text-lg font-bold text-[#2a3433]">Xu hướng doanh thu 7 ngày qua</h4>
-              <p className="text-sm text-[#727d7a] font-medium">Tăng trưởng ổn định ở mảng dịch vụ chăm sóc</p>
-            </div>
-            <span className="text-[#006b62] font-bold text-sm bg-[#82f6e7]/40 px-3 py-1 rounded-full">+8.5%</span>
-          </div>
-          <div className="flex-1 flex items-end gap-3 pt-8 pb-4">
-            <div className="flex-1 bg-[#006b62]/20 rounded-t-xl h-[40%] transition-all hover:bg-[#006b62]/40 relative group">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#2a3433] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">12tr</div>
-            </div>
-            <div className="flex-1 bg-[#006b62]/20 rounded-t-xl h-[65%] transition-all hover:bg-[#006b62]/40 relative group">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#2a3433] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">18tr</div>
-            </div>
-            <div className="flex-1 bg-[#006b62]/20 rounded-t-xl h-[55%] transition-all hover:bg-[#006b62]/40 relative group">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#2a3433] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">15tr</div>
-            </div>
-            <div className="flex-1 bg-[#006b62]/20 rounded-t-xl h-[80%] transition-all hover:bg-[#006b62]/40 relative group">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#2a3433] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">22tr</div>
-            </div>
-            <div className="flex-1 bg-[#006b62]/20 rounded-t-xl h-[45%] transition-all hover:bg-[#006b62]/40 relative group">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#2a3433] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">13tr</div>
-            </div>
-            <div className="flex-1 bg-[#006b62]/20 rounded-t-xl h-[70%] transition-all hover:bg-[#006b62]/40 relative group">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#2a3433] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">19tr</div>
-            </div>
-            <div className="flex-1 bg-[#006b62] rounded-t-xl h-[95%] relative group">
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#2a3433] text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">24.5tr</div>
-            </div>
-          </div>
-          <div className="flex justify-between text-[10px] text-[#727d7a] font-bold uppercase tracking-widest pt-2">
-            <span>Thứ 2</span>
-            <span>Thứ 3</span>
-            <span>Thứ 4</span>
-            <span>Thứ 5</span>
-            <span>Thứ 6</span>
-            <span>Thứ 7</span>
-            <span>Chủ nhật</span>
+      {/* Add Invoice Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button 
+              onClick={() => setShowAddModal(false)}
+              className="absolute top-6 right-6 text-[#56615f] hover:text-[#2a3433] hover:bg-gray-100 p-2 rounded-full transition-colors"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <h3 className="text-2xl font-extrabold text-[#2a3433] mb-6 tracking-tight">Tạo hóa đơn mới</h3>
+            
+            <form className="space-y-4" onSubmit={handleAddInvoice}>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Ngày</label>
+                  <input required type="date" value={newDate} onChange={e => setNewDate(e.target.value)} className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Giờ</label>
+                  <input required type="time" value={newTime} onChange={e => setNewTime(e.target.value)} className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Nội dung hóa đơn</label>
+                <input required type="text" value={newContent} onChange={e => setNewContent(e.target.value)} placeholder="Nhập nội dung..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Số tiền (₫)</label>
+                <input required type="text" value={newAmount} onChange={e => setNewAmount(e.target.value)} placeholder="VD: 500.000" className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+              </div>
+
+              <div className="pt-4 flex justify-end gap-3">
+                <button 
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="px-6 py-3 rounded-full font-bold text-[#56615f] bg-[#eef5f3] hover:bg-[#d9e5e2] transition-colors"
+                >
+                  Hủy
+                </button>
+                <button 
+                  type="submit"
+                  className="px-6 py-3 rounded-full font-bold text-white bg-[#006b62] hover:bg-[#005e56] transition-colors shadow-lg shadow-[#006b62]/20"
+                >
+                  Tạo mới
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 }

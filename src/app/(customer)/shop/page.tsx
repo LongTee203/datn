@@ -193,12 +193,22 @@ export default function ShopPage() {
   const [activeCategory, setActiveCategory] = useState(0);
   const [search, setSearch] = useState("");
   const [addedId, setAddedId] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState(2000000);
+  const [sortOption, setSortOption] = useState("newest");
 
   const filtered = ALL_PRODUCTS.filter(
     (p) =>
       p.cat === activeCategory &&
-      p.name.toLowerCase().includes(search.toLowerCase())
+      p.name.toLowerCase().includes(search.toLowerCase()) &&
+      p.price <= maxPrice
   );
+
+  filtered.sort((a, b) => {
+    if (sortOption === "price-asc") return a.price - b.price;
+    if (sortOption === "price-desc") return b.price - a.price;
+    if (sortOption === "rating") return b.rating - a.rating;
+    return b.id - a.id;
+  });
 
   function handleAdd(p: (typeof ALL_PRODUCTS)[0]) {
     addItem({ id: p.id, name: p.name, desc: p.desc, price: p.price, imageUrl: p.img });
@@ -260,31 +270,22 @@ export default function ShopPage() {
               </div>
             </div>
 
-            {/* Price range decoration */}
+            {/* Price range */}
             <div className="border-t border-slate-200 pt-6">
-              <h3 className="text-lg font-bold mb-4">Khoảng giá</h3>
+              <h3 className="text-lg font-bold mb-4">Khoảng giá:0đ - {maxPrice.toLocaleString("vi-VN")}đ</h3>
               <div className="px-2">
-                <div className="relative h-1 bg-slate-200 rounded-full mb-6">
-                  <div className="absolute left-0 right-1/4 h-full bg-[#2D6A4F] rounded-full" />
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#2D6A4F] rounded-full ring-2 ring-white" />
-                  <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-[#2D6A4F] rounded-full ring-2 ring-white" />
-                </div>
-                <div className="flex justify-between text-sm font-medium">
+                <input
+                  type="range"
+                  min="0"
+                  max="2000000"
+                  step="50000"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(Number(e.target.value))}
+                  className="w-full accent-[#2D6A4F] h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer"
+                />
+                <div className="flex justify-between text-xs text-slate-400 mt-2 font-medium">
                   <span>0đ</span><span>2.000.000đ</span>
                 </div>
-              </div>
-            </div>
-
-            {/* Brands */}
-            <div className="border-t border-slate-200 pt-6">
-              <h3 className="text-lg font-bold mb-4">Thương hiệu</h3>
-              <div className="space-y-3">
-                {["Royal Canin", "Blue Buffalo", "Kong Toys", "Wellness", "Petmate"].map((b, i) => (
-                  <label key={b} className="flex items-center gap-3 cursor-pointer group">
-                    <input type="checkbox" defaultChecked={i < 2} className="rounded h-4 w-4 accent-[#2D6A4F]" />
-                    <span className="text-sm group-hover:text-[#2D6A4F] transition-colors">{b}</span>
-                  </label>
-                ))}
               </div>
             </div>
           </aside>
@@ -309,11 +310,15 @@ export default function ShopPage() {
                     onChange={(e) => setSearch(e.target.value)}
                   />
                 </div>
-                <select className="bg-white border border-slate-200 rounded-lg text-sm px-3 py-2 outline-none">
-                  <option>Mới nhất</option>
-                  <option>Giá thấp → cao</option>
-                  <option>Giá cao → thấp</option>
-                  <option>Đánh giá</option>
+                <select
+                  className="bg-white border border-slate-200 rounded-lg text-sm px-3 py-2 outline-none"
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                >
+                  <option value="newest">Mới nhất</option>
+                  <option value="price-asc">Giá thấp → cao</option>
+                  <option value="price-desc">Giá cao → thấp</option>
+                  <option value="rating">Đánh giá</option>
                 </select>
               </div>
             </div>

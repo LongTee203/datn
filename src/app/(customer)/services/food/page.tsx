@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function ArticleDetailPage({ params }: { params: { id: string } }) {
+export default function ServiceDetailPage() {
   // Normally, you would fetch the article data based on params.id
   // Here we use static content based on the provided design.
 
@@ -220,3 +220,4 @@ export default function ArticleDetailPage({ params }: { params: { id: string } }
     </main>
   );
 }
+

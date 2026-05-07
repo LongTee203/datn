@@ -100,7 +100,7 @@ export default function Header() {
             ) : (
               <Link className="hidden sm:block font-label-md text-sm text-slate-600 hover:text-primary transition-all font-bold" href="/login">Đăng nhập</Link>
             )}
-            <Link href="/booking" className="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-label-md text-sm hover:bg-secondary transition-all active:scale-95 inline-block text-center cursor-pointer">
+            <Link href="/services" className="bg-primary text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-label-md text-sm hover:bg-secondary transition-all active:scale-95 inline-block text-center cursor-pointer">
               Đặt lịch<span className="hidden sm:inline"> ngay</span>
             </Link>
             <button
@@ -176,7 +176,7 @@ export default function Header() {
             ) : (
               <Link className="text-center py-4 text-primary font-bold border border-primary rounded-xl" href="/login" onClick={() => setIsMobileMenuOpen(false)}>Đăng nhập</Link>
             )}
-            <Link href="/booking" onClick={() => setIsMobileMenuOpen(false)} className="bg-primary text-white py-4 rounded-xl font-bold uppercase tracking-wide text-center">Đặt lịch ngay</Link>
+            <Link href="/services" onClick={() => setIsMobileMenuOpen(false)} className="bg-primary text-white py-4 rounded-xl font-bold uppercase tracking-wide text-center">Đặt lịch ngay</Link>
           </div>
         </div>
       </div>

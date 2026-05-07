@@ -3,6 +3,7 @@
 import React from 'react';
 import Header from '@/components/customer/layout/Header';
 import Footer from '@/components/customer/layout/Footer';
+import Link from 'next/link';
 
 export default function RootPage() {
   return (
@@ -22,12 +23,12 @@ export default function RootPage() {
             PetCare mang đến tiêu chuẩn chăm sóc 5 sao từ Spa, Khách sạn đến Dịch vụ Y tế, đảm bảo người bạn nhỏ luôn khỏe mạnh và hạnh phúc.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-            <button className="bg-primary text-white px-8 py-4 rounded-full font-label-md text-base hover:bg-secondary transition-all shadow-lg shadow-green-100 font-bold w-full sm:w-auto">
+            <Link href="/services" className="bg-primary text-white px-8 py-4 rounded-full font-label-md text-base hover:bg-secondary transition-all shadow-lg shadow-green-100 font-bold w-full sm:w-auto text-center inline-block">
               Đặt lịch ngay
-            </button>
-            <button className="bg-white border border-primary text-primary px-8 py-4 rounded-full font-label-md text-base hover:bg-primary-light transition-all font-bold w-full sm:w-auto">
+            </Link>
+            <Link href="/price/dog-grooming" className="bg-white border border-primary text-primary px-8 py-4 rounded-full font-label-md text-base hover:bg-primary-light transition-all font-bold w-full sm:w-auto text-center inline-block">
               Xem bảng giá
-            </button>
+            </Link>
           </div>
         </div>
         <div className="relative">
@@ -83,12 +84,12 @@ export default function RootPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {[
-            { title: "Grooming cắt tỉa", icon: "content_cut", img: "AB6AXuA5yUhTWYz38OWJUpDyYt4LXSjZvAs7nYm5L0sfs0FxF5y7uZrsUu_lL2Smd1us3UZlQH7Q6iNsM_VYMO8xTVWYavI5MpvMZCF36_2cyMUmq0x4Q5E2ReSx0YTQYGi5CbrRMAw2dnYNqSPPoEkEYbPN0gjPQeCiZEUG51u8lndy5x7a79F2KWKTrAdlZcuBLP3sCfBhDNR0KhCaRpvBN-W_zNXP05JG_l4AvWyvoDNL3nduMl8jDDkkjNCCJP5afbk7Oak2tX8kcfQf", desc: "Cắt tỉa, tắm massage chuyên nghiệp giúp bé yêu luôn sạch sẽ, thơm tho và có diện mạo hoàn hảo nhất." },
-            { title: "Thức ăn cho cún", icon: "set_meal", img: "AB6AXuAsLmnS0FQTVcKA7JZX-2Pmme2IdyJIDQBRGYaE9-MH7ED_teW6IckvMV1JVs9hJlS1fIilG7uTXgOEx1_9jvngCpFY1Scrj2zcyj3NG1nB7xc8qhlz1JCkxiSPaifVN5FnDrRfI_dJH-kfbiTmOWecE3wt2RV8C7MVf75iKOT4TNOexni88gEEmT9jHyosO7U7wdB3UhdejvO6k-5Lu7HjZOF21lKvHPGEt0C0CII_30qydfozhBr9rmC6vMMtu2M_Qk6_qthk_XF1", desc: "Cung cấp các dòng thức ăn dinh dưỡng cao cấp, chính hãng, phù hợp với mọi lứa tuổi và thể trạng của cún." },
-            { title: "Khách sạn cho cún", icon: "hotel", img: "AB6AXuBl3Ll8iUXOfGJnuouv505O7nnVzLvud5VGE30mO2i5-e8AoDp5AlOE0XB1LF8NF5_X_n4grnZ-DofDv3dg8w96LNr0VLXiJHM2wdU-Pd4TloqOX4A4u3O6E2sFmKfnZB0BjgMyIM12geQhG7HfQY7CiyhnFF4n2FF2QW3C1Pjcb9HMR74zP4rIVgjXG4Dh9Z0x-0WaZ2fX6Vk2ia8xwgjDIq9NDz_BHqEUAShb4BCxoxF2sTP-r3lF2xZzir8i0-r0YWWA888TxyE5", desc: "Không gian lưu trú chuẩn 5 sao, rộng rãi, thoáng mát, vệ sinh sạch sẽ đảm bảo an toàn tuyệt đối cho bé." },
-            { title: "Huấn luyện cún", icon: "sports_baseball", img: "AB6AXuBvZJb7pZs6XfJ3w5cnBdKA6ubCDvHAZiN9p1jOiV7ZItYiGyEyKAaYyvINFO4M2pGbPDaFBHd3CzcrCyBsnkOPEK27IijYEks4UxL_op16L_Ilqnam9_nolVssN6D_-zq0b0Z2-DoCSSa9P4x1V9WoobmOMmXCCAFr9HloJPSjmQGCr5ECaEZ0LEBs9JO4JjGczKJ_V2NtvMUMvyXAFE4mNDFwg6-pXpPkObtRqVyGvuYLAJbkzLnd3nPOp8qVphv-tyiQXH6ZT9NA", desc: "Các khóa huấn luyện vâng lời, đi vệ sinh đúng chỗ, sửa lỗi hành vi từ các chuyên gia huấn luyện giàu kinh nghiệm." },
-            { title: "Tiêm phòng vắc xin", icon: "vaccines", img: "AB6AXuAOqy46JBSODwOYSJDP0mnNDpz8xDbHAdViTbMQ1sefG2Jo-LTzi0zFHNsVX1ySflsxtXqNaS0CBUjMhGgxwaNvf11O90seTGhnswZcCT6K6Q-YZd8qqhMc-N90RR1xedjQlmwMntkJ3AR9QWbibBnLswj8U87RrIsOHHpzNdHneNS-jx4-aG824e1g_sXk1qzHXDzZiz8kAfosIpypdU-W4H_g5k0NFApV3LhIJ93Gx1VajmFwoe1utu_N7BtMpOHALOvwb95tYpgt", desc: "Bảo vệ sức khỏe bé yêu với lịch tiêm phòng đầy đủ, sử dụng các loại thuốc vắc xin đạt chuẩn chất lượng quốc tế." },
-            { title: "Khám thú y", icon: "medical_services", img: "AB6AXuBPF8YAalKVFXrQ-L3eIoQe4eiF8jCcluON8LoGogdZBiNhkW0qbsOtfIzEjvinVsnEun9eo2wQZ_UqRNeJJyojS3H0veLtE8q1_n5N-deSfyD0jmsMt8VE5OcCDUqa_vJBe0DHHjuVI0frmFyF8RhWqzViO7_HjvPk2X5VukPKpSlp8uu4iqYHcxXKdxWTsvLwBWNSshjB0zO-M7033Ym8pC73igijTMfDqcUgb437V8CSKngYietTR2QgSzcLuQQn2SflKPq2OU0b", desc: "Dịch vụ khám tổng quát, chẩn đoán và điều trị bệnh bằng hệ thống máy móc, thiết bị y khoa hiện đại." }
+            { title: "Grooming cắt tỉa", slug: "grooming", icon: "content_cut", img: "AB6AXuA5yUhTWYz38OWJUpDyYt4LXSjZvAs7nYm5L0sfs0FxF5y7uZrsUu_lL2Smd1us3UZlQH7Q6iNsM_VYMO8xTVWYavI5MpvMZCF36_2cyMUmq0x4Q5E2ReSx0YTQYGi5CbrRMAw2dnYNqSPPoEkEYbPN0gjPQeCiZEUG51u8lndy5x7a79F2KWKTrAdlZcuBLP3sCfBhDNR0KhCaRpvBN-W_zNXP05JG_l4AvWyvoDNL3nduMl8jDDkkjNCCJP5afbk7Oak2tX8kcfQf", desc: "Cắt tỉa, tắm massage chuyên nghiệp giúp bé yêu luôn sạch sẽ, thơm tho và có diện mạo hoàn hảo nhất." },
+            { title: "Thức ăn cho cún", slug: "food", icon: "set_meal", img: "AB6AXuAsLmnS0FQTVcKA7JZX-2Pmme2IdyJIDQBRGYaE9-MH7ED_teW6IckvMV1JVs9hJlS1fIilG7uTXgOEx1_9jvngCpFY1Scrj2zcyj3NG1nB7xc8qhlz1JCkxiSPaifVN5FnDrRfI_dJH-kfbiTmOWecE3wt2RV8C7MVf75iKOT4TNOexni88gEEmT9jHyosO7U7wdB3UhdejvO6k-5Lu7HjZOF21lKvHPGEt0C0CII_30qydfozhBr9rmC6vMMtu2M_Qk6_qthk_XF1", desc: "Cung cấp các dòng thức ăn dinh dưỡng cao cấp, chính hãng, phù hợp với mọi lứa tuổi và thể trạng của cún." },
+            { title: "Khách sạn cho cún", slug: "hotel", icon: "hotel", img: "AB6AXuBl3Ll8iUXOfGJnuouv505O7nnVzLvud5VGE30mO2i5-e8AoDp5AlOE0XB1LF8NF5_X_n4grnZ-DofDv3dg8w96LNr0VLXiJHM2wdU-Pd4TloqOX4A4u3O6E2sFmKfnZB0BjgMyIM12geQhG7HfQY7CiyhnFF4n2FF2QW3C1Pjcb9HMR74zP4rIVgjXG4Dh9Z0x-0WaZ2fX6Vk2ia8xwgjDIq9NDz_BHqEUAShb4BCxoxF2sTP-r3lF2xZzir8i0-r0YWWA888TxyE5", desc: "Không gian lưu trú chuẩn 5 sao, rộng rãi, thoáng mát, vệ sinh sạch sẽ đảm bảo an toàn tuyệt đối cho bé." },
+            { title: "Huấn luyện cún", slug: "training", icon: "sports_baseball", img: "AB6AXuBvZJb7pZs6XfJ3w5cnBdKA6ubCDvHAZiN9p1jOiV7ZItYiGyEyKAaYyvINFO4M2pGbPDaFBHd3CzcrCyBsnkOPEK27IijYEks4UxL_op16L_Ilqnam9_nolVssN6D_-zq0b0Z2-DoCSSa9P4x1V9WoobmOMmXCCAFr9HloJPSjmQGCr5ECaEZ0LEBs9JO4JjGczKJ_V2NtvMUMvyXAFE4mNDFwg6-pXpPkObtRqVyGvuYLAJbkzLnd3nPOp8qVphv-tyiQXH6ZT9NA", desc: "Các khóa huấn luyện vâng lời, đi vệ sinh đúng chỗ, sửa lỗi hành vi từ các chuyên gia huấn luyện giàu kinh nghiệm." },
+            { title: "Tiêm phòng vắc xin", slug: "vaccine", icon: "vaccines", img: "AB6AXuAOqy46JBSODwOYSJDP0mnNDpz8xDbHAdViTbMQ1sefG2Jo-LTzi0zFHNsVX1ySflsxtXqNaS0CBUjMhGgxwaNvf11O90seTGhnswZcCT6K6Q-YZd8qqhMc-N90RR1xedjQlmwMntkJ3AR9QWbibBnLswj8U87RrIsOHHpzNdHneNS-jx4-aG824e1g_sXk1qzHXDzZiz8kAfosIpypdU-W4H_g5k0NFApV3LhIJ93Gx1VajmFwoe1utu_N7BtMpOHALOvwb95tYpgt", desc: "Bảo vệ sức khỏe bé yêu với lịch tiêm phòng đầy đủ, sử dụng các loại thuốc vắc xin đạt chuẩn chất lượng quốc tế." },
+            { title: "Khám thú y", slug: "vet", icon: "medical_services", img: "AB6AXuBPF8YAalKVFXrQ-L3eIoQe4eiF8jCcluON8LoGogdZBiNhkW0qbsOtfIzEjvinVsnEun9eo2wQZ_UqRNeJJyojS3H0veLtE8q1_n5N-deSfyD0jmsMt8VE5OcCDUqa_vJBe0DHHjuVI0frmFyF8RhWqzViO7_HjvPk2X5VukPKpSlp8uu4iqYHcxXKdxWTsvLwBWNSshjB0zO-M7033Ym8pC73igijTMfDqcUgb437V8CSKngYietTR2QgSzcLuQQn2SflKPq2OU0b", desc: "Dịch vụ khám tổng quát, chẩn đoán và điều trị bệnh bằng hệ thống máy móc, thiết bị y khoa hiện đại." }
           ].map((srv, idx) => (
             <div key={idx} className="bg-white rounded-[20px] p-6 md:p-8 shadow-[0_10px_40px_-10px_rgba(41,102,76,0.08)] flex flex-col justify-between h-full group relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-primary border border-[#f1f5f3]">
               <div className="absolute inset-0 z-0 opacity-[0.08] pointer-events-none">
@@ -103,16 +104,16 @@ export default function RootPage() {
                 </div>
                 <p className="text-slate-500 text-sm md:text-base mb-6 md:mb-8 leading-relaxed">{srv.desc}</p>
               </div>
-              <a className="relative z-10 font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href="#">
+              <Link className="relative z-10 font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href={`/services/${srv.slug}`}>
                 Chi tiết <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </a>
+              </Link>
             </div>
           ))}
         </div>
         <div className="mt-10 md:mt-16 flex justify-center">
-          <button className="bg-primary text-white px-8 md:px-10 py-3 md:py-4 rounded-full font-label-md text-base md:text-lg hover:bg-secondary transition-all shadow-lg shadow-green-100 font-bold uppercase tracking-wide w-full sm:w-auto">
+          <Link href="/services" className="bg-primary text-white px-8 md:px-10 py-3 md:py-4 rounded-full font-label-md text-base md:text-lg hover:bg-secondary transition-all shadow-lg shadow-green-100 font-bold uppercase tracking-wide w-full sm:w-auto text-center inline-block">
             Đặt lịch ngay
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -148,7 +149,10 @@ export default function RootPage() {
               {[
                 { name: "Chị Mai Anh", pet: "Chủ của bé Poodle Bông", review: `"Dịch vụ spa ở đây cực kỳ chuyên nghiệp. Bé nhà mình rất nhát nhưng đến đây lại rất ngoan và sạch sẽ."`, stars: 5 },
                 { name: "Anh Tuấn", pet: "Chủ của bé Corgi Mập", review: `"Khách sạn thú cưng sạch thoáng, mình đi du lịch 1 tuần mà hoàn toàn yên tâm vì luôn nhận được ảnh cập nhật."`, stars: 5 },
-                { name: "Chị Lan", pet: "Chủ của bé British Shorthair", review: `"Bác sĩ rất nhiệt tình tư vấn chế độ dinh dưỡng. Bé mèo nhà mình đã cải thiện cân nặng rõ rệt sau 1 tháng."`, stars: 4.5 }
+                { name: "Chị Lan", pet: "Chủ của bé British Shorthair", review: `"Bác sĩ rất nhiệt tình tư vấn chế độ dinh dưỡng. Bé mèo nhà mình đã cải thiện cân nặng rõ rệt sau 1 tháng."`, stars: 4.5 },
+                { name: "Bạn Minh", pet: "Chủ của bé Golden Retriever", review: `"Mấy bạn Groomer cắt tỉa cực kỳ có tâm và khéo léo. Cún nhà mình cắt xong nhìn cưng xỉu luôn."`, stars: 5 },
+                { name: "Cô Hương", pet: "Chủ của bé Samoyed", review: `"Tiệm sạch sẽ, các bạn nhân viên tư vấn siêu nhiệt tình. Sẽ luôn ủng hộ PetCare lâu dài!"`, stars: 5 },
+                { name: "Anh Khang", pet: "Chủ của bé Husky", review: `"Chương trình huấn luyện vâng lời ở đây quá tốt. Bé nhà mình bớt phá đồ đạc hơn hẳn."`, stars: 4.5 }
               ].map((testi, idx) => (
                 <div key={idx} className="min-w-[300px] md:min-w-[450px] bg-white p-6 md:p-10 rounded-3xl snap-center border border-gray-100 shadow-sm">
                   <div className="flex text-accent mb-4 md:mb-6">
@@ -188,9 +192,9 @@ export default function RootPage() {
               <h2 className="font-h2 text-2xl md:text-3xl mb-2 md:mb-3 font-bold">Kiến thức chăm sóc</h2>
               <p className="text-slate-500 font-body-md text-base md:text-lg">Cập nhật tin tức và kinh nghiệm nuôi thú cưng</p>
             </div>
-            <button className="text-primary font-bold flex items-center gap-2 hover:underline text-sm md:text-base">
+            <Link href="/article" className="text-primary font-bold flex items-center gap-2 hover:underline text-sm md:text-base">
               Tất cả bài viết <span className="material-symbols-outlined">chevron_right</span>
-            </button>
+            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[

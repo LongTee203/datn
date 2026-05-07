@@ -14,11 +14,13 @@ import { SESSION_COOKIE, clearSessionCookie, parseSession } from "@/lib/auth";
 
 interface AuthContextValue {
   user: SessionPayload | null;
+  login: (session: SessionPayload) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
+  login: () => {},
   logout: () => {},
 });
 
@@ -32,6 +34,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(session);
   }, []);
 
+  const login = useCallback((session: SessionPayload) => {
+    setUser(session);
+  }, []);
+
   const logout = useCallback(() => {
     clearSessionCookie();
     setUser(null);
@@ -39,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [router]);
 
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

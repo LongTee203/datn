@@ -29,9 +29,8 @@ export default function AboutPage() {
         {/* ── Brief Introduction ── */}
         <section className="px-6 mb-20">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[#00362a] mb-6 tracking-tight font-headline">
-              Về{" "}
-              <span className="text-primary italic">The Organic Sanctuary</span>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-[#00362a] mb-6 tracking-tight font-headline">{" "}
+              <span className="text-primary italic"> Về PetCare Shop</span>
             </h1>
             <p className="text-lg text-[#2f6555] leading-relaxed">
               Chúng tôi là nơi hội tụ của tình yêu thương và sự tử tế, mang
@@ -71,7 +70,7 @@ export default function AboutPage() {
             </h2>
             <div className="text-[#2f6555] leading-relaxed space-y-4">
               <p>
-                The Organic Sanctuary ra đời từ ý tưởng về một &ldquo;Nhà Kính
+                PetCare Shop ra đời từ ý tưởng về một &ldquo;Nhà Kính
                 Kỹ Thuật Số&rdquo; (Digital Greenhouse) — nơi công nghệ hiện
                 đại phục vụ cho bản năng tự nhiên của thú cưng. Chúng tôi tin
                 rằng, trong thế giới ngày càng bận rộn, các bé yêu xứng đáng
@@ -102,7 +101,7 @@ export default function AboutPage() {
                 Liên hệ tư vấn
               </Link>
               <Link
-                href="/services"
+                href="/price/dog-grooming"
                 className="bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:bg-primary-dim transition-colors"
               >
                 Xem bảng giá

@@ -6,9 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { findUser } from "@/lib/users";
 import { setSessionCookie, homeForRole } from "@/lib/auth";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,13 +31,16 @@ export default function LoginPage() {
       return;
     }
 
-    setSessionCookie({
+    const session = {
       id: user.id,
       email: user.email,
       name: user.name,
       role: user.role,
       avatar: user.avatar,
-    });
+    };
+
+    setSessionCookie(session);
+    login(session);
 
     router.push(homeForRole(user.role));
   }

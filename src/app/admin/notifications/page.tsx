@@ -57,16 +57,7 @@ export default function NotificationsPage() {
               </div>
             </div>
           </div>
-          <div className="relative overflow-hidden bg-[#006b62] text-[#e2fff9] p-6 rounded-[2rem] shadow-lg">
-            <div className="relative z-10">
-              <h3 className="text-xl font-bold mb-2">Tạo thông báo mới?</h3>
-              <p className="text-[#e2fff9]/80 text-sm mb-4 leading-relaxed">Tạo thông báo khuyến mãi cho khách hàng thân thiết ngay để tăng doanh thu cuối tuần.</p>
-              <button className="bg-white text-[#006b62] px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#82f6e7] transition-colors">Tạo ngay</button>
-            </div>
-            <div className="absolute -right-4 -bottom-4 opacity-10">
-              <span className="material-symbols-outlined text-[120px]" style={{ fontVariationSettings: '"FILL" 1' }}>campaign</span>
-            </div>
-          </div>
+
         </div>
 
         {/* Main Notification List (Main Column) */}
@@ -134,25 +125,6 @@ export default function NotificationsPage() {
             </div>
           </div>
 
-          {/* Notification Item: System Update (Read) */}
-          <div className="group bg-[#eef5f3]/50 p-5 rounded-[1.5rem] flex gap-4 opacity-70 hover:opacity-100 transition-all cursor-pointer border border-transparent hover:border-[#a9b4b1]/20">
-            <div className="w-14 h-14 rounded-2xl bg-[#a9b4b1]/20 flex flex-shrink-0 items-center justify-center text-[#727d7a]">
-              <span className="material-symbols-outlined text-3xl">settings_suggest</span>
-            </div>
-            <div className="flex-grow">
-              <div className="flex justify-between items-start">
-                <h4 className="font-bold text-[#2a3433]">Cập nhật hệ thống v2.4.0</h4>
-                <span className="text-[11px] font-medium text-[#727d7a]">Đã đọc</span>
-              </div>
-              <p className="text-sm text-[#56615f] mt-1">Hệ thống đã cập nhật tính năng quản lý khách hàng VIP và tối ưu hóa biểu đồ báo cáo.</p>
-              <div className="flex items-center gap-4 mt-3">
-                <span className="text-[11px] text-[#727d7a] flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">schedule</span>
-                  5 giờ trước
-                </span>
-              </div>
-            </div>
-          </div>
 
           {/* Notification Item: New Booking (Read) */}
           <div className="group bg-[#eef5f3]/50 p-5 rounded-[1.5rem] flex gap-4 opacity-70 hover:opacity-100 transition-all cursor-pointer border border-transparent hover:border-[#a9b4b1]/20">

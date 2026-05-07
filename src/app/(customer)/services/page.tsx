@@ -100,7 +100,7 @@ export default function ServicesPage() {
               href="/booking"
               className="bg-[#5a5c5c] text-[#f2f3f3] font-medium py-4 px-8 rounded-full hover:opacity-90 transition-opacity inline-flex items-center gap-2"
             >
-              Đặt lịch tổng quát
+              Đặt lịch ngay
               <span className="material-symbols-outlined text-sm">
                 arrow_forward
               </span>

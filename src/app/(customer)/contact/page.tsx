@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Liên Hệ | PetCare Plus",
@@ -37,7 +38,7 @@ export default function ContactPage() {
                     <div>
                       <p className="font-semibold">Địa chỉ</p>
                       <p className="text-gray-600">
-                        123 Đường Thảo Mộc, Quận Xanh, TP. HCM
+                        123 Lê Văn Hiến, Đông Ngạc, Từ Liêm, Hà Nội
                       </p>
                     </div>
                   </li>
@@ -47,7 +48,7 @@ export default function ContactPage() {
                     </span>
                     <div>
                       <p className="font-semibold">Điện thoại</p>
-                      <p className="text-gray-600">+84 900 123 456</p>
+                      <p className="text-gray-600">0862623135</p>
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
@@ -56,7 +57,7 @@ export default function ContactPage() {
                     </span>
                     <div>
                       <p className="font-semibold">Email</p>
-                      <p className="text-gray-600">hello@organicsanctuary.vn</p>
+                      <p className="text-gray-600">lel435564@gmail.com</p>
                     </div>
                   </li>
                 </ul>
@@ -74,13 +75,13 @@ export default function ContactPage() {
                     Ngân hàng Quân Đội (MB Bank)
                   </p>
                   <p className="text-xl font-mono font-bold text-gray-900 mb-2">
-                    1234 5678 9999
+                    0862623135
                   </p>
                   <p className="text-xs font-semibold text-gray-700 uppercase mb-4">
-                    THE ORGANIC SANCTUARY LTD
+                    PetCare Shop
                   </p>
                   <p className="text-xs text-gray-400 italic">
-                    Nội dung: [SĐT] + [Tên thú cưng]
+                    Nội dung: [SĐT] + [Tên thú cưng] + [Loại dịch vụ]
                   </p>
                 </div>
               </div>
@@ -88,61 +89,7 @@ export default function ContactPage() {
           </section>
 
           {/* ── Contact Form ── */}
-          <section>
-            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">
-              Gửi tin nhắn
-            </h2>
-            <form className="space-y-5" action="#" method="post">
-              <div className="space-y-1">
-                <label
-                  htmlFor="contact-name"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Họ và tên
-                </label>
-                <input
-                  id="contact-name"
-                  type="text"
-                  placeholder="Nguyễn Văn A"
-                  className="w-full border border-gray-200 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
-                />
-              </div>
-              <div className="space-y-1">
-                <label
-                  htmlFor="contact-email"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  id="contact-email"
-                  type="email"
-                  placeholder="email@example.com"
-                  className="w-full border border-gray-200 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
-                />
-              </div>
-              <div className="space-y-1">
-                <label
-                  htmlFor="contact-message"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Nội dung
-                </label>
-                <textarea
-                  id="contact-message"
-                  rows={4}
-                  placeholder="Lời nhắn của bạn..."
-                  className="w-full border border-gray-200 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-primary text-white py-3 rounded-md font-bold text-sm hover:opacity-90 transition-opacity"
-              >
-                Gửi tin nhắn
-              </button>
-            </form>
-          </section>
+          <ContactForm />
         </div>
       </main>
     </div>

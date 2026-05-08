@@ -1,13 +1,21 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/customer/layout/Header';
 import Footer from '@/components/customer/layout/Footer';
 import Link from 'next/link';
 
 export default function RootPage() {
+  const [showToast, setShowToast] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
+
   return (
-    <div className="text-on-surface bg-background font-sans min-h-screen flex flex-col">
+    <div className="text-on-surface bg-background font-sans min-h-screen flex flex-col relative">
       <Header />
 
       {/* Hero Section */}
@@ -246,7 +254,7 @@ export default function RootPage() {
           <div className="p-8 md:p-12 lg:p-20 space-y-6 md:space-y-8">
             <h2 className="font-h2 text-3xl md:text-4xl font-bold">Đặt lịch hẹn nhanh</h2>
             <p className="text-slate-500 font-body-md text-base md:text-lg">Chỉ mất 30 giây để đặt chỗ chăm sóc cho bé yêu của bạn.</p>
-            <form className="space-y-4 md:space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <input className="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base outline-none transition-colors" placeholder="Họ và tên" type="text" />
                 <input className="w-full bg-background border-gray-100 focus:border-primary focus:ring-0 rounded-xl p-3 md:p-4 text-sm md:text-base outline-none transition-colors" placeholder="Số điện thoại" type="tel" />
@@ -273,6 +281,14 @@ export default function RootPage() {
       </section>
 
       <Footer />
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed bottom-8 right-8 bg-[#2D6A4F] text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 z-50 animate-[bounce_0.5s_ease-out]">
+          <span className="material-symbols-outlined">check_circle</span>
+          <p className="font-bold">Gửi yêu cầu đặt lịch thành công!</p>
+        </div>
+      )}
     </div>
   );
 }

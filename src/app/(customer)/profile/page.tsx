@@ -50,7 +50,7 @@ export default function ProfilePage() {
   return (
     <div className="bg-white text-[#00362a] min-h-screen relative">
       <main className="max-w-7xl mx-auto px-6 pb-6 md:px-12 md:pb-12 space-y-12 pt-32 md:pt-40">
-        
+
         {/* ── Hero Bento: Personal Info + Spending Card ── */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Left: User info card */}
@@ -70,13 +70,13 @@ export default function ProfilePage() {
                 <h1 className="text-4xl font-extrabold text-[#00362a] tracking-tight font-headline">
                   {displayName}
                 </h1>
-                <p className="text-emerald-700/70 font-medium">Hạng thành viên: Gold Leaf 🌿</p>
+                <p className="text-emerald-700/70 font-medium">Hạng thành viên: Thân thiết 🌿</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 {[
                   { icon: "mail", text: displayEmail },
                   { icon: "call", text: "090 123 4567" },
-                  { icon: "location_on", text: "24 Lê Lợi, Quận 1, TP. HCM", wide: true },
+                  { icon: "location_on", text: "25 Cổ Nhuế, Từ Liêm, Hà Nội", wide: true },
                 ].map(({ icon, text, wide }) => (
                   <div key={icon} className={`flex items-center gap-3 text-[#2D6A4F] ${wide ? "sm:col-span-2" : ""}`}>
                     <span className="material-symbols-outlined text-[#2D6A4F]">{icon}</span>
@@ -99,7 +99,7 @@ export default function ProfilePage() {
               <h2 className="text-5xl font-black">2,450,000đ</h2>
               <p className="text-sm opacity-70 mt-2">+450.000đ tháng này</p>
             </div>
-            <button 
+            <button
               onClick={() => setShowTierModal(true)}
               className="bg-white text-[#2D6A4F] rounded-full py-3 font-bold hover:bg-emerald-50 transition-colors mt-6"
             >
@@ -138,7 +138,7 @@ export default function ProfilePage() {
             ))}
 
             {/* Add pet card */}
-            <div 
+            <div
               onClick={() => setShowAddPetModal(true)}
               className="border-2 border-dashed border-[#81b8a6] rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-4 hover:bg-emerald-50/50 transition-colors cursor-pointer"
             >
@@ -173,7 +173,7 @@ export default function ProfilePage() {
               ))}
             </div>
             {!showAllHistory && (
-              <button 
+              <button
                 onClick={() => setShowAllHistory(true)}
                 className="w-full py-4 rounded-2xl border-2 border-[#2D6A4F]/20 text-[#2D6A4F] font-bold hover:bg-[#2D6A4F] hover:text-white transition-all"
               >
@@ -196,7 +196,7 @@ export default function ProfilePage() {
                 </div>
                 <span className="material-symbols-outlined text-[#3b6447] text-sm">chevron_right</span>
               </div>
-              
+
               <div className="flex items-center justify-between group cursor-pointer" onClick={() => setShowProfileModal(true)}>
                 <div className="flex items-center gap-4">
                   <span className="material-symbols-outlined text-[#3b6447] group-hover:text-[#2D6A4F] transition-colors">edit</span>
@@ -222,7 +222,7 @@ export default function ProfilePage() {
       </main>
 
       {/* --- Modals --- */}
-      
+
       {/* Tier Modal */}
       {showTierModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">

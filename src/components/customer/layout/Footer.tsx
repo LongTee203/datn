@@ -20,15 +20,15 @@ export default function Footer() {
           <ul className="space-y-3 md:space-y-4 text-primary-light text-sm">
             <li className="flex items-start gap-3">
               <span className="material-symbols-outlined text-xl">location_on</span>
-              <span>123 Đường Thú Cưng, Quận 1, TP. HCM</span>
+              <span>123 Lê Văn Hiến, Đông Ngạc, Từ Liêm, Hà Nội</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="material-symbols-outlined text-xl">call</span>
-              <span>Hotline: 1900 1234</span>
+              <span>0862623135</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="material-symbols-outlined text-xl">mail</span>
-              <span>Email: contact@petcareshop.vn</span>
+              <span>Email: lel435564@gmail.com</span>
             </li>
           </ul>
         </div>
@@ -61,7 +61,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="max-w-[1440px] mx-auto border-t border-[#29664c] pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-primary-light text-sm text-center md:text-left">© 2024 PetCare Shop. All rights reserved.</p>
+        <p className="text-primary-light text-sm text-center md:text-left">© 2026 PetCare Shop – Đồng hành cùng thú cưng của bạn.</p>
       </div>
     </footer>
   );

@@ -30,7 +30,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-8">
             <Link className={`font-label-md text-sm transition-all ${pathname === '/' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/">Trang chủ</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/about' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/about">Giới thiệu</Link>
-            <Link className={`font-label-md text-sm transition-all ${pathname === '/shop' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/shop">Sản phẩm</Link>
+            <Link className={`font-label-md text-sm transition-all ${pathname === '/shop' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/shop">Cửa hàng</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/services' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/services">Dịch vụ</Link>
             <div className="relative group cursor-pointer">
               <span className={`font-label-md text-sm transition-all py-2 block ${pathname?.startsWith('/price') ? 'text-primary' : 'text-slate-600 hover:text-primary'}`}>Bảng giá</span>

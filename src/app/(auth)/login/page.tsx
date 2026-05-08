@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { findUser } from "@/lib/users";
 import { setSessionCookie, homeForRole } from "@/lib/auth";
 import { useAuth } from "@/context/AuthContext";
+import type { UserRole } from "@/lib/users";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,28 +21,36 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    // Simulate a tiny delay for UX
-    await new Promise((r) => setTimeout(r, 400));
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
 
-    const user = findUser(email.trim(), password);
-    if (!user) {
-      setError("Email hoặc mật khẩu không đúng.");
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error ?? "Email hoặc mật khẩu không đúng.");
+        setLoading(false);
+        return;
+      }
+
+      const session = {
+        id: String(data.id),
+        email: data.email,
+        name: data.name,
+        role: data.role as UserRole,
+        avatar: data.avatar,
+      };
+
+      setSessionCookie(session);
+      login(session);
+      router.push(homeForRole(session.role));
+    } catch {
+      setError("Không thể kết nối máy chủ. Vui lòng thử lại.");
       setLoading(false);
-      return;
     }
-
-    const session = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      avatar: user.avatar,
-    };
-
-    setSessionCookie(session);
-    login(session);
-
-    router.push(homeForRole(user.role));
   }
 
   return (
@@ -220,14 +228,14 @@ export default function LoginPage() {
               ))}
             </div>
 
-            {/* Demo credentials hint */}
+            {/* Credentials hint */}
             <div className="mt-6 p-4 rounded-xl border border-dashed" style={{ borderColor: "#81b8a6", backgroundColor: "rgba(191,254,232,0.3)" }}>
-              <p className="text-xs font-bold mb-2" style={{ color: "#2f6555" }}>🔑 Tài khoản thử nghiệm:</p>
+              <p className="text-xs font-bold mb-2" style={{ color: "#2f6555" }}>🔑 Đăng nhập với tài khoản trong database:</p>
               <p className="text-xs" style={{ color: "#4b8170" }}>
-                <strong>Admin:</strong> admin@gmail.com / 1
+                <strong>Admin:</strong> email từ bảng <code>admins</code> + mật khẩu
               </p>
               <p className="text-xs" style={{ color: "#4b8170" }}>
-                <strong>Khách hàng:</strong> long@gmail.com / 1
+                <strong>Khách hàng:</strong> email + số điện thoại làm mật khẩu
               </p>
             </div>
           </div>

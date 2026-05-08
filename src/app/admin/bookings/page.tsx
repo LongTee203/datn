@@ -32,7 +32,6 @@ const initialBookings = [
     status: "Đã xác nhận"
   },
   {
-
     id: 3,
     petName: "Bắp",
     species: "Corgi",

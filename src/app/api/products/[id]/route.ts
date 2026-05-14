@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import type { ResultSetHeader } from "mysql2";
+import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
+
+type ProductUpdateData = Prisma.productsUpdateInput;
 
 // PATCH /api/products/[id]
 export async function PATCH(
@@ -9,34 +11,46 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params;
+    const productId = parseInt(id, 10);
     const body = await req.json();
-    const fields: string[] = [];
-    const values: unknown[] = [];
 
-    if (body.product_name !== undefined) { fields.push("product_name = ?"); values.push(body.product_name); }
-    if (body.price !== undefined) { fields.push("price = ?"); values.push(body.price); }
-    if (body.stock !== undefined) { fields.push("stock = ?"); values.push(body.stock); }
-    if (body.description !== undefined) { fields.push("description = ?"); values.push(body.description); }
-    if (body.image !== undefined) { fields.push("image = ?"); values.push(body.image); }
-    if (body.category_id !== undefined) { fields.push("category_id = ?"); values.push(body.category_id); }
-
-    if (fields.length === 0) {
-      return NextResponse.json({ error: "Không có trường nào để cập nhật" }, { status: 400 });
+    // Build update payload from only the fields present in the request body
+    const data: ProductUpdateData = {};
+    if (body.product_name !== undefined) data.product_name = body.product_name;
+    if (body.price !== undefined) data.price = body.price;
+    if (body.stock !== undefined) data.stock = body.stock;
+    if (body.description !== undefined) data.description = body.description;
+    if (body.image !== undefined) data.image = body.image;
+    if (body.category_id !== undefined) {
+      data.categories = body.category_id
+        ? { connect: { category_id: body.category_id } }
+        : { disconnect: true };
     }
 
-    values.push(id);
-    const result = await query<ResultSetHeader>(
-      `UPDATE products SET ${fields.join(", ")} WHERE product_id = ?`,
-      values
-    );
-
-    if (result.affectedRows === 0) {
-      return NextResponse.json({ error: "Không tìm thấy sản phẩm" }, { status: 404 });
+    if (Object.keys(data).length === 0) {
+      return NextResponse.json(
+        { error: "Không có trường nào để cập nhật" },
+        { status: 400 }
+      );
     }
+
+    await prisma.products.update({
+      where: { product_id: productId },
+      data,
+    });
 
     return NextResponse.json({ message: "Cập nhật sản phẩm thành công" });
   } catch (err) {
-    console.error("[PATCH /api/products/[id]] Error:", err);
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "Không tìm thấy sản phẩm" },
+        { status: 404 }
+      );
+    }
+    console.error("[PATCH /api/products/[id]]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }
@@ -48,18 +62,22 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const result = await query<ResultSetHeader>(
-      "DELETE FROM products WHERE product_id = ?",
-      [id]
-    );
+    const productId = parseInt(id, 10);
 
-    if (result.affectedRows === 0) {
-      return NextResponse.json({ error: "Không tìm thấy sản phẩm" }, { status: 404 });
-    }
+    await prisma.products.delete({ where: { product_id: productId } });
 
     return NextResponse.json({ message: "Xóa sản phẩm thành công" });
   } catch (err) {
-    console.error("[DELETE /api/products/[id]] Error:", err);
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "Không tìm thấy sản phẩm" },
+        { status: 404 }
+      );
+    }
+    console.error("[DELETE /api/products/[id]]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }

@@ -1,91 +1,126 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import type { RowDataPacket } from "mysql2";
+import { prisma } from "@/lib/prisma";
 
-interface StatsRow extends RowDataPacket {
-  value: number;
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+/** Start of today (00:00:00 local) as UTC Date */
+function startOfToday() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+/** End of today (23:59:59.999) as UTC Date */
+function endOfToday() {
+  const d = new Date();
+  d.setHours(23, 59, 59, 999);
+  return d;
+}
+/** N days ago from start of today */
+function daysAgo(n: number) {
+  const d = startOfToday();
+  d.setDate(d.getDate() - n);
+  return d;
+}
+/** Start of current month */
+function startOfMonth() {
+  const d = new Date();
+  d.setDate(1);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+/** 1 hour ago */
+function oneHourAgo() {
+  return new Date(Date.now() - 60 * 60 * 1000);
 }
 
-// GET /api/dashboard/stats – aggregate stats for admin dashboard
+// ─── Handler ──────────────────────────────────────────────────────────────────
+// GET /api/dashboard/stats
 export async function GET() {
   try {
-    // Daily revenue (sum of completed orders today)
-    const [revenueToday] = await query<StatsRow[]>(
-      `SELECT COALESCE(SUM(total_amount), 0) AS value
-       FROM orders
-       WHERE DATE(created_at) = CURDATE() AND order_status = 'Completed'`
-    );
+    const today = { gte: startOfToday(), lte: endOfToday() };
 
-    // Today's bookings count
-    const [bookingsToday] = await query<StatsRow[]>(
-      `SELECT COUNT(*) AS value
-       FROM appointments
-       WHERE DATE(appointment_date) = CURDATE()`
-    );
+    // Run all aggregations in parallel for performance
+    const [
+      revenueResult,
+      bookingsToday,
+      pendingBookings,
+      newOrders,
+      urgentOrders,
+      newCustomers,
+      customersToday,
+      revenueChart,
+    ] = await Promise.all([
+      // Daily revenue (completed orders today)
+      prisma.orders.aggregate({
+        _sum: { total_amount: true },
+        where: { created_at: today, order_status: "Completed" },
+      }),
 
-    // Pending bookings
-    const [pendingBookings] = await query<StatsRow[]>(
-      `SELECT COUNT(*) AS value
-       FROM appointments
-       WHERE status = 'Pending'`
-    );
+      // Bookings today
+      prisma.appointments.count({
+        where: { appointment_date: today },
+      }),
 
-    // New orders count
-    const [newOrders] = await query<StatsRow[]>(
-      `SELECT COUNT(*) AS value
-       FROM orders
-       WHERE DATE(created_at) = CURDATE()`
-    );
+      // Pending bookings
+      prisma.appointments.count({
+        where: { status: "Pending" },
+      }),
 
-    // Urgent orders (pending for > 1 hour)
-    const [urgentOrders] = await query<StatsRow[]>(
-      `SELECT COUNT(*) AS value
-       FROM orders
-       WHERE order_status = 'Pending'
-         AND created_at < DATE_SUB(NOW(), INTERVAL 1 HOUR)`
-    );
+      // New orders today
+      prisma.orders.count({
+        where: { created_at: today },
+      }),
 
-    // New customers this month
-    const [newCustomers] = await query<StatsRow[]>(
-      `SELECT COUNT(*) AS value
-       FROM customers
-       WHERE MONTH(created_at) = MONTH(CURDATE())
-         AND YEAR(created_at) = YEAR(CURDATE())`
-    );
+      // Urgent: pending orders older than 1 hour
+      prisma.orders.count({
+        where: {
+          order_status: "Pending",
+          created_at: { lt: oneHourAgo() },
+        },
+      }),
 
-    // New customers today
-    const [customersToday] = await query<StatsRow[]>(
-      `SELECT COUNT(*) AS value
-       FROM customers
-       WHERE DATE(created_at) = CURDATE()`
-    );
+      // New customers this month
+      prisma.customers.count({
+        where: { created_at: { gte: startOfMonth() } },
+      }),
 
-    // Revenue last 7 days (for chart)
-    const revenueChart = await query<RowDataPacket[]>(
-      `SELECT
-         DATE(created_at)                     AS day,
-         DAYOFWEEK(created_at)                AS dow,
-         COALESCE(SUM(total_amount), 0)       AS revenue,
-         COUNT(*)                             AS orders
-       FROM orders
-       WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
-         AND order_status = 'Completed'
-       GROUP BY DATE(created_at), DAYOFWEEK(created_at)
-       ORDER BY day ASC`
-    );
+      // New customers today
+      prisma.customers.count({
+        where: { created_at: today },
+      }),
+
+      // Revenue chart – last 7 days grouped by day
+      // Prisma doesn't support groupBy on computed date columns, use $queryRaw
+      prisma.$queryRaw<
+        { day: Date; revenue: number; orders: bigint }[]
+      >`
+        SELECT
+          DATE(created_at)              AS day,
+          COALESCE(SUM(total_amount), 0) AS revenue,
+          COUNT(*)                       AS orders
+        FROM orders
+        WHERE created_at >= ${daysAgo(6)}
+          AND order_status = 'Completed'
+        GROUP BY DATE(created_at)
+        ORDER BY day ASC
+      `,
+    ]);
 
     return NextResponse.json({
-      revenueToday: revenueToday?.value ?? 0,
-      bookingsToday: bookingsToday?.value ?? 0,
-      pendingBookings: pendingBookings?.value ?? 0,
-      newOrders: newOrders?.value ?? 0,
-      urgentOrders: urgentOrders?.value ?? 0,
-      newCustomers: newCustomers?.value ?? 0,
-      customersToday: customersToday?.value ?? 0,
-      revenueChart,
+      revenueToday: Number(revenueResult._sum.total_amount ?? 0),
+      bookingsToday,
+      pendingBookings,
+      newOrders,
+      urgentOrders,
+      newCustomers,
+      customersToday,
+      revenueChart: revenueChart.map((r) => ({
+        day: r.day,
+        revenue: Number(r.revenue),
+        orders: Number(r.orders),
+      })),
     });
   } catch (err) {
-    console.error("[GET /api/dashboard/stats] Error:", err);
+    console.error("[GET /api/dashboard/stats]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }

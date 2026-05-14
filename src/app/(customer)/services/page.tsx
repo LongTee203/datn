@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "Dịch Vụ Chăm Sóc Thú Cưng | PetCare Plus",
@@ -8,73 +9,29 @@ export const metadata: Metadata = {
     "Trải nghiệm dịch vụ cao cấp, mang lại sức khỏe và niềm vui trọn vẹn cho người bạn nhỏ của bạn tại không gian xanh mát của chúng tôi.",
 };
 
-const services = [
-  {
-    id: "grooming",
-    title: "Tắm sấy",
-    description:
-      "Làm sạch sâu, khử mùi và sấy khô an toàn với các sản phẩm hữu cơ lành tính.",
-    price: "Từ 150.000đ",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBU6djqbHdzcaTUQxe1GuPi5tRBXe01FTl0hYsT-gmr7mcMaX2Uy4rQ0Vgr8lT_vjMOZeSplhRekRI07A0avs1s5NGznreRdod-vSxv0hMYql_9RY1MEaVdMn1_6MeU5GkIXvfUdgjed5ZmZBqpml2HtSfboDAFRYDeJywaNh5NbTUULPboNz8L5jk_5fvaUkZWcmvibVrAQxoYMjuz1KTpJD9EVcPzG9cvpOQUZbTk74KzaIvdbipeuyeQVV6CsDEiHjEsmnhsIoyg",
-    imageAlt: "A small fluffy dog being washed gently in a bright modern pet spa",
-  },
-  {
-    id: "styling",
-    title: "Cắt tỉa tạo kiểu",
-    description:
-      "Tạo kiểu thời trang, cắt tỉa gọn gàng theo yêu cầu bởi các chuyên gia dày dặn kinh nghiệm.",
-    price: "Từ 200.000đ",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCFu1dnWDXKx-G-hh1UzN3ZZSpACeQOLCPSLcRa6EjmL-63Qns_1Uyb7BKf3gflmYGYZjkHnMd7waw2Orv6chnecnrtgGCkX8Ep_3NPOaMtpUtXZuc0lwwThMlYxPezIMe4JRhDOXJVxPe6bgIJU-SEThJgDjlqRFgSs31tK7O3TbYTRXQabeaSD3IulWfrJTpMK3suokFQiFHtJodNzP-E0-CxM3eX3baTWIpKxpvvJmnyydE4ohBWbEAqu8WZ4bgtrXdkpdNMFFBX",
-    imageAlt: "Professional pet groomer carefully trimming the fur of a calm dog",
-  },
-  {
-    id: "spa",
-    title: "Spa & Massage",
-    description:
-      "Thư giãn tối đa với liệu trình thảo mộc tự nhiên, giúp giảm căng thẳng và tăng cường tuần hoàn.",
-    price: "Từ 350.000đ",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAwGqZP3rhNeBmNwVP1B4Hr5OYLJ8tB4iB5y1SynRuPGZVHgoAIDE5aCxpKGopPi_gnVmXj-ncq1xeWyBkiT937GXbIWIcLb6ETPxjYNIFaCk3UDMXWExlwDvHlk0V8LxpMHe2ubEGE2JTQtEN2ujzeRGn0E5ca9yGnQvN3ZkpLcdYVBCGE5NDNVuGoRkwDuNWNrIYQzXpSCIxe60vV3pCif9EldK4F1940zm9ZD4gqYILzjo3Ep_rp7LkHlfI69SeNYwxrXecIsUyZ",
-    imageAlt: "A relaxed dog getting a gentle massage with natural herbs",
-  },
-  {
-    id: "vaccination",
-    title: "Tiêm phòng",
-    description:
-      "Bảo vệ sức khỏe thú cưng với lộ trình vaccine chuẩn xác và an toàn tuyệt đối.",
-    price: "Từ 250.000đ",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCJEek82zJrImqRbBMA9wWgVopdBm9hnDHxSgXKjDc_G6o11LNXkETGrXu2LoZuE7MxzyMpkeMd3gnBgGZcGdOpiIgCB8RWFRXBCoggcbSop4iWodHgu2M-srvLEXT-2hOMm7_Y48NLE7OdubHYgxkDoOzwtIvKygwkkciB1FGYh8ZJSgvcXQRhgefwjdPVW7JzzVtlGobZaoJGIRcPm3enmEe5qmb4HfdYIykDwaKpInvgYFhw5NlPgZ8OsPghIejsYLPPl7yK8P3E",
-    imageAlt: "Veterinarian gently examining a puppy for vaccination",
-  },
-  {
-    id: "hotel",
-    title: "Khách sạn thú cưng",
-    description:
-      "Nơi lưu trú tiện nghi, sạch sẽ và an toàn như chính ngôi nhà thứ hai của thú cưng.",
-    price: "Từ 180.000đ/ngày",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAEr543JZ64FD0VobBxgCTGgE1aI3BZC25I4cvbAtrqSIoFoK3IEwV3BLuNmq9msh3xXrc227mhNX22o4h2ZmMTx7059z32s1ssvScEZcJwET5TBQtmulBAladD45LYKjbveGI2_uhE_ICuAVg7stD5SuEhuiRmEWmVu4XAtODqerenYPo4sMBtQLyjpCr6IIuEzNz2cecmUzaHCITY1T_yVaWQCrMPUSe4WieQMQx2hOzieY7Wh-PvnPxTuB6wCIdm-w9fKL_Ezj0J",
-    imageAlt: "Cozy modern pet hotel room with a comfortable bed and toys",
-  },
-  {
-    id: "checkup",
-    title: "Khám sức khỏe",
-    description:
-      "Kiểm tra tổng quát và tư vấn dinh dưỡng chuyên sâu để thú cưng luôn khỏe mạnh.",
-    price: "Từ 300.000đ",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC387GdqTTB5KAMaxFYzzpPEqYQRKHbOkGg2K8TATCibSh8pEXve_yGgRKalSZrPjYHT2RkuZFA5BawuzbgKPHpJXyWKw4YFZ_N-LRcEwWS6EKgiM6BX0oAxvO6UXl0kLvQa-Bm3WlLRFceCjMmAOXqD0EsWbHSrevDrwD0LVxXXTDlAWeoOnw6vhV-i4o4bnUhjW31H8McgRYEAqae4r61CeBo2_rC1NXvP2fS_0FlpquCM1NdrQZB-fclCyml38irtVnJ_3QTFGpi",
-    imageAlt: "Caring vet doctor checking a cat's heartbeat with a stethoscope",
-  },
-];
+export default async function ServicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = await searchParams;
+  const categoryParam = resolvedParams.category;
+  const activeCategory = typeof categoryParam === "string" ? categoryParam : "Tất cả";
 
-export default function ServicesPage() {
+  const categories = ["Tất cả", "Vệ sinh & Spa", "Y tế & Khám bệnh", "Lưu trú (Hotel)", "Khác"];
+
+  // Chỉ lấy những dịch vụ đang hoạt động và đúng danh mục
+  const services = await prisma.services.findMany({
+    where: { 
+      is_active: true,
+      category: activeCategory !== "Tất cả" ? activeCategory : undefined
+    },
+    orderBy: { created_at: "desc" }
+  });
+
   return (
     <div className="bg-white font-body text-[#0c361d] antialiased">
-      <main className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-24">
+      <main className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
         {/* ── Hero Banner ── */}
         <section className="relative rounded-xl overflow-hidden min-h-[400px] flex items-center bg-[#cafdd4]">
           <div className="absolute inset-0 z-0">
@@ -108,41 +65,83 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* ── Services Grid ── */}
+        {/* ── Filter Row ── */}
         <section>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map(({ id, title, description, price, imageUrl, imageAlt }) => (
-              <div
-                key={id}
-                id={id}
-                className="bg-white rounded-xl overflow-hidden group hover:bg-[#cafdd4] transition-colors duration-300 flex flex-col h-full border border-gray-100"
+          <div className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
+            {categories.map((cat) => (
+              <Link
+                key={cat}
+                href={`/services${cat !== "Tất cả" ? `?category=${encodeURIComponent(cat)}` : ""}`}
+                className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all ${
+                  activeCategory === cat
+                    ? "bg-[#006a38] text-white shadow-md"
+                    : "bg-gray-100 text-[#0c361d] hover:bg-[#cafdd4] hover:text-[#006a38]"
+                }`}
               >
-                <div className="h-56 overflow-hidden relative">
-                  <Image
-                    src={imageUrl}
-                    alt={imageAlt}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-8 flex-grow flex flex-col">
-                  <h3 className="font-headline text-2xl font-bold text-[#0c361d] mb-3">
-                    {title}
-                  </h3>
-                  <p className="text-[#3b6447] mb-6 flex-grow">{description}</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[#006a38] text-lg">{price}</span>
-                    <Link
-                      href="/booking"
-                      className="bg-[#87faab] text-[#005f31] font-medium py-2 px-6 rounded-full hover:bg-[#005c30] hover:text-white transition-colors"
-                    >
-                      Đặt lịch ngay
-                    </Link>
-                  </div>
-                </div>
-              </div>
+                {cat}
+              </Link>
             ))}
           </div>
+        </section>
+
+        {/* ── Services Grid ── */}
+        <section>
+          {services.length === 0 ? (
+            <div className="text-center py-20 bg-gray-50 rounded-xl border border-gray-100">
+              <span className="material-symbols-outlined text-5xl text-gray-300 mb-4 block">pets</span>
+              <p className="text-gray-500 text-lg">Không tìm thấy dịch vụ nào trong danh mục này.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service) => (
+                <div
+                  key={service.service_id}
+                  className="bg-white rounded-2xl overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100"
+                >
+                  <div className="h-56 overflow-hidden relative bg-gray-100 flex items-center justify-center">
+                    {service.image ? (
+                      <Image
+                        src={service.image}
+                        alt={service.service_name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <span className="material-symbols-outlined text-4xl text-gray-300">image</span>
+                    )}
+                  </div>
+                  <div className="p-8 flex-grow flex flex-col">
+                    <div className="mb-3">
+                      <span className="text-[10px] font-bold text-[#006a38] bg-[#cafdd4] px-3 py-1 rounded-md uppercase tracking-wider">
+                        {service.category || "Khác"}
+                      </span>
+                    </div>
+                    <h3 className="font-headline text-2xl font-bold text-[#0c361d] mb-3">
+                      {service.service_name}
+                    </h3>
+                    <p className="text-[#3b6447] mb-6 flex-grow">{service.description || "Chưa có mô tả chi tiết."}</p>
+                    
+                    <div className="flex items-center gap-2 mb-6 text-[#3b6447] text-sm font-medium">
+                      <span className="material-symbols-outlined text-[18px]">schedule</span>
+                      {service.duration || 30} phút
+                    </div>
+
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                      <span className="font-extrabold text-[#006a38] text-xl">
+                        {Number(service.price).toLocaleString("vi-VN")}đ
+                      </span>
+                      <Link
+                        href="/booking"
+                        className="bg-[#87faab] text-[#005f31] font-bold py-2.5 px-6 rounded-full hover:bg-[#005c30] hover:text-white transition-colors"
+                      >
+                        Đặt lịch ngay
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </main>
     </div>

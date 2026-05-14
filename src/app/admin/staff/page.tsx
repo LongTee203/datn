@@ -558,19 +558,19 @@ export default function StaffPage() {
           {/* Legend / Spacer */}
           <div className="mt-6 flex flex-wrap gap-6 items-center justify-center md:justify-start px-8 pb-10">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#4caf50]"></div>
-              <span className="text-[0.75rem] text-[#56615f] font-medium">Tắm &amp; Sấy</span>
+              <div className="w-3 h-3 rounded-full bg-[#4caf50]" />
+              <span className="text-[0.75rem] text-[#56615f] font-medium">Tắm & Sấy</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#2196f3]"></div>
+              <div className="w-3 h-3 rounded-full bg-[#2196f3]" />
               <span className="text-[0.75rem] text-[#56615f] font-medium">Cắt tỉa</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#9c27b0]"></div>
+              <div className="w-3 h-3 rounded-full bg-[#9c27b0]" />
               <span className="text-[0.75rem] text-[#56615f] font-medium">Spa</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#f44336]"></div>
+              <div className="w-3 h-3 rounded-full bg-[#f44336]" />
               <span className="text-[0.75rem] text-[#56615f] font-medium">Khám bệnh</span>
             </div>
           </div>

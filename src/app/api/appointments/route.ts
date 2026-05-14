@@ -1,62 +1,52 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import type { RowDataPacket, ResultSetHeader } from "mysql2";
+import { prisma } from "@/lib/prisma";
 
-interface AppointmentRow extends RowDataPacket {
-  appointment_id: number;
-  customer_id: number;
-  service_id: number;
-  pet_name: string;
-  appointment_date: string;
-  status: string;
-  created_at: string;
-  // JOINed fields
-  customer_name: string;
-  customer_phone: string;
-  service_name: string;
-}
-
-// GET /api/appointments – list all with customer & service info
+// GET /api/appointments – list with customer & service info
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const status = searchParams.get("status");
-    const date = searchParams.get("date");
+    const status = searchParams.get("status")?.trim();
+    const date = searchParams.get("date")?.trim();
 
-    let sql = `
-      SELECT
-        a.appointment_id,
-        a.customer_id,
-        a.service_id,
-        a.pet_name,
-        a.appointment_date,
-        a.status,
-        a.created_at,
-        c.full_name AS customer_name,
-        c.phone    AS customer_phone,
-        s.service_name
-      FROM appointments a
-      LEFT JOIN customers c ON a.customer_id = c.customer_id
-      LEFT JOIN services  s ON a.service_id  = s.service_id
-      WHERE 1=1
-    `;
-    const params: unknown[] = [];
+    const appointments = await prisma.appointments.findMany({
+      where: {
+        ...(status && status !== "all" && { status }),
+        ...(date && {
+          appointment_date: {
+            gte: new Date(`${date}T00:00:00`),
+            lte: new Date(`${date}T23:59:59`),
+          },
+        }),
+      },
+      select: {
+        appointment_id: true,
+        customer_id: true,
+        service_id: true,
+        pet_name: true,
+        appointment_date: true,
+        status: true,
+        created_at: true,
+        customers: {
+          select: { full_name: true, phone: true },
+        },
+        services: {
+          select: { service_name: true },
+        },
+      },
+      orderBy: { appointment_date: "desc" },
+    });
 
-    if (status && status !== "all") {
-      sql += " AND a.status = ?";
-      params.push(status);
-    }
-    if (date) {
-      sql += " AND DATE(a.appointment_date) = ?";
-      params.push(date);
-    }
+    // Flatten joined fields
+    const rows = appointments.map(({ customers, services, ...a }) => ({
+      ...a,
+      customer_name: customers?.full_name ?? null,
+      customer_phone: customers?.phone ?? null,
+      service_name: services?.service_name ?? null,
+    }));
 
-    sql += " ORDER BY a.appointment_date DESC";
-
-    const rows = await query<AppointmentRow[]>(sql, params);
     return NextResponse.json(rows);
   } catch (err) {
-    console.error("[GET /api/appointments] Error:", err);
+    console.error("[GET /api/appointments]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }
@@ -74,18 +64,26 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = await query<ResultSetHeader>(
-      `INSERT INTO appointments (customer_id, service_id, pet_name, appointment_date, status)
-       VALUES (?, ?, ?, ?, ?)`,
-      [customer_id ?? null, service_id ?? null, pet_name, appointment_date, status ?? "Pending"]
-    );
+    const appointment = await prisma.appointments.create({
+      data: {
+        customer_id: customer_id ?? null,
+        service_id: service_id ?? null,
+        pet_name,
+        appointment_date: new Date(appointment_date),
+        status: status ?? "Pending",
+      },
+      select: { appointment_id: true },
+    });
 
     return NextResponse.json(
-      { appointment_id: result.insertId, message: "Tạo lịch hẹn thành công" },
+      {
+        appointment_id: appointment.appointment_id,
+        message: "Tạo lịch hẹn thành công",
+      },
       { status: 201 }
     );
   } catch (err) {
-    console.error("[POST /api/appointments] Error:", err);
+    console.error("[POST /api/appointments]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }

@@ -1,0 +1,224 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model admins {
+  admin_id   Int       @id @default(autoincrement())
+  username   String    @unique(map: "username") @db.VarChar(50)
+  password   String    @db.VarChar(255)
+  full_name  String    @db.VarChar(100)
+  email      String?   @unique(map: "email") @db.VarChar(100)
+  role       String?   @default("admin") @db.VarChar(50)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+}
+
+model appointments {
+  appointment_id   Int               @id @default(autoincrement())
+  customer_id      Int
+  service_id       Int
+  pet_name         String            @db.VarChar(100)
+  appointment_date DateTime          @db.DateTime(0)
+  status           String?           @default("Pending") @db.VarChar(50)
+  created_at       DateTime?         @default(now()) @db.DateTime(0)
+  customers        customers         @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_appointment_customer")
+  services         services          @relation(fields: [service_id], references: [service_id], onDelete: Cascade, map: "fk_appointment_service")
+  staff_schedules  staff_schedules[]
+
+  @@index([customer_id], map: "fk_appointment_customer")
+  @@index([service_id], map: "fk_appointment_service")
+}
+
+model categories {
+  category_id   Int        @id @default(autoincrement())
+  category_name String     @db.VarChar(100)
+  description   String?    @db.Text
+  created_at    DateTime?  @default(now()) @db.DateTime(0)
+  products      products[]
+}
+
+model contacts {
+  contact_id Int       @id @default(autoincrement())
+  full_name  String    @db.VarChar(100)
+  email      String?   @db.VarChar(100)
+  phone      String?   @db.VarChar(20)
+  message    String    @db.Text
+  created_at DateTime? @default(now()) @db.DateTime(0)
+}
+
+model customers {
+  customer_id          Int                    @id @default(autoincrement())
+  full_name            String                 @db.VarChar(100)
+  phone                String                 @db.VarChar(20)
+  email                String?                @db.VarChar(100)
+  password             String                 @db.VarChar(255)
+  address              String?                @db.Text
+  is_active            Boolean                @default(true)
+  created_at           DateTime?              @default(now()) @db.DateTime(0)
+  appointments         appointments[]
+  orders               orders[]
+  pets                 pets[]
+  service_transactions service_transactions[]
+}
+
+model order_details {
+  order_detail_id Int      @id @default(autoincrement())
+  order_id        Int
+  product_id      Int
+  quantity        Int      @default(1)
+  price           Decimal  @db.Decimal(10, 2)
+  orders          orders   @relation(fields: [order_id], references: [order_id], onDelete: Cascade, map: "fk_orderdetail_order")
+  products        products @relation(fields: [product_id], references: [product_id], onDelete: Cascade, map: "fk_orderdetail_product")
+
+  @@index([order_id], map: "fk_orderdetail_order")
+  @@index([product_id], map: "fk_orderdetail_product")
+}
+
+model orders {
+  order_id       Int             @id @default(autoincrement())
+  customer_id    Int
+  total_amount   Decimal         @db.Decimal(10, 2)
+  order_status   String?         @default("Pending") @db.VarChar(50)
+  payment_method String?         @default("COD") @db.VarChar(50)
+  created_at     DateTime?       @default(now()) @db.DateTime(0)
+  order_details  order_details[]
+  customers      customers       @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_order_customer")
+
+  @@index([customer_id], map: "fk_order_customer")
+}
+
+model pets {
+  pet_id               Int                    @id @default(autoincrement())
+  customer_id          Int
+  name                 String                 @db.VarChar(100)
+  type                 String                 @db.VarChar(50)
+  breed                String?                @db.VarChar(100)
+  gender               pets_gender?
+  age                  Int?
+  weight               Decimal?               @db.Decimal(5, 2)
+  color                String?                @db.VarChar(50)
+  note                 String?                @db.Text
+  image                String?                @db.VarChar(255)
+  created_at           DateTime?              @default(now()) @db.DateTime(0)
+  customers            customers              @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_pet_customer")
+  service_transactions service_transactions[]
+
+  @@index([customer_id], map: "fk_pet_customer")
+}
+
+model products {
+  product_id    Int             @id @default(autoincrement())
+  category_id   Int?
+  product_name  String          @db.VarChar(150)
+  price         Decimal         @db.Decimal(10, 2)
+  stock         Int?            @default(0)
+  image         String?         @db.VarChar(255)
+  description   String?         @db.Text
+  created_at    DateTime?       @default(now()) @db.DateTime(0)
+  order_details order_details[]
+  categories    categories?     @relation(fields: [category_id], references: [category_id], map: "fk_product_category")
+
+  @@index([category_id], map: "fk_product_category")
+}
+
+model service_transaction_details {
+  detail_id            Int                  @id @default(autoincrement())
+  transaction_id       Int
+  service_id           Int
+  quantity             Int?                 @default(1)
+  price                Decimal              @db.Decimal(10, 2)
+  subtotal             Decimal              @db.Decimal(10, 2)
+  services             services             @relation(fields: [service_id], references: [service_id], onDelete: Cascade, map: "fk_service_detail_service")
+  service_transactions service_transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: Cascade, map: "fk_service_detail_transaction")
+
+  @@index([service_id], map: "fk_service_detail_service")
+  @@index([transaction_id], map: "fk_service_detail_transaction")
+}
+
+model service_transactions {
+  transaction_id              Int                                  @id @default(autoincrement())
+  customer_id                 Int
+  pet_id                      Int
+  staff_id                    Int
+  total_amount                Decimal                              @default(0.00) @db.Decimal(10, 2)
+  payment_method              String?                              @default("cash") @db.VarChar(50)
+  payment_status              service_transactions_payment_status? @default(pending)
+  note                        String?                              @db.Text
+  created_at                  DateTime?                            @default(now()) @db.DateTime(0)
+  service_transaction_details service_transaction_details[]
+  customers                   customers                            @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_service_transaction_customer")
+  pets                        pets                                 @relation(fields: [pet_id], references: [pet_id], onDelete: Cascade, map: "fk_service_transaction_pet")
+  staff                       staff                                @relation(fields: [staff_id], references: [staff_id], onDelete: Cascade, map: "fk_service_transaction_staff")
+
+  @@index([customer_id], map: "fk_service_transaction_customer")
+  @@index([pet_id], map: "fk_service_transaction_pet")
+  @@index([staff_id], map: "fk_service_transaction_staff")
+}
+
+model services {
+  service_id                  Int                           @id @default(autoincrement())
+  service_name                String                        @db.VarChar(150)
+  price                       Decimal                       @db.Decimal(10, 2)
+  image                       String?                       @db.VarChar(255)
+  description                 String?                       @db.Text
+  category                    String?                       @default("Vệ sinh & Spa") @db.VarChar(100)
+  duration                    Int?                          @default(30)
+  is_active                   Boolean                       @default(true)
+  created_at                  DateTime?                     @default(now()) @db.DateTime(0)
+  appointments                appointments[]
+  service_transaction_details service_transaction_details[]
+}
+
+model staff {
+  staff_id             Int                    @id @default(autoincrement())
+  full_name            String                 @db.VarChar(100)
+  phone                String?                @db.VarChar(20)
+  email                String?                @db.VarChar(100)
+  position             String?                @db.VarChar(50)
+  salary               Decimal?               @db.Decimal(10, 2)
+  created_at           DateTime?              @default(now()) @db.DateTime(0)
+  service_transactions service_transactions[]
+  staff_schedules      staff_schedules[]
+}
+
+model staff_schedules {
+  schedule_id    Int          @id @default(autoincrement())
+  appointment_id Int
+  staff_id       Int
+  work_date      DateTime     @db.Date
+  start_time     DateTime     @db.Time(0)
+  end_time       DateTime     @db.Time(0)
+  note           String?      @db.Text
+  created_at     DateTime?    @default(now()) @db.DateTime(0)
+  appointments   appointments @relation(fields: [appointment_id], references: [appointment_id], onDelete: Cascade, map: "fk_schedule_appointment")
+  staff          staff        @relation(fields: [staff_id], references: [staff_id], onDelete: Cascade, map: "fk_schedule_staff")
+
+  @@index([appointment_id], map: "fk_schedule_appointment")
+  @@index([staff_id], map: "fk_schedule_staff")
+}
+
+enum pets_gender {
+  male
+  female
+}
+
+enum service_transactions_payment_status {
+  pending
+  paid
+  cancelled
+}
+
+model password_resets {
+  id         Int      @id @default(autoincrement())
+  email      String   @db.VarChar(100)
+  token      String   @unique @db.VarChar(255)
+  expires_at DateTime @db.DateTime(0)
+  created_at DateTime @default(now()) @db.DateTime(0)
+
+  @@index([email])
+}
+

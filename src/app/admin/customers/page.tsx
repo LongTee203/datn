@@ -1,5 +1,16 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
+import ConfirmModal from "@/components/ConfirmModal";
+
+interface Pet {
+  pet_id?: number;
+  name: string;
+  type: string;
+  breed?: string;
+  gender?: string;
+  age?: number;
+  weight?: number;
+}
 
 interface Customer {
   customer_id: number;
@@ -7,7 +18,9 @@ interface Customer {
   phone: string;
   email: string;
   address: string;
+  is_active?: boolean;
   created_at: string;
+  pets?: Pet[];
 }
 
 function getInitials(name: string) {
@@ -25,8 +38,32 @@ export default function CustomersPage() {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [saving, setSaving]       = useState(false);
 
+  // Confirm Modal State
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: React.ReactNode;
+    confirmText?: string;
+    isDanger: boolean;
+    onConfirm: () => void;
+  }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    confirmText: "Xác nhận",
+    isDanger: false,
+    onConfirm: () => {},
+  });
+
   // Add form
-  const [form, setForm] = useState({ full_name: "", phone: "", email: "", address: "" });
+  const [form, setForm] = useState({ 
+    full_name: "", 
+    phone: "", 
+    email: "", 
+    address: "",
+    password: "", // Still kept in form to create password
+    pets: [] as Pet[]
+  });
 
   const fetchCustomers = useCallback(async () => {
     setLoading(true);
@@ -63,13 +100,83 @@ export default function CustomersPage() {
         throw new Error(d.error ?? "Tạo thất bại");
       }
       setIsAddModalOpen(false);
-      setForm({ full_name: "", phone: "", email: "", address: "" });
+      setForm({ full_name: "", phone: "", email: "", address: "", password: "", pets: [] });
       fetchCustomers();
     } catch (e) {
       alert((e as Error).message);
     } finally {
       setSaving(false);
     }
+  };
+
+  const addPet = () => {
+    setForm({ ...form, pets: [...form.pets, { name: "", type: "Dog" }] });
+  };
+
+  const updatePet = (index: number, key: keyof Pet, value: any) => {
+    const newPets = [...form.pets];
+    newPets[index] = { ...newPets[index], [key]: value };
+    setForm({ ...form, pets: newPets });
+  };
+
+  const removePet = (index: number) => {
+    const newPets = [...form.pets];
+    newPets.splice(index, 1);
+    setForm({ ...form, pets: newPets });
+  };
+
+  const handleToggleActive = (customer: Customer) => {
+    const actionText = customer.is_active ? "Tắt kích hoạt" : "Bật kích hoạt";
+    
+    setConfirmModal({
+      isOpen: true,
+      title: `${actionText} tài khoản`,
+      message: (
+        <span>
+          Bạn có chắc chắn muốn <strong>{actionText.toLowerCase()}</strong> tài khoản của khách hàng <strong className="text-black">{customer.full_name}</strong> không?
+        </span>
+      ),
+      confirmText: actionText,
+      isDanger: !!customer.is_active, // Warning color when disabling
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/customers/${customer.customer_id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ is_active: !customer.is_active })
+          });
+          if (!res.ok) throw new Error("Cập nhật thất bại");
+          fetchCustomers();
+          setSelectedCustomer({ ...customer, is_active: !customer.is_active });
+        } catch (e) {
+          alert((e as Error).message);
+        } finally {
+          setConfirmModal(prev => ({ ...prev, isOpen: false }));
+        }
+      }
+    });
+  };
+
+  const handleDelete = (customerId: number) => {
+    setConfirmModal({
+      isOpen: true,
+      title: "Xóa tài khoản khách hàng",
+      message: "Hành động này không thể hoàn tác! Toàn bộ thông tin, lịch sử khám bệnh và thú cưng của khách hàng này sẽ bị xóa vĩnh viễn.",
+      confirmText: "Xóa tài khoản",
+      isDanger: true,
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/customers/${customerId}`, { method: "DELETE" });
+          if (!res.ok) throw new Error("Xóa thất bại");
+          setSelectedCustomer(null);
+          fetchCustomers();
+        } catch (e) {
+          alert((e as Error).message);
+        } finally {
+          setConfirmModal(prev => ({ ...prev, isOpen: false }));
+        }
+      }
+    });
   };
 
   return (
@@ -147,7 +254,7 @@ export default function CustomersPage() {
                   <th className="px-8 py-4 text-xs font-bold text-[#56615f] uppercase tracking-widest">Số điện thoại</th>
                   <th className="px-8 py-4 text-xs font-bold text-[#56615f] uppercase tracking-widest">Email</th>
                   <th className="px-8 py-4 text-xs font-bold text-[#56615f] uppercase tracking-widest">Địa chỉ</th>
-                  <th className="px-8 py-4 text-xs font-bold text-[#56615f] uppercase tracking-widest">Ngày đăng ký</th>
+                  <th className="px-8 py-4 text-xs font-bold text-[#56615f] uppercase tracking-widest">Trạng thái</th>
                   <th className="px-8 py-4 text-xs font-bold text-[#56615f] uppercase tracking-widest text-right">Chi tiết</th>
                 </tr>
               </thead>
@@ -179,8 +286,16 @@ export default function CustomersPage() {
                       <td className="px-8 py-5 text-sm text-[#56615f]">{c.phone ?? "—"}</td>
                       <td className="px-8 py-5 text-sm text-[#56615f]">{c.email ?? "—"}</td>
                       <td className="px-8 py-5 text-sm text-[#56615f] max-w-[180px] truncate">{c.address ?? "—"}</td>
-                      <td className="px-8 py-5 text-sm text-[#56615f]">
-                        {c.created_at ? new Date(c.created_at).toLocaleDateString("vi-VN") : "—"}
+                      <td className="px-8 py-5 text-sm">
+                        {c.is_active ? (
+                          <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                            Đang hoạt động
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 bg-red-100 text-red-700 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                            Bị khóa
+                          </span>
+                        )}
                       </td>
                       <td className="px-8 py-5 text-right">
                         <button
@@ -204,9 +319,10 @@ export default function CustomersPage() {
 
       {/* Add Customer Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl relative animate-in fade-in zoom-in duration-200 my-8">
             <button
+              type="button"
               onClick={() => setIsAddModalOpen(false)}
               className="absolute top-6 right-6 text-[#56615f] hover:text-[#2a3433] hover:bg-gray-100 p-2 rounded-full"
             >
@@ -214,33 +330,107 @@ export default function CustomersPage() {
             </button>
             <h3 className="text-2xl font-extrabold text-[#2a3433] mb-6 tracking-tight">Thêm khách hàng mới</h3>
 
-            <form className="space-y-4" onSubmit={handleAddCustomer}>
-              <div>
-                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Họ và tên *</label>
-                <input required type="text" placeholder="Nhập họ và tên..."
-                  value={form.full_name} onChange={e => setForm({...form, full_name: e.target.value})}
-                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Số điện thoại *</label>
-                  <input required type="tel" placeholder="09xx xxx xxx"
-                    value={form.phone} onChange={e => setForm({...form, phone: e.target.value})}
-                    className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
+            <form className="space-y-6" onSubmit={handleAddCustomer}>
+              
+              {/* Customer Info Section */}
+              <div className="space-y-4">
+                <h4 className="font-bold text-[#006b62] border-b pb-2">Thông tin khách hàng</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="col-span-2 md:col-span-1">
+                    <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Họ và tên *</label>
+                    <input required type="text" placeholder="Nhập họ và tên..."
+                      value={form.full_name} onChange={e => setForm({...form, full_name: e.target.value})}
+                      className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
+                  </div>
+                  <div className="col-span-2 md:col-span-1">
+                    <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Số điện thoại *</label>
+                    <input required type="tel" placeholder="09xx xxx xxx"
+                      value={form.phone} onChange={e => setForm({...form, phone: e.target.value})}
+                      className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
+                  </div>
+                  <div className="col-span-2 md:col-span-1">
+                    <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Email</label>
+                    <input type="email" placeholder="example@email.com"
+                      value={form.email} onChange={e => setForm({...form, email: e.target.value})}
+                      className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
+                  </div>
+                  <div className="col-span-2 md:col-span-1">
+                    <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Mật khẩu</label>
+                    <input type="text" placeholder="Nhập mật khẩu cho tài khoản..."
+                      value={form.password} onChange={e => setForm({...form, password: e.target.value})}
+                      className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Địa chỉ</label>
+                    <input type="text" placeholder="Địa chỉ..."
+                      value={form.address} onChange={e => setForm({...form, address: e.target.value})}
+                      className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Email</label>
-                  <input type="email" placeholder="example@email.com"
-                    value={form.email} onChange={e => setForm({...form, email: e.target.value})}
-                    className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
+              </div>
+
+              {/* Pets Info Section */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b pb-2">
+                  <h4 className="font-bold text-[#006b62]">Thông tin thú cưng</h4>
+                  <button type="button" onClick={addPet} className="text-xs font-bold text-[#006b62] bg-[#eef5f3] px-3 py-1.5 rounded-full hover:bg-[#c6eae3] transition-colors flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[16px]">add</span> Thêm thú cưng
+                  </button>
                 </div>
+                
+                {form.pets.map((pet, index) => (
+                  <div key={index} className="bg-[#f8fdfa] p-4 rounded-xl border border-[#e1eae7] relative">
+                    <button type="button" onClick={() => removePet(index)} className="absolute top-4 right-4 text-red-500 hover:text-red-700">
+                      <span className="material-symbols-outlined text-[20px]">delete</span>
+                    </button>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pr-8">
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-[#56615f] mb-1">Tên thú cưng *</label>
+                        <input required type="text" value={pet.name} onChange={e => updatePet(index, "name", e.target.value)}
+                          className="w-full bg-white border border-[#e1eae7] rounded-lg text-sm py-2 px-3 outline-none focus:border-[#006b62]" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-[#56615f] mb-1">Loài *</label>
+                        <select value={pet.type} onChange={e => updatePet(index, "type", e.target.value)}
+                          className="w-full bg-white border border-[#e1eae7] rounded-lg text-sm py-2 px-3 outline-none focus:border-[#006b62]">
+                          <option value="Dog">Chó (Dog)</option>
+                          <option value="Cat">Mèo (Cat)</option>
+                          <option value="Bird">Chim (Bird)</option>
+                          <option value="Other">Khác</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-[#56615f] mb-1">Giới tính</label>
+                        <select value={pet.gender ?? ""} onChange={e => updatePet(index, "gender", e.target.value)}
+                          className="w-full bg-white border border-[#e1eae7] rounded-lg text-sm py-2 px-3 outline-none focus:border-[#006b62]">
+                          <option value="">Không rõ</option>
+                          <option value="male">Đực</option>
+                          <option value="female">Cái</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-[#56615f] mb-1">Giống</label>
+                        <input type="text" value={pet.breed ?? ""} onChange={e => updatePet(index, "breed", e.target.value)}
+                          className="w-full bg-white border border-[#e1eae7] rounded-lg text-sm py-2 px-3 outline-none focus:border-[#006b62]" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-[#56615f] mb-1">Tuổi</label>
+                        <input type="number" value={pet.age ?? ""} onChange={e => updatePet(index, "age", e.target.value)}
+                          className="w-full bg-white border border-[#e1eae7] rounded-lg text-sm py-2 px-3 outline-none focus:border-[#006b62]" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-[#56615f] mb-1">Cân nặng (kg)</label>
+                        <input type="number" step="0.1" value={pet.weight ?? ""} onChange={e => updatePet(index, "weight", e.target.value)}
+                          className="w-full bg-white border border-[#e1eae7] rounded-lg text-sm py-2 px-3 outline-none focus:border-[#006b62]" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {form.pets.length === 0 && (
+                  <p className="text-sm text-[#a9b4b1] italic text-center py-2">Chưa có thú cưng nào được thêm.</p>
+                )}
               </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Địa chỉ</label>
-                <input type="text" placeholder="Địa chỉ..."
-                  value={form.address} onChange={e => setForm({...form, address: e.target.value})}
-                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm py-3 px-4 outline-none focus:ring-2 focus:ring-[#006b62]/20" />
-              </div>
+
               <div className="pt-4 flex justify-end gap-3 border-t border-[#a9b4b1]/20">
                 <button type="button" onClick={() => setIsAddModalOpen(false)}
                   className="px-6 py-3 rounded-full font-bold text-[#56615f] bg-[#eef5f3] hover:bg-[#d9e5e2]">
@@ -258,34 +448,127 @@ export default function CustomersPage() {
 
       {/* Customer Detail Modal */}
       {selectedCustomer && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl relative animate-in fade-in zoom-in duration-200 my-8">
             <button onClick={() => setSelectedCustomer(null)}
               className="absolute top-6 right-6 text-[#56615f] hover:text-[#2a3433] hover:bg-gray-100 p-2 rounded-full">
               <span className="material-symbols-outlined">close</span>
             </button>
             <div className="flex items-start gap-6 mb-6">
-              <div className="w-20 h-20 rounded-full bg-[#b6e7fe] flex items-center justify-center text-[#27596c] font-bold text-2xl shadow-md ring-4 ring-[#eef5f3]">
+              <div className="w-20 h-20 rounded-full bg-[#b6e7fe] flex items-center justify-center text-[#27596c] font-bold text-2xl shadow-md ring-4 ring-[#eef5f3] shrink-0">
                 {getInitials(selectedCustomer.full_name)}
               </div>
-              <div className="pt-2">
-                <h3 className="text-2xl font-extrabold text-[#2a3433]">{selectedCustomer.full_name}</h3>
-                <div className="flex flex-col gap-1 mt-2 text-[#56615f] text-sm">
-                  {selectedCustomer.phone && <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">call</span>{selectedCustomer.phone}</span>}
-                  {selectedCustomer.email && <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">mail</span>{selectedCustomer.email}</span>}
-                  {selectedCustomer.address && <span className="flex items-center gap-1"><span className="material-symbols-outlined text-sm">location_on</span>{selectedCustomer.address}</span>}
+              <div className="pt-2 w-full">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-2xl font-extrabold text-[#2a3433]">{selectedCustomer.full_name}</h3>
+                  {selectedCustomer.is_active ? (
+                    <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Hoạt động</span>
+                  ) : (
+                    <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Đã khóa</span>
+                  )}
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 mt-4 bg-[#f8fdfa] p-4 rounded-xl border border-[#e1eae7]">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#56615f]">Số điện thoại</span>
+                    <span className="font-semibold text-[#2a3433] flex items-center gap-1 mt-1">
+                      <span className="material-symbols-outlined text-sm text-[#006b62]">call</span>
+                      {selectedCustomer.phone || "—"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#56615f]">Email</span>
+                    <span className="font-semibold text-[#2a3433] flex items-center gap-1 mt-1">
+                      <span className="material-symbols-outlined text-sm text-[#006b62]">mail</span>
+                      {selectedCustomer.email || "—"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#56615f]">Địa chỉ</span>
+                    <span className="font-semibold text-[#2a3433] flex items-center gap-1 mt-1">
+                      <span className="material-symbols-outlined text-sm text-[#006b62]">location_on</span>
+                      {selectedCustomer.address || "—"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#56615f]">Ngày đăng ký</span>
+                    <span className="font-semibold text-[#2a3433] flex items-center gap-1 mt-1">
+                      <span className="material-symbols-outlined text-sm text-[#006b62]">calendar_today</span>
+                      {selectedCustomer.created_at ? new Date(selectedCustomer.created_at).toLocaleDateString("vi-VN") : "—"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-[#e1eae7]">
+                  <button
+                    onClick={() => handleToggleActive(selectedCustomer)}
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all shadow-sm ${
+                      selectedCustomer.is_active 
+                        ? "bg-amber-100 text-amber-700 hover:bg-amber-200" 
+                        : "bg-[#eef5f3] text-[#006b62] hover:bg-[#c6eae3]"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-[18px]">
+                      {selectedCustomer.is_active ? "block" : "check_circle"}
+                    </span>
+                    {selectedCustomer.is_active ? "Tắt kích hoạt" : "Bật kích hoạt"}
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(selectedCustomer.customer_id)}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold bg-red-100 text-red-600 hover:bg-red-200 transition-all shadow-sm"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">delete</span>
+                    Xóa tài khoản
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="bg-[#f8fdfa] p-4 rounded-xl border border-[#e1eae7]">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#56615f] mb-1">Ngày đăng ký</p>
-              <p className="font-bold text-[#2a3433]">
-                {selectedCustomer.created_at ? new Date(selectedCustomer.created_at).toLocaleDateString("vi-VN", { day: "2-digit", month: "long", year: "numeric" }) : "—"}
-              </p>
+
+            {/* Pets Display */}
+            <div className="mt-6">
+              <h4 className="font-bold text-[#2a3433] border-b pb-2 mb-4">Danh sách thú cưng</h4>
+              {selectedCustomer.pets && selectedCustomer.pets.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {selectedCustomer.pets.map(pet => (
+                    <div key={pet.pet_id} className="bg-white border border-[#e1eae7] p-4 rounded-xl shadow-sm flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-full bg-[#eef5f3] flex items-center justify-center text-[#006b62] shrink-0">
+                        <span className="material-symbols-outlined">pets</span>
+                      </div>
+                      <div>
+                        <h5 className="font-bold text-[#2a3433]">{pet.name}</h5>
+                        <p className="text-xs text-[#56615f] mt-1">
+                          {pet.type} {pet.breed ? `• ${pet.breed}` : ""} {pet.gender ? `• ${pet.gender === 'male' ? 'Đực' : 'Cái'}` : ""}
+                        </p>
+                        <p className="text-xs text-[#56615f] mt-1">
+                          {pet.age ? `${pet.age} tuổi` : ""} {pet.age && pet.weight ? " • " : ""} {pet.weight ? `${pet.weight} kg` : ""}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-[#f8fdfa] border border-[#e1eae7] border-dashed p-6 text-center rounded-xl">
+                  <span className="material-symbols-outlined text-[#a9b4b1] text-3xl mb-2">pets</span>
+                  <p className="text-sm text-[#56615f]">Khách hàng này chưa có thông tin thú cưng.</p>
+                </div>
+              )}
             </div>
+            
           </div>
         </div>
       )}
+
+      {/* Global Confirm Modal */}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        confirmText={confirmModal.confirmText}
+        isDanger={confirmModal.isDanger}
+        onConfirm={confirmModal.onConfirm}
+        onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }

@@ -1,61 +1,49 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import type { RowDataPacket, ResultSetHeader } from "mysql2";
+import { prisma } from "@/lib/prisma";
 
-interface ProductRow extends RowDataPacket {
-  product_id: number;
-  product_name: string;
-  category_id: number;
-  category_name: string;
-  price: number;
-  stock: number;
-  description: string;
-  image: string;
-  created_at: string;
-}
-
-// GET /api/products – list products (with optional filters)
+// GET /api/products – list with optional filters + pagination
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const category = searchParams.get("category");
-    const search = searchParams.get("search");
-    const limit = parseInt(searchParams.get("limit") ?? "100");
-    const offset = parseInt(searchParams.get("offset") ?? "0");
+    const category = searchParams.get("category")?.trim();
+    const search = searchParams.get("search")?.trim();
+    const limit = parseInt(searchParams.get("limit") ?? "100", 10);
+    const offset = parseInt(searchParams.get("offset") ?? "0", 10);
 
-    let sql = `
-      SELECT
-        p.product_id,
-        p.product_name,
-        p.category_id,
-        c.category_name,
-        p.price,
-        p.stock,
-        p.description,
-        p.image,
-        p.created_at
-      FROM products p
-      LEFT JOIN categories c ON p.category_id = c.category_id
-      WHERE 1=1
-    `;
-    const params: unknown[] = [];
+    const products = await prisma.products.findMany({
+      where: {
+        ...(search && { product_name: { contains: search } }),
+        ...(category && {
+          categories: { category_name: { contains: category } },
+        }),
+      },
+      select: {
+        product_id: true,
+        product_name: true,
+        category_id: true,
+        price: true,
+        stock: true,
+        description: true,
+        image: true,
+        created_at: true,
+        categories: {
+          select: { category_name: true },
+        },
+      },
+      orderBy: { created_at: "desc" },
+      take: limit,
+      skip: offset,
+    });
 
-    if (category) {
-      sql += " AND c.category_name LIKE ?";
-      params.push(`%${category}%`);
-    }
-    if (search) {
-      sql += " AND p.product_name LIKE ?";
-      params.push(`%${search}%`);
-    }
+    // Flatten category_name into each product row
+    const rows = products.map(({ categories, ...p }) => ({
+      ...p,
+      category_name: categories?.category_name ?? null,
+    }));
 
-    sql += " ORDER BY p.created_at DESC LIMIT ? OFFSET ?";
-    params.push(limit, offset);
-
-    const rows = await query<ProductRow[]>(sql, params);
     return NextResponse.json(rows);
   } catch (err) {
-    console.error("[GET /api/products] Error:", err);
+    console.error("[GET /api/products]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }
@@ -73,18 +61,24 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = await query<ResultSetHeader>(
-      `INSERT INTO products (product_name, category_id, price, stock, description, image)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [product_name, category_id ?? null, price, stock ?? 0, description ?? "", image ?? ""]
-    );
+    const product = await prisma.products.create({
+      data: {
+        product_name,
+        category_id: category_id ?? null,
+        price,
+        stock: stock ?? 0,
+        description: description ?? null,
+        image: image ?? null,
+      },
+      select: { product_id: true },
+    });
 
     return NextResponse.json(
-      { product_id: result.insertId, message: "Tạo sản phẩm thành công" },
+      { product_id: product.product_id, message: "Tạo sản phẩm thành công" },
       { status: 201 }
     );
   } catch (err) {
-    console.error("[POST /api/products] Error:", err);
+    console.error("[POST /api/products]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }

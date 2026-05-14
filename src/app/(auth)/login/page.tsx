@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { setSessionCookie, homeForRole } from "@/lib/auth";
@@ -10,11 +10,14 @@ import type { UserRole } from "@/lib/users";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const justRegistered = searchParams.get("registered") === "true";
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -161,9 +164,6 @@ export default function LoginPage() {
                     <label htmlFor="login-password" className="block text-sm font-semibold" style={{ color: "#2f6555" }}>
                       Mật khẩu
                     </label>
-                    <a href="#" className="text-xs font-semibold hover:opacity-80 transition-opacity" style={{ color: "#29664c" }}>
-                      Quên mật khẩu?
-                    </a>
                   </div>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#4b8170]">
@@ -171,15 +171,35 @@ export default function LoginPage() {
                     </span>
                     <input
                       id="login-password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
-                      className="w-full pl-12 pr-4 py-4 bg-white rounded-full ghost-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-[#4b8170]/60"
+                      className="w-full pl-12 pr-12 py-4 bg-white rounded-full ghost-border focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-[#4b8170]/60"
                       style={{ color: "#00362a" }}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4b8170] hover:text-[#29664c] transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-xl">
+                        {showPassword ? "visibility" : "visibility_off"}
+                      </span>
+                    </button>
                   </div>
+                </div>
+
+                {/* Forgot Password Link */}
+                <div className="flex justify-end">
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs font-semibold hover:underline"
+                    style={{ color: "#29664c" }}
+                  >
+                    Quên mật khẩu?
+                  </Link>
                 </div>
 
                 {/* Error message */}
@@ -207,6 +227,14 @@ export default function LoginPage() {
                 </button>
               </form>
 
+              {/* Registered success banner */}
+              {justRegistered && (
+                <div className="mt-6 flex items-center gap-2 p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                  <span className="material-symbols-outlined text-emerald-600 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  <p className="text-sm text-emerald-700 font-medium">Đăng ký thành công! Hãy đăng nhập để tiếp tục.</p>
+                </div>
+              )}
+
               {/* Register link */}
               <div className="mt-10 pt-8 text-center" style={{ borderTop: "1px solid rgba(129,184,166,0.10)" }}>
                 <p className="text-sm" style={{ color: "#2f6555" }}>
@@ -226,17 +254,6 @@ export default function LoginPage() {
                   {label}
                 </div>
               ))}
-            </div>
-
-            {/* Credentials hint */}
-            <div className="mt-6 p-4 rounded-xl border border-dashed" style={{ borderColor: "#81b8a6", backgroundColor: "rgba(191,254,232,0.3)" }}>
-              <p className="text-xs font-bold mb-2" style={{ color: "#2f6555" }}>🔑 Đăng nhập với tài khoản trong database:</p>
-              <p className="text-xs" style={{ color: "#4b8170" }}>
-                <strong>Admin:</strong> email từ bảng <code>admins</code> + mật khẩu
-              </p>
-              <p className="text-xs" style={{ color: "#4b8170" }}>
-                <strong>Khách hàng:</strong> email + số điện thoại làm mật khẩu
-              </p>
             </div>
           </div>
         </div>

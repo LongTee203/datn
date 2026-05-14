@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import type { ResultSetHeader } from "mysql2";
+import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 
 // PATCH /api/orders/[id] – update status
 export async function PATCH(
@@ -13,21 +13,29 @@ export async function PATCH(
     const { status } = body;
 
     if (!status) {
-      return NextResponse.json({ error: "Thiếu trường status" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Thiếu trường status" },
+        { status: 400 }
+      );
     }
 
-    const result = await query<ResultSetHeader>(
-      "UPDATE orders SET order_status = ? WHERE order_id = ?",
-      [status, id]
-    );
-
-    if (result.affectedRows === 0) {
-      return NextResponse.json({ error: "Không tìm thấy đơn hàng" }, { status: 404 });
-    }
+    await prisma.orders.update({
+      where: { order_id: parseInt(id, 10) },
+      data: { order_status: status },
+    });
 
     return NextResponse.json({ message: "Cập nhật đơn hàng thành công" });
   } catch (err) {
-    console.error("[PATCH /api/orders/[id]] Error:", err);
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "Không tìm thấy đơn hàng" },
+        { status: 404 }
+      );
+    }
+    console.error("[PATCH /api/orders/[id]]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
-import type { ResultSetHeader } from "mysql2";
+import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 
 // PATCH /api/appointments/[id] – update status
 export async function PATCH(
@@ -19,21 +19,23 @@ export async function PATCH(
       );
     }
 
-    const result = await query<ResultSetHeader>(
-      "UPDATE appointments SET status = ? WHERE appointment_id = ?",
-      [status, id]
-    );
+    await prisma.appointments.update({
+      where: { appointment_id: parseInt(id, 10) },
+      data: { status },
+    });
 
-    if (result.affectedRows === 0) {
+    return NextResponse.json({ message: "Cập nhật trạng thái thành công" });
+  } catch (err) {
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2025"
+    ) {
       return NextResponse.json(
         { error: "Không tìm thấy lịch hẹn" },
         { status: 404 }
       );
     }
-
-    return NextResponse.json({ message: "Cập nhật trạng thái thành công" });
-  } catch (err) {
-    console.error("[PATCH /api/appointments/[id]] Error:", err);
+    console.error("[PATCH /api/appointments/[id]]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }
@@ -46,21 +48,22 @@ export async function DELETE(
   try {
     const { id } = await params;
 
-    const result = await query<ResultSetHeader>(
-      "DELETE FROM appointments WHERE appointment_id = ?",
-      [id]
-    );
+    await prisma.appointments.delete({
+      where: { appointment_id: parseInt(id, 10) },
+    });
 
-    if (result.affectedRows === 0) {
+    return NextResponse.json({ message: "Xóa lịch hẹn thành công" });
+  } catch (err) {
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === "P2025"
+    ) {
       return NextResponse.json(
         { error: "Không tìm thấy lịch hẹn" },
         { status: 404 }
       );
     }
-
-    return NextResponse.json({ message: "Xóa lịch hẹn thành công" });
-  } catch (err) {
-    console.error("[DELETE /api/appointments/[id]] Error:", err);
+    console.error("[DELETE /api/appointments/[id]]", err);
     return NextResponse.json({ error: "Lỗi máy chủ" }, { status: 500 });
   }
 }

@@ -150,33 +150,35 @@ export default function RegisterPage() {
   // ─── Render ─────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen flex flex-col bg-white" style={{ color: "#00362a" }}>
-      {/* Back to home */}
-      <div className="absolute top-6 right-6 z-10">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-sm font-medium transition-colors"
-          style={{ color: "#2f6555" }}
-        >
-          <span className="material-symbols-outlined text-lg">west</span>
-          <span>Quay lại trang chủ</span>
-        </Link>
-      </div>
+      {/* ── Minimal Auth Header ── */}
+      <header className="fixed top-0 left-0 w-full z-50">
+        <div className="w-full max-w-6xl mx-auto px-0 py-8 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+              <span className="material-symbols-outlined text-white text-2xl">pets</span>
+            </div>
+            <div className="text-2xl font-black text-primary tracking-tighter">
+              PetCare<span className="text-secondary font-light">Shop</span>
+            </div>
+          </div>
+          <Link
+            href="/"
+            className="group flex items-center gap-2 font-medium text-sm transition-colors"
+            style={{ color: "#2f6555" }}
+          >
+            <span className="material-symbols-outlined text-sm">arrow_back</span>
+            Quay lại trang chủ
+          </Link>
+        </div>
+      </header>
 
       {/* Main */}
-      <main className="flex-grow flex items-center justify-center p-6 md:p-12 lg:p-24">
-        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <main className="flex-grow flex items-start justify-center p-6 md:p-12 lg:pt-24 lg:px-24 lg:pb-12">
+        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 
           {/* ── Left: Branding ── */}
           <div className="hidden md:flex flex-col space-y-8">
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                  <span className="material-symbols-outlined text-white text-2xl">pets</span>
-                </div>
-                <div className="text-2xl font-black text-primary tracking-tighter">
-                  PetCare<span className="text-secondary font-light">Shop</span>
-                </div>
-              </div>
               <h1
                 className="text-5xl lg:text-6xl font-extrabold leading-tight tracking-tighter font-headline"
                 style={{ color: "#00362a" }}
@@ -197,9 +199,9 @@ export default function RegisterPage() {
                 className="absolute -top-4 -left-4 w-32 h-32 rounded-full opacity-50 blur-3xl"
                 style={{ backgroundColor: "#a0f4c8" }}
               />
-              <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-[4/5]">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-[4/3]">
                 <Image
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvw1Y99xt5GzC-IPCYa1XfWDhul69GDamrT14uy8sD0e9m5xPbSt0d0DbSag9beg2BziZ2Jpn7ICwYnrxo0TXIer2ve7u6u7P3GV0biEbPXbdJPIMI2rdUOPw84ogwGtkBHrjMmgCaFT53DSlXLgvyq1CYjgxNMyOnTS_eM5DMFTYFdAA2diqnGSjkY1mCysGsjkilsLE3Wyq6-I14RszOleoPYv8GYOSyYjP8i3mtgk6NGSwv1EmDjW2nyhonfuh0tX1DZKkDbEng"
+                  src="/petcare/13.jpg"
                   alt="A friendly golden retriever puppy sitting in a sunlit garden"
                   fill
                   className="object-cover"

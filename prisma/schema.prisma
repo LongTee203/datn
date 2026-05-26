@@ -24,6 +24,9 @@ model appointments {
   pet_name         String            @db.VarChar(100)
   appointment_date DateTime          @db.DateTime(0)
   status           String?           @default("Pending") @db.VarChar(50)
+  note             String?           @db.Text
+  payment_method   String?           @db.VarChar(50)
+  receipt_image    String?           @db.VarChar(255)
   created_at       DateTime?         @default(now()) @db.DateTime(0)
   customers        customers         @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_appointment_customer")
   services         services          @relation(fields: [service_id], references: [service_id], onDelete: Cascade, map: "fk_appointment_service")
@@ -51,18 +54,18 @@ model contacts {
 }
 
 model customers {
-  customer_id          Int                    @id @default(autoincrement())
-  full_name            String                 @db.VarChar(100)
-  phone                String                 @db.VarChar(20)
-  email                String?                @db.VarChar(100)
-  password             String                 @db.VarChar(255)
-  address              String?                @db.Text
-  is_active            Boolean                @default(true)
-  created_at           DateTime?              @default(now()) @db.DateTime(0)
-  appointments         appointments[]
-  orders               orders[]
-  pets                 pets[]
-  service_transactions service_transactions[]
+  customer_id  Int       @id @default(autoincrement())
+  full_name    String    @db.VarChar(100)
+  phone        String    @db.VarChar(20)
+  email        String?   @db.VarChar(100)
+  password     String    @db.VarChar(255)
+  address      String?   @db.Text
+  avatar       String?   @db.VarChar(500)
+  is_active    Boolean   @default(true)
+  created_at   DateTime? @default(now()) @db.DateTime(0)
+  appointments appointments[]
+  orders       orders[]
+  pets         pets[]
 }
 
 model order_details {
@@ -84,6 +87,7 @@ model orders {
   total_amount   Decimal         @db.Decimal(10, 2)
   order_status   String?         @default("Pending") @db.VarChar(50)
   payment_method String?         @default("COD") @db.VarChar(50)
+  receipt_image  String?         @db.VarChar(255)
   created_at     DateTime?       @default(now()) @db.DateTime(0)
   order_details  order_details[]
   customers      customers       @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_order_customer")
@@ -92,20 +96,19 @@ model orders {
 }
 
 model pets {
-  pet_id               Int                    @id @default(autoincrement())
-  customer_id          Int
-  name                 String                 @db.VarChar(100)
-  type                 String                 @db.VarChar(50)
-  breed                String?                @db.VarChar(100)
-  gender               pets_gender?
-  age                  Int?
-  weight               Decimal?               @db.Decimal(5, 2)
-  color                String?                @db.VarChar(50)
-  note                 String?                @db.Text
-  image                String?                @db.VarChar(255)
-  created_at           DateTime?              @default(now()) @db.DateTime(0)
-  customers            customers              @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_pet_customer")
-  service_transactions service_transactions[]
+  pet_id      Int       @id @default(autoincrement())
+  customer_id Int
+  name        String    @db.VarChar(100)
+  type        String    @db.VarChar(50)
+  breed       String?   @db.VarChar(100)
+  gender      pets_gender?
+  age         Int?
+  weight      Decimal?  @db.Decimal(5, 2)
+  color       String?   @db.VarChar(50)
+  note        String?   @db.Text
+  image       String?   @db.VarChar(255)
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  customers   customers @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_pet_customer")
 
   @@index([customer_id], map: "fk_pet_customer")
 }
@@ -116,8 +119,10 @@ model products {
   product_name  String          @db.VarChar(150)
   price         Decimal         @db.Decimal(10, 2)
   stock         Int?            @default(0)
-  image         String?         @db.VarChar(255)
+  image         String?         @db.Text
   description   String?         @db.Text
+  details       String?         @db.Text
+  specifications String?        @db.Text
   created_at    DateTime?       @default(now()) @db.DateTime(0)
   order_details order_details[]
   categories    categories?     @relation(fields: [category_id], references: [category_id], map: "fk_product_category")
@@ -125,64 +130,31 @@ model products {
   @@index([category_id], map: "fk_product_category")
 }
 
-model service_transaction_details {
-  detail_id            Int                  @id @default(autoincrement())
-  transaction_id       Int
-  service_id           Int
-  quantity             Int?                 @default(1)
-  price                Decimal              @db.Decimal(10, 2)
-  subtotal             Decimal              @db.Decimal(10, 2)
-  services             services             @relation(fields: [service_id], references: [service_id], onDelete: Cascade, map: "fk_service_detail_service")
-  service_transactions service_transactions @relation(fields: [transaction_id], references: [transaction_id], onDelete: Cascade, map: "fk_service_detail_transaction")
-
-  @@index([service_id], map: "fk_service_detail_service")
-  @@index([transaction_id], map: "fk_service_detail_transaction")
-}
-
-model service_transactions {
-  transaction_id              Int                                  @id @default(autoincrement())
-  customer_id                 Int
-  pet_id                      Int
-  staff_id                    Int
-  total_amount                Decimal                              @default(0.00) @db.Decimal(10, 2)
-  payment_method              String?                              @default("cash") @db.VarChar(50)
-  payment_status              service_transactions_payment_status? @default(pending)
-  note                        String?                              @db.Text
-  created_at                  DateTime?                            @default(now()) @db.DateTime(0)
-  service_transaction_details service_transaction_details[]
-  customers                   customers                            @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade, map: "fk_service_transaction_customer")
-  pets                        pets                                 @relation(fields: [pet_id], references: [pet_id], onDelete: Cascade, map: "fk_service_transaction_pet")
-  staff                       staff                                @relation(fields: [staff_id], references: [staff_id], onDelete: Cascade, map: "fk_service_transaction_staff")
-
-  @@index([customer_id], map: "fk_service_transaction_customer")
-  @@index([pet_id], map: "fk_service_transaction_pet")
-  @@index([staff_id], map: "fk_service_transaction_staff")
-}
 
 model services {
-  service_id                  Int                           @id @default(autoincrement())
-  service_name                String                        @db.VarChar(150)
-  price                       Decimal                       @db.Decimal(10, 2)
-  image                       String?                       @db.VarChar(255)
-  description                 String?                       @db.Text
-  category                    String?                       @default("Vệ sinh & Spa") @db.VarChar(100)
-  duration                    Int?                          @default(30)
-  is_active                   Boolean                       @default(true)
-  created_at                  DateTime?                     @default(now()) @db.DateTime(0)
-  appointments                appointments[]
-  service_transaction_details service_transaction_details[]
+  service_id   Int       @id @default(autoincrement())
+  service_name String    @db.VarChar(150)
+  price        Decimal   @db.Decimal(10, 2)
+  image        String?   @db.VarChar(255)
+  description  String?   @db.Text
+  category     String?   @default("Vệ sinh & Spa") @db.VarChar(100)
+  duration     Int?      @default(30)
+  is_active    Boolean   @default(true)
+  created_at   DateTime? @default(now()) @db.DateTime(0)
+  appointments appointments[]
 }
 
 model staff {
-  staff_id             Int                    @id @default(autoincrement())
-  full_name            String                 @db.VarChar(100)
-  phone                String?                @db.VarChar(20)
-  email                String?                @db.VarChar(100)
-  position             String?                @db.VarChar(50)
-  salary               Decimal?               @db.Decimal(10, 2)
-  created_at           DateTime?              @default(now()) @db.DateTime(0)
-  service_transactions service_transactions[]
-  staff_schedules      staff_schedules[]
+  staff_id        Int       @id @default(autoincrement())
+  full_name       String    @db.VarChar(100)
+  phone           String?   @db.VarChar(20)
+  email           String?   @db.VarChar(100)
+  position        String?   @db.VarChar(50)
+  salary          Decimal?  @db.Decimal(10, 2)
+  avatar          String?   @db.VarChar(500)
+  is_active       Boolean   @default(true)
+  created_at      DateTime? @default(now()) @db.DateTime(0)
+  staff_schedules staff_schedules[]
 }
 
 model staff_schedules {
@@ -206,10 +178,23 @@ enum pets_gender {
   female
 }
 
-enum service_transactions_payment_status {
-  pending
+
+enum payments_status {
+  processing
   paid
   cancelled
+}
+
+model payments {
+  payment_id     Int              @id @default(autoincrement())
+  source_type    String           @db.VarChar(20)  // "order" | "appointment"
+  source_id      Int
+  amount         Decimal          @db.Decimal(10, 2)
+  payment_method String?          @db.VarChar(50)
+  receipt_image  String?          @db.VarChar(255)
+  status         payments_status  @default(processing)
+  description    String?          @db.VarChar(255)
+  created_at     DateTime?        @default(now()) @db.DateTime(0)
 }
 
 model password_resets {
@@ -220,5 +205,32 @@ model password_resets {
   created_at DateTime @default(now()) @db.DateTime(0)
 
   @@index([email])
+}
+
+model shop_settings {
+  key        String   @id @db.VarChar(100)
+  value      String   @db.Text
+  updated_at DateTime @default(now()) @updatedAt @db.DateTime(0)
+}
+
+model notifications {
+  notification_id Int       @id @default(autoincrement())
+  type            String    @db.VarChar(30)  // "order" | "booking" | "stock" | "contact"
+  title           String    @db.VarChar(255)
+  message         String    @db.Text
+  source_id       Int?      // order_id / appointment_id / product_id
+  is_read         Boolean   @default(false)
+  created_at      DateTime  @default(now()) @db.DateTime(0)
+}
+
+model articles {
+  article_id  Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  category    String    @db.VarChar(100)
+  description String?   @db.Text
+  content     String    @db.Text
+  image       String?   @db.VarChar(255)
+  status      String?   @default("published") @db.VarChar(50)
+  created_at  DateTime? @default(now()) @db.DateTime(0)
 }
 

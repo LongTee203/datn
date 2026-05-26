@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { setSessionCookie, homeForRole } from "@/lib/auth";
 import { useAuth } from "@/context/AuthContext";
 import type { UserRole } from "@/lib/users";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "true";
@@ -62,23 +62,25 @@ export default function LoginPage() {
       style={{ backgroundColor: "#ffffff", color: "#00362a" }}
     >
       {/* ── Minimal Auth Header ── */}
-      <header className="fixed top-0 left-0 w-full z-50 px-6 py-6 max-w-7xl mx-auto flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-            <span className="material-symbols-outlined text-white text-2xl">pets</span>
+      <header className="fixed top-0 left-0 w-full z-50">
+        <div className="w-full max-w-6xl mx-auto px-0 py-8 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+              <span className="material-symbols-outlined text-white text-2xl">pets</span>
+            </div>
+            <div className="text-2xl font-black text-primary tracking-tighter">
+              PetCare<span className="text-secondary font-light">Shop</span>
+            </div>
           </div>
-          <div className="text-2xl font-black text-primary tracking-tighter">
-            PetCare<span className="text-secondary font-light">Shop</span>
-          </div>
+          <Link
+            href="/"
+            className="group flex items-center gap-2 font-medium text-sm transition-colors"
+            style={{ color: "#2f6555" }}
+          >
+            <span className="material-symbols-outlined text-sm">arrow_back</span>
+            Quay lại trang chủ
+          </Link>
         </div>
-        <Link
-          href="/"
-          className="group flex items-center gap-2 font-medium text-sm transition-colors"
-          style={{ color: "#2f6555" }}
-        >
-          <span className="material-symbols-outlined text-sm">arrow_back</span>
-          Quay lại trang chủ
-        </Link>
       </header>
 
       {/* ── Main ── */}
@@ -108,7 +110,7 @@ export default function LoginPage() {
               </p>
               <div className="relative rounded-xl overflow-hidden shadow-xl">
                 <Image
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBURl7crUIAxQa-jEGTi9fVmay6jK55LZzfW3ArzQNZ2fPPhOEUJtle5ou6Pgv37hLGVktfbCudVItF-ah3yT8Z-w25_zuW3z_Lbs1kllth23oUy2vRO7DSA2W4PEIFHd-b5KWXdOpHrS1sTlkzDHagqe54Gj5174WS4aGn2Zha6DXAq2HwLlV5JdqbTxNZTWqu1KO_EYYRPbe2sL0m2W3zbL7fPosyWZJRLFdAi2VY_S1666qpSPEuIi1c0dffjQzc-fCORDBxA4nc"
+                  src="/petcare/13.jpg"
                   alt="Happy golden retriever"
                   width={600}
                   height={450}
@@ -248,7 +250,7 @@ export default function LoginPage() {
 
             {/* Trust badges */}
             <div className="mt-8 flex gap-6 grayscale opacity-40 hover:opacity-100 transition-opacity duration-500">
-              {[{ icon: "verified_user", label: "Bảo mật SSL" }, { icon: "favorite", label: "Pet Friendly" }].map(({ icon, label }) => (
+              {[{ icon: "verified_user", label: "Bảo mật SSL" }].map(({ icon, label }) => (
                 <div key={icon} className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: "#00362a" }}>
                   <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
                   {label}
@@ -266,14 +268,26 @@ export default function LoginPage() {
             <span className="material-symbols-outlined text-primary text-xl">pets</span>
             PetCare<span className="text-secondary font-light">Shop</span>
           </div>
-          <p className="text-emerald-800/70 text-sm">© 2024 PetCareShop. Nurturing with intention.</p>
+          <p className="text-emerald-800/70 text-sm">© 2026 PetCareShop. Nơi tình yêu dành cho thú cưng nở rộ.</p>
         </div>
         <div className="flex gap-6 text-sm text-emerald-700/70">
-          {["Privacy Policy", "Terms of Service", "Help Center"].map((item) => (
+          {["Chính sách bảo mật", "Điều khoản sử dụng", "Trung tâm hỗ trợ"].map((item) => (
             <a key={item} href="#" className="hover:text-emerald-900 transition-colors">{item}</a>
           ))}
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <span className="material-symbols-outlined animate-spin text-5xl text-[#006b62]">progress_activity</span>
+      </div>
+    }>
+      <LoginPageContent />
+    </Suspense>
   );
 }

@@ -1,5 +1,11 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+
+interface OrderItem {
+  product_name: string;
+  quantity: number;
+  price: number;
+}
 
 interface Order {
   order_id: number;
@@ -7,12 +13,16 @@ interface Order {
   total_amount: number;
   order_status: string;
   payment_method: string;
+  receipt_image: string | null;
   created_at: string;
   customer_name: string;
   customer_phone: string;
+  items: OrderItem[];
 }
 
-// Map DB status → Vietnamese label
+interface DropdownPos { top: number; left: number; }
+
+// ─── Constants ────────────────────────────────────────────────────────────────
 const STATUS_LABEL: Record<string, string> = {
   Pending:    "Chờ xử lý",
   Processing: "Đang xử lý",
@@ -24,10 +34,10 @@ const STATUS_LABEL: Record<string, string> = {
 const STATUS_OPTIONS = ["Tất cả", "Pending", "Processing", "Shipped", "Completed", "Cancelled"];
 
 const STATUS_STYLE: Record<string, { badge: string; dot: string }> = {
-  Shipped:    { badge: "bg-[#82f6e7] text-[#005c54]",   dot: "bg-[#006b62] animate-pulse" },
-  Processing: { badge: "bg-[#b6e7fe] text-[#235669]",   dot: "bg-[#346578]" },
-  Pending:    { badge: "bg-[#b6e7fe] text-[#235669]",   dot: "bg-[#346578]" },
-  Completed:  { badge: "bg-[#c6eae3] text-[#375853]",   dot: "bg-[#446560]" },
+  Shipped:    { badge: "bg-[#82f6e7] text-[#005c54]",    dot: "bg-[#006b62] animate-pulse" },
+  Processing: { badge: "bg-[#b6e7fe] text-[#235669]",    dot: "bg-[#346578]" },
+  Pending:    { badge: "bg-[#b6e7fe] text-[#235669]",    dot: "bg-[#346578]" },
+  Completed:  { badge: "bg-[#c6eae3] text-[#375853]",    dot: "bg-[#446560]" },
   Cancelled:  { badge: "bg-[#fa746f]/20 text-[#a83836]", dot: "bg-[#a83836]" },
 };
 
@@ -40,11 +50,37 @@ function formatDate(dt: string) {
   return new Date(dt).toLocaleDateString("vi-VN", { day: "2-digit", month: "numeric", year: "numeric" });
 }
 
+// ─── Component ────────────────────────────────────────────────────────────────
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState("Tất cả");
+  const [orders, setOrders]       = useState<Order[]>([]);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState<string | null>(null);
+  const [filter, setFilter]       = useState("Tất cả");
+  const [filterDate, setFilterDate] = useState("");
+
+  // Dropdown portal state
+  const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+  const [menuPos, setMenuPos]       = useState<DropdownPos>({ top: 0, left: 0 });
+  const menuRef                     = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const toggleMenu = (id: number, btn: HTMLButtonElement) => {
+    if (openMenuId === id) { setOpenMenuId(null); return; }
+    const rect    = btn.getBoundingClientRect();
+    const MENU_H  = 220;
+    const top     = window.innerHeight - rect.bottom < MENU_H ? rect.top - MENU_H - 4 : rect.bottom + 4;
+    setMenuPos({ top, left: rect.right - 176 }); // w-44 = 176px
+    setOpenMenuId(id);
+  };
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -52,6 +88,7 @@ export default function OrdersPage() {
     try {
       const params = new URLSearchParams();
       if (filter !== "Tất cả") params.set("status", filter);
+      if (filterDate) params.set("date", filterDate);
       const res = await fetch(`/api/orders?${params}`);
       if (!res.ok) throw new Error("Không tải được dữ liệu");
       setOrders(await res.json());
@@ -60,30 +97,48 @@ export default function OrdersPage() {
     } finally {
       setLoading(false);
     }
-  }, [filter]);
+  }, [filter, filterDate]);
 
   useEffect(() => { fetchOrders(); }, [fetchOrders]);
 
   const updateStatus = async (id: number, newStatus: string) => {
     setOrders(prev => prev.map(o => o.order_id === id ? { ...o, order_status: newStatus } : o));
+    setOpenMenuId(null);
     try {
       await fetch(`/api/orders/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
+      // Create payment transaction when order starts shipping or is delivered
+      if (newStatus === "Shipped" || newStatus === "Completed") {
+        const order = orders.find(o => o.order_id === id);
+        if (order) {
+          await fetch("/api/payments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              source_type: "order",
+              source_id: id,
+              amount: order.total_amount,
+              payment_method: order.payment_method === "Bank" ? "Chuyển khoản" : "Tiền mặt",
+              receipt_image: order.receipt_image || null,
+              description: `Đơn hàng #${id} - ${order.customer_name || "Khách hàng"}`,
+            }),
+          });
+        }
+      }
     } catch { fetchOrders(); }
   };
 
-  // Summary stats
-  const pendingCount   = orders.filter(o => o.order_status === "Pending").length;
-  const shippingCount  = orders.filter(o => o.order_status === "Shipped").length;
-  const totalRevenue   = orders
+  const pendingCount  = orders.filter(o => o.order_status === "Pending").length;
+  const shippingCount = orders.filter(o => o.order_status === "Shipped").length;
+  const totalRevenue  = orders
     .filter(o => o.order_status === "Completed")
     .reduce((sum, o) => sum + Number(o.total_amount), 0);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       {/* Page Header */}
       <div className="mb-8 flex justify-between items-end">
         <div>
@@ -93,7 +148,11 @@ export default function OrdersPage() {
             Tổng cộng {orders.length} đơn hàng
           </p>
         </div>
-        <div className="flex gap-2 bg-[#eef5f3] p-1 rounded-xl flex-wrap">
+      </div>
+
+      {/* Filters */}
+      <div className="bg-white rounded-3xl p-6 shadow-sm mb-8 flex flex-wrap items-end gap-4">
+        <div className="flex gap-1 bg-[#eef5f3] p-1 rounded-xl flex-wrap">
           {STATUS_OPTIONS.map(s => (
             <button
               key={s}
@@ -103,6 +162,25 @@ export default function OrdersPage() {
               {s === "Tất cả" ? "Tất cả" : (STATUS_LABEL[s] ?? s)}
             </button>
           ))}
+        </div>
+        <div className="flex items-end gap-3 ml-auto">
+          <div>
+            <label className="block text-[10px] font-bold uppercase text-[#a9b4b1] mb-1 ml-1">Ngày đặt</label>
+            <input
+              type="date"
+              value={filterDate}
+              onChange={e => setFilterDate(e.target.value)}
+              className="bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-2.5 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none"
+            />
+          </div>
+          {(filter !== "Tất cả" || filterDate) && (
+            <button
+              onClick={() => { setFilter("Tất cả"); setFilterDate(""); }}
+              className="bg-[#c6eae3] text-[#375853] px-5 py-2.5 rounded-xl font-bold text-sm hover:brightness-95 transition-all whitespace-nowrap"
+            >
+              Xóa bộ lọc
+            </button>
+          )}
         </div>
       </div>
 
@@ -166,6 +244,7 @@ export default function OrdersPage() {
               <tr className="bg-[#eef5f3]/50">
                 <th className="py-4 px-6 text-[10px] font-black uppercase tracking-widest text-[#56615f]">Mã đơn</th>
                 <th className="py-4 px-6 text-[10px] font-black uppercase tracking-widest text-[#56615f]">Khách hàng</th>
+                <th className="py-4 px-6 text-[10px] font-black uppercase tracking-widest text-[#56615f]">Sản phẩm</th>
                 <th className="py-4 px-6 text-[10px] font-black uppercase tracking-widest text-[#56615f]">Ngày đặt</th>
                 <th className="py-4 px-6 text-[10px] font-black uppercase tracking-widest text-[#56615f]">Tổng tiền</th>
                 <th className="py-4 px-6 text-[10px] font-black uppercase tracking-widest text-[#56615f]">Thanh toán</th>
@@ -176,7 +255,7 @@ export default function OrdersPage() {
             <tbody className="divide-y divide-[#a9b4b1]/5">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center">
+                  <td colSpan={8} className="py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-[#56615f]">
                       <span className="material-symbols-outlined animate-spin text-[#006b62]">progress_activity</span>
                       Đang tải...
@@ -185,25 +264,28 @@ export default function OrdersPage() {
                 </tr>
               ) : orders.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-[#56615f]">Không có đơn hàng nào.</td>
+                  <td colSpan={8} className="py-12 text-center text-[#56615f]">Không có đơn hàng nào.</td>
                 </tr>
               ) : (
                 orders.map(order => {
-                  const st = order.order_status;
-                  const style = STATUS_STYLE[st] ?? { badge: "bg-gray-100 text-gray-600", dot: "bg-gray-400" };
+                  const st          = order.order_status;
+                  const style       = STATUS_STYLE[st] ?? { badge: "bg-gray-100 text-gray-600", dot: "bg-gray-400" };
                   const isCancelled = st === "Cancelled";
-                  const initials = order.customer_name
+                  const initials    = order.customer_name
                     ? order.customer_name.split(" ").map(w => w[0]).slice(-2).join("").toUpperCase()
                     : "?";
 
                   return (
-                    <tr key={order.order_id} className="hover:bg-[#eef5f3]/50 transition-colors group">
+                    <tr key={order.order_id} className={`hover:bg-[#eef5f3]/50 transition-colors ${isCancelled ? "opacity-60" : ""}`}>
+                      {/* Order ID */}
                       <td className="py-5 px-6 font-bold text-[#006b62]">
                         #{String(order.order_id).padStart(4, "0")}
                       </td>
+
+                      {/* Customer */}
                       <td className="py-5 px-6">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-[#c6eae3] text-[#446560] flex items-center justify-center font-bold text-xs">
+                          <div className="w-8 h-8 rounded-full bg-[#c6eae3] text-[#446560] flex items-center justify-center font-bold text-xs shrink-0">
                             {initials}
                           </div>
                           <div>
@@ -214,12 +296,35 @@ export default function OrdersPage() {
                           </div>
                         </div>
                       </td>
+
+                      {/* Products */}
+                      <td className="py-5 px-6 max-w-[220px]">
+                        {order.items && order.items.length > 0 ? (
+                          <div className="space-y-1">
+                            {order.items.map((item, i) => (
+                              <div key={i} className="flex items-center gap-1.5 text-xs">
+                                <span className="material-symbols-outlined text-[#a9b4b1] text-[13px]">circle</span>
+                                <span className="text-[#2a3433] font-medium truncate max-w-[140px]">{item.product_name}</span>
+                                <span className="text-[#56615f] shrink-0">× {item.quantity}</span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="text-xs text-[#a9b4b1]">—</span>
+                        )}
+                      </td>
+
+                      {/* Date */}
                       <td className="py-5 px-6 text-sm text-[#56615f]">{formatDate(order.created_at)}</td>
+
+                      {/* Total */}
                       <td className="py-5 px-6">
                         <span className={`text-sm font-extrabold ${isCancelled ? "text-[#56615f] line-through" : "text-[#2a3433]"}`}>
                           {formatCurrency(order.total_amount)}
                         </span>
                       </td>
+
+                      {/* Payment */}
                       <td className="py-5 px-6">
                         <div className="flex items-center gap-1.5">
                           <span className="material-symbols-outlined text-sm text-[#56615f]">
@@ -228,30 +333,23 @@ export default function OrdersPage() {
                           <span className="text-xs font-medium text-[#2a3433]">{order.payment_method}</span>
                         </div>
                       </td>
+
+                      {/* Status */}
                       <td className="py-5 px-6">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-bold flex items-center w-fit gap-1 ${style.badge}`}>
                           <span className={`w-1 h-1 rounded-full ${style.dot}`} />
                           {STATUS_LABEL[st] ?? st}
                         </span>
                       </td>
-                      <td className="py-5 px-6 text-right relative">
-                        <div className="relative inline-block text-left group/dropdown">
-                          <button className="text-[#56615f] hover:text-[#006b62] p-1 rounded-full hover:bg-[#e1eae7]">
-                            <span className="material-symbols-outlined text-lg">more_vert</span>
-                          </button>
-                          <div className="absolute right-0 top-1/2 -translate-y-1/2 mr-8 w-44 bg-white rounded-xl shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all z-[100] overflow-hidden">
-                            <div className="py-1">
-                              <div className="px-3 py-2 text-[10px] font-bold text-[#56615f] uppercase tracking-wider border-b border-[#a9b4b1]/10 mb-1">Cập nhật</div>
-                              {["Pending","Processing","Shipped","Completed","Cancelled"].map(s => (
-                                <button key={s} onClick={() => updateStatus(order.order_id, s)}
-                                  className="flex items-center w-full px-4 py-2 text-xs font-semibold text-[#2a3433] hover:bg-[#eef5f3] transition-colors">
-                                  <span className={`w-2 h-2 rounded-full mr-3 ${STATUS_STYLE[s]?.dot ?? "bg-gray-400"}`} />
-                                  {STATUS_LABEL[s] ?? s}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
+
+                      {/* Actions — fixed-position dropdown */}
+                      <td className="py-5 px-6 text-right">
+                        <button
+                          onClick={e => toggleMenu(order.order_id, e.currentTarget)}
+                          className="text-[#56615f] hover:text-[#006b62] p-1 rounded-full hover:bg-[#e1eae7]"
+                        >
+                          <span className="material-symbols-outlined text-lg">more_vert</span>
+                        </button>
                       </td>
                     </tr>
                   );
@@ -264,6 +362,29 @@ export default function OrdersPage() {
           <p className="text-xs text-[#56615f] font-medium">Hiển thị {orders.length} đơn hàng</p>
         </div>
       </div>
+
+      {/* Fixed-position dropdown portal */}
+      {openMenuId !== null && (
+        <div
+          ref={menuRef}
+          style={{ position: "fixed", top: menuPos.top, left: menuPos.left, zIndex: 9999 }}
+          className="w-44 bg-white rounded-xl shadow-2xl ring-1 ring-black/5 overflow-hidden"
+        >
+          <div className="px-3 py-2 text-[10px] font-bold text-[#56615f] uppercase tracking-wider border-b border-[#a9b4b1]/10">
+            Cập nhật trạng thái
+          </div>
+          {["Pending", "Processing", "Shipped", "Completed", "Cancelled"].map(s => (
+            <button
+              key={s}
+              onClick={() => updateStatus(openMenuId, s)}
+              className="flex items-center w-full px-4 py-2.5 text-xs font-semibold text-[#2a3433] hover:bg-[#eef5f3] transition-colors"
+            >
+              <span className={`w-2 h-2 rounded-full mr-3 ${STATUS_STYLE[s]?.dot ?? "bg-gray-400"}`} />
+              {STATUS_LABEL[s] ?? s}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

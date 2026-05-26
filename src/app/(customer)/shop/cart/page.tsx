@@ -62,14 +62,20 @@ export default function CartPage() {
                   className="bg-[#cafdd4] rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 group transition-all duration-300"
                 >
                   {/* Thumbnail */}
-                  <div className="w-28 h-28 rounded-xl overflow-hidden flex-shrink-0">
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.name}
-                      width={112}
-                      height={112}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                  <div className="w-28 h-28 rounded-xl overflow-hidden flex-shrink-0 bg-[#b8f5c3]">
+                    {item.imageUrl ? (
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.name}
+                        width={112}
+                        height={112}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="material-symbols-outlined text-4xl text-[#3b6447]">pets</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Info */}

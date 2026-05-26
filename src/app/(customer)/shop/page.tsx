@@ -1,218 +1,107 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
-// ─────────────────────────────────────────────
-// Product data — 5 categories, 4–6 products each
-// ─────────────────────────────────────────────
-const ALL_PRODUCTS = [
-  // ── 0: Thức ăn & Đồ ăn vặt ──
-  {
-    id: 1, cat: 0,
-    name: "Hạt khô Cao cấp Không ngũ cốc",
-    desc: "Cá hồi & Khoai lang cho chó trưởng thành",
-    price: 550000, oldPrice: null, rating: 5, reviews: 128,
-    badge: { text: "Bán chạy", color: "bg-[#2D6A4F] text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCGBQHhi_RjMLrgZCrDBTjunmk4WTllhnojnFTlMceoKxTTM8GogoOucuHbb38AmIW4mim3RBWaU7Uzg0rs_-Zle3JYN5nqPHex6fjT6E7-W03fYBxxfT5M2cHHrjB4sX2tcaExpr7rw8o6rQMVhHAXcoQF8LP9aI_P69IExnBg9eldCJ7N4EhH51aCfznVfnIaynPpPb4IWo9Xdtsw45az3mNlh3Wjm8gIq6aX-m5exje04gr-6OdBvsNsOhmcDH3vZEzamHR1xmR6",
-  },
-  {
-    id: 2, cat: 0,
-    name: "Bánh thưởng Huấn luyện Tự nhiên",
-    desc: "Hương vị Thịt xông khói & Gan",
-    price: 90000, oldPrice: null, rating: 5, reviews: 342,
-    badge: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAW4AfakCVYMa40pb7PUK4pOSrJ1LrO4gMffFOu4aZ8SWGnRZUbkmUm8cI0UUdZ-hmPcJyP_n4ixz8HKbTFmhaqpBKwb_8TbwoAJxR_03p9RL9oPmQ9NiA_BmYXwiOXQhc22MjJg-v1nlAU5orNmwv625WlFoRQ3gfdSgYSTZv83ZXzm8IkR6j4_MaVKJ4egW0AX4ykV-TknKaQouLFU-rLRM-evn1xtxdgRzs6eFcPM8eM_xlhJJ-M5XnjBxTRpEAvLtGL4IZ7q4sT",
-  },
-  {
-    id: 3, cat: 0,
-    name: "Hạt Hữu Cơ Cao Cấp (Chó Lớn)",
-    desc: "Trọng lượng: 2kg • Vị Cá Hồi, không chất bảo quản",
-    price: 420000, oldPrice: null, rating: 5, reviews: 204,
-    badge: { text: "Hữu cơ", color: "bg-emerald-600 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDzYwfMNF41rR3tMNMucO6rdkjFTjiDvoKTpp_-ZZTqIl4K-XlxP3sRDiLd4kj_fm2ERKe6pIReqWtaS5yMXetyrW1_3XRI2VfV_TzlMw_J2YqtRAUUzeCAyxe-Y_Zf5hm68OBOxwaBOK19ja2QL3LuLupx-1DI4YD7bu_fgNcw2_kphNLdIPRWx3MY8T7YQB0ZXUADeazw2GbPKcrteAvSXQIjkdLBW7fCW3N4sx06Qe5-m2BAFW4UPFhZcnMT_Aq5gjM1hkst7TS0",
-  },
-  {
-    id: 4, cat: 0,
-    name: "Bánh Thưởng Gan Gà Sấy Lạnh",
-    desc: "Gói 150g • Không chất bảo quản, không gluten",
-    price: 165000, oldPrice: 220000, rating: 4, reviews: 88,
-    badge: { text: "Giảm 25%", color: "bg-red-500 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIW5j-aEutgTdbQWwUOCfzqd3RFj87duzm4ZHvk1Hz0_lFBADUPA7647RMYicpg_WeRnjExGYbRconn1kxlgfWGLAO-aP0yzKtWNMWPiCEB75VXltJHexTxRD_XDYWasDOEzTZU5PXwxdCaMglBBMfj3CQpxRkW1b4JpFdidetEUO8vG1pn-KWB28csxcpfgznfU1zMpCK2j7T8hwOTTSvPKgTfml35B5yTQ0md_C7-YSeOamCnBRE4L6cdXRmP9uDCS4SRJhZfXfG",
-  },
-
-  // ── 1: Đồ chơi & Vui chơi ──
-  {
-    id: 5, cat: 1,
-    name: "Xương gặm Cao su Bền bỉ",
-    desc: "Dòng sản phẩm cho chó hay gặm",
-    price: 125000, oldPrice: null, rating: 4, reviews: 84,
-    badge: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCds7huXoqKaTMPPtjywUw8FXG-d7R54ZTwBQ961S6yRxFNvoG8wwyqORG9BTDlirRKkrtZSXOJidIROfUkcDNlpMLyHWIPqF-n-4JImR-0k5SMcUhLeqJayotZz0wN7IEUtAtpDKAfWhL4bE3PAA4AsKPJLQkyzUZ1CyHCb9XyMXdHk-H0dquMmc5kCfbNJIpSkmQpDpON0mrmEXVGCaCh8n1y9wf7fBsqv21_X-FMYW1bf6Qv0fKC5ku_lCVFz5xBQEPyjFp1Rzy4",
-  },
-  {
-    id: 6, cat: 1,
-    name: "Bóng đồ chơi nhảy thông minh",
-    desc: "Tự động bật ngẫu nhiên, kích thích bản năng săn mồi",
-    price: 190000, oldPrice: null, rating: 5, reviews: 156,
-    badge: { text: "Mới", color: "bg-slate-900 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBNvOAwSOmYzx2BKFP8FOWhcbJoLsnsPwofzCUEer5se8vdwkBfv1vStzPD25m0ODwotk53OtWuPEVreXnWnXzXXGGRrGTeBjGksNo1VgoX3-5MFUs1YZzNngnXPMLt7WmzS1JuUXM0A5Sw7L4Msz-LsTXl0SVtCEIg0p1z1DyxwGb6-8dO8RLcyhOnYSsb-QZ0S6jS7Zz8ih07tbY70kQgJSjFov56oKEQN1AeEIw1-_HivjwWWtMFts-q7SBa-B6DmDzEf1xVeAZK",
-  },
-  {
-    id: 7, cat: 1,
-    name: "Cây cào móng 5 tầng Deluxe",
-    desc: "Sisal tự nhiên, khung ổn định, bệ rộng chống lật",
-    price: 650000, oldPrice: 800000, rating: 5, reviews: 231,
-    badge: { text: "Giảm 20%", color: "bg-red-500 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCGBQHhi_RjMLrgZCrDBTjunmk4WTllhnojnFTlMceoKxTTM8GogoOucuHbb38AmIW4mim3RBWaU7Uzg0rs_-Zle3JYN5nqPHex6fjT6E7-W03fYBxxfT5M2cHHrjB4sX2tcaExpr7rw8o6rQMVhHAXcoQF8LP9aI_P69IExnBg9eldCJ7N4EhH51aCfznVfnIaynPpPb4IWo9Xdtsw45az3mNlh3Wjm8gIq6aX-m5exje04gr-6OdBvsNsOhmcDH3vZEzamHR1xmR6",
-  },
-  {
-    id: 8, cat: 1,
-    name: "Dây kéo & Bóng gai tương tác",
-    desc: "Dây thừng bện chắc, bóng cao su tự nhiên an toàn",
-    price: 95000, oldPrice: null, rating: 4, reviews: 62,
-    badge: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCds7huXoqKaTMPPtjywUw8FXG-d7R54ZTwBQ961S6yRxFNvoG8wwyqORG9BTDlirRKkrtZSXOJidIROfUkcDNlpMLyHWIPqF-n-4JImR-0k5SMcUhLeqJayotZz0wN7IEUtAtpDKAfWhL4bE3PAA4AsKPJLQkyzUZ1CyHCb9XyMXdHk-H0dquMmc5kCfbNJIpSkmQpDpON0mrmEXVGCaCh8n1y9wf7fBsqv21_X-FMYW1bf6Qv0fKC5ku_lCVFz5xBQEPyjFp1Rzy4",
-  },
-
-  // ── 2: Nệm & Giấc ngủ ──
-  {
-    id: 9, cat: 2,
-    name: "Nệm Cao su non Ortho-Comfort",
-    desc: "Kích thước lớn – Xám than, chống nước",
-    price: 890000, oldPrice: 1100000, rating: 5, reviews: 212,
-    badge: { text: "Giảm 20%", color: "bg-red-500 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBNvOAwSOmYzx2BKFP8FOWhcbJoLsnsPwofzCUEer5se8vdwkBfv1vStzPD25m0ODwotk53OtWuPEVreXnWnXzXXGGRrGTeBjGksNo1VgoX3-5MFUs1YZzNngnXPMLt7WmzS1JuUXM0A5Sw7L4Msz-LsTXl0SVtCEIg0p1z1DyxwGb6-8dO8RLcyhOnYSsb-QZ0S6jS7Zz8ih07tbY70kQgJSjFov56oKEQN1AeEIw1-_HivjwWWtMFts-q7SBa-B6DmDzEf1xVeAZK",
-  },
-  {
-    id: 10, cat: 2,
-    name: "Ổ nằm mèo lông cừu siêu mềm",
-    desc: "Đường kính 55cm, máy giặt được, vải fleece cao cấp",
-    price: 340000, oldPrice: null, rating: 5, reviews: 178,
-    badge: { text: "Bán chạy", color: "bg-[#2D6A4F] text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAFd8X5enmgOaj0d-TuZw0LHWB2RkXIggyQ4PjSBDGhUCccBcnih1D0Udtxo4ZRYkpD90Otece1mX7juWmyHWQ-_n6z-JqHY5ZgV-wqz2HdfONLl5Lmyf6Dsho7qmIww1cRWp2mLhq4-Ra-HIUmjgdNTKtxWQnwuDmUh1McxE_67xYyoG-VWS1vS-6dRIZ8Mv0yAmPLS9y9G8-aH24EorpMaoX27ge6JJ0_A4hewwiB1HfOsmqaz4voSYlAzW4yTCOkcSeOQMoDaScH",
-  },
-  {
-    id: 11, cat: 2,
-    name: "Lều ngủ mèo hình thú 3D",
-    desc: "Cấu trúc tự đứng, thoáng khí, gấp gọn dễ dàng",
-    price: 285000, oldPrice: null, rating: 4, reviews: 95,
-    badge: { text: "Mới", color: "bg-slate-900 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBNvOAwSOmYzx2BKFP8FOWhcbJoLsnsPwofzCUEer5se8vdwkBfv1vStzPD25m0ODwotk53OtWuPEVreXnWnXzXXGGRrGTeBjGksNo1VgoX3-5MFUs1YZzNngnXPMLt7WmzS1JuUXM0A5Sw7L4Msz-LsTXl0SVtCEIg0p1z1DyxwGb6-8dO8RLcyhOnYSsb-QZ0S6jS7Zz8ih07tbY70kQgJSjFov56oKEQN1AeEIw1-_HivjwWWtMFts-q7SBa-B6DmDzEf1xVeAZK",
-  },
-  {
-    id: 12, cat: 2,
-    name: "Chăn sưởi điện cho thú cưng",
-    desc: "Điều chỉnh nhiệt độ 3 mức, tự ngắt an toàn",
-    price: 450000, oldPrice: null, rating: 5, reviews: 143,
-    badge: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCGBQHhi_RjMLrgZCrDBTjunmk4WTllhnojnFTlMceoKxTTM8GogoOucuHbb38AmIW4mim3RBWaU7Uzg0rs_-Zle3JYN5nqPHex6fjT6E7-W03fYBxxfT5M2cHHrjB4sX2tcaExpr7rw8o6rQMVhHAXcoQF8LP9aI_P69IExnBg9eldCJ7N4EhH51aCfznVfnIaynPpPb4IWo9Xdtsw45az3mNlh3Wjm8gIq6aX-m5exje04gr-6OdBvsNsOhmcDH3vZEzamHR1xmR6",
-  },
-
-  // ── 3: Phụ kiện ──
-  {
-    id: 13, cat: 3,
-    name: "Đai yếm Phản quang Chinh phục",
-    desc: "Đồ dùng đi bộ chống chịu thời tiết, phản quang 360°",
-    price: 350000, oldPrice: null, rating: 4, reviews: 45,
-    badge: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAFd8X5enmgOaj0d-TuZw0LHWB2RkXIggyQ4PjSBDGhUCccBcnih1D0Udtxo4ZRYkpD90Otece1mX7juWmyHWQ-_n6z-JqHY5ZgV-wqz2HdfONLl5Lmyf6Dsho7qmIww1cRWp2mLhq4-Ra-HIUmjgdNTKtxWQnwuDmUh1McxE_67xYyoG-VWS1vS-6dRIZ8Mv0yAmPLS9y9G8-aH24EorpMaoX27ge6JJ0_A4hewwiB1HfOsmqaz4voSYlAzW4yTCOkcSeOQMoDaScH",
-  },
-  {
-    id: 14, cat: 3,
-    name: "Vòng cổ GPS theo dõi thời gian thực",
-    desc: "Pin 7 ngày, chống nước IP68, cảnh báo ra khỏi vùng an toàn",
-    price: 890000, oldPrice: null, rating: 5, reviews: 119,
-    badge: { text: "Mới", color: "bg-slate-900 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC40EkvX4TlPrDfFM9_D_CyWatpuJ5t5JvizPSluXEkyk5OYBx6kVKAcZ4Ak_C82F6Dn6Xo8tsmXZdbOl1iiAiVwzURJp8l4Nr_-Ut_3xfftMGmTd-JynZzqvyKgsFBxYFEaYFzA57Xr8mgtFNhEAEPgyj9b9EQMSY_OK2zd6F9KwhiNavB5HIpYqgy_y2L21-KJY5gHNa-v81gaD2qkwOqlTK5PQS_t7iONq-228p4vR_BFad--oL1BimLw0qomI2NqiO6-_NLiDii",
-  },
-  {
-    id: 15, cat: 3,
-    name: "Balo vận chuyển thú cưng thoáng khí",
-    desc: "Cửa sổ lưới 4 mặt, tải trọng 8kg, khóa an toàn",
-    price: 520000, oldPrice: 650000, rating: 5, reviews: 87,
-    badge: { text: "Giảm 20%", color: "bg-red-500 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCds7huXoqKaTMPPtjywUw8FXG-d7R54ZTwBQ961S6yRxFNvoG8wwyqORG9BTDlirRKkrtZSXOJidIROfUkcDNlpMLyHWIPqF-n-4JImR-0k5SMcUhLeqJayotZz0wN7IEUtAtpDKAfWhL4bE3PAA4AsKPJLQkyzUZ1CyHCb9XyMXdHk-H0dquMmc5kCfbNJIpSkmQpDpON0mrmEXVGCaCh8n1y9wf7fBsqv21_X-FMYW1bf6Qv0fKC5ku_lCVFz5xBQEPyjFp1Rzy4",
-  },
-  {
-    id: 16, cat: 3,
-    name: "Máy uống nước Thông minh",
-    desc: "Hệ thống lọc 3 lớp, lưu lượng 2L, siêu yên tĩnh",
-    price: 420000, oldPrice: null, rating: 4, reviews: 18,
-    badge: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC40EkvX4TlPrDfFM9_D_CyWatpuJ5t5JvizPSluXEkyk5OYBx6kVKAcZ4Ak_C82F6Dn6Xo8tsmXZdbOl1iiAiVwzURJp8l4Nr_-Ut_3xfftMGmTd-JynZzqvyKgsFBxYFEaYFzA57Xr8mgtFNhEAEPgyj9b9EQMSY_OK2zd6F9KwhiNavB5HIpYqgy_y2L21-KJY5gHNa-v81gaD2qkwOqlTK5PQS_t7iONq-228p4vR_BFad--oL1BimLw0qomI2NqiO6-_NLiDii",
-  },
-
-  // ── 4: Nhà thuốc ──
-  {
-    id: 17, cat: 4,
-    name: "Sữa tắm Thảo mộc Lô hội 500ml",
-    desc: "Chiết xuất tự nhiên, dịu nhẹ cho da nhạy cảm",
-    price: 220000, oldPrice: null, rating: 5, reviews: 198,
-    badge: { text: "Hữu cơ", color: "bg-emerald-600 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBcFJH92AeihdUQSxwgFZLUyIsDhyJmbVN8eQMO-eV7h4qZgMKufDcJBAc8P1uUwnJadKYYv-pxXTA-tMVBCqKysIVbGZERYByR0jGRYhKs2D_MQNlweKzkKdsiC5F4IXnlf_bmeXnJpwkndaqwzWCGwHHCX5LMGPD4em1EEcwWItzUswFYaEG0IZc-OOksrynBUqCPf4cfpLydHUX1vMTtUikTkEM0qSVV1zwnvre0geDQ16OplU3vAwH2e4RM42VtptS1nhv_h1U8",
-  },
-  {
-    id: 18, cat: 4,
-    name: "Vitamin tổng hợp dạng nhai",
-    desc: "Bổ sung Omega-3, Glucosamine & Vitamin E, hộp 60 viên",
-    price: 315000, oldPrice: null, rating: 5, reviews: 275,
-    badge: { text: "Bán chạy", color: "bg-[#2D6A4F] text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCGBQHhi_RjMLrgZCrDBTjunmk4WTllhnojnFTlMceoKxTTM8GogoOucuHbb38AmIW4mim3RBWaU7Uzg0rs_-Zle3JYN5nqPHex6fjT6E7-W03fYBxxfT5M2cHHrjB4sX2tcaExpr7rw8o6rQMVhHAXcoQF8LP9aI_P69IExnBg9eldCJ7N4EhH51aCfznVfnIaynPpPb4IWo9Xdtsw45az3mNlh3Wjm8gIq6aX-m5exje04gr-6OdBvsNsOhmcDH3vZEzamHR1xmR6",
-  },
-  {
-    id: 19, cat: 4,
-    name: "Thuốc nhỏ gáy trị ve & bọ chét",
-    desc: "Hiệu quả lên đến 3 tháng, an toàn cho chó từ 8 tuần tuổi",
-    price: 180000, oldPrice: null, rating: 4, reviews: 132,
-    badge: null,
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBcFJH92AeihdUQSxwgFZLUyIsDhyJmbVN8eQMO-eV7h4qZgMKufDcJBAc8P1uUwnJadKYYv-pxXTA-tMVBCqKysIVbGZERYByR0jGRYhKs2D_MQNlweKzkKdsiC5F4IXnlf_bmeXnJpwkndaqwzWCGwHHCX5LMGPD4em1EEcwWItzUswFYaEG0IZc-OOksrynBUqCPf4cfpLydHUX1vMTtUikTkEM0qSVV1zwnvre0geDQ16OplU3vAwH2e4RM42VtptS1nhv_h1U8",
-  },
-  {
-    id: 20, cat: 4,
-    name: "Kem chống nắng thú cưng SPF30",
-    desc: "Dành cho vùng da không lông, không mùi, lành tính",
-    price: 149000, oldPrice: null, rating: 4, reviews: 49,
-    badge: { text: "Mới", color: "bg-slate-900 text-white" },
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCGBQHhi_RjMLrgZCrDBTjunmk4WTllhnojnFTlMceoKxTTM8GogoOucuHbb38AmIW4mim3RBWaU7Uzg0rs_-Zle3JYN5nqPHex6fjT6E7-W03fYBxxfT5M2cHHrjB4sX2tcaExpr7rw8o6rQMVhHAXcoQF8LP9aI_P69IExnBg9eldCJ7N4EhH51aCfznVfnIaynPpPb4IWo9Xdtsw45az3mNlh3Wjm8gIq6aX-m5exje04gr-6OdBvsNsOhmcDH3vZEzamHR1xmR6",
-  },
-];
-
 const CATEGORIES = [
-  { icon: "restaurant", label: "Thức ăn & Đồ ăn vặt" },
-  { icon: "sports_tennis", label: "Đồ chơi & Vui chơi" },
-  { icon: "bed", label: "Nệm & Giấc ngủ" },
-  { icon: "link", label: "Phụ kiện" },
-  { icon: "health_and_safety", label: "Nhà thuốc" },
+  { name: "Thức ăn", icon: "restaurant" },
+  { name: "Đồ chơi", icon: "sports_tennis" },
+  { name: "Phụ kiện", icon: "link" },
+  { name: "Chăm sóc lông", icon: "content_cut" },
 ];
+
+interface Product {
+  product_id: number;
+  product_name: string;
+  category_name: string;
+  price: string | number;
+  stock: number;
+  description: string;
+  image: string; // JSON string array or simple string
+  created_at: string;
+}
 
 export default function ShopPage() {
   const { addItem, totalCount } = useCart();
-  const [activeCategory, setActiveCategory] = useState(0);
+  
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const [activeCategoryIdx, setActiveCategoryIdx] = useState(0);
   const [search, setSearch] = useState("");
   const [addedId, setAddedId] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState(2000000);
   const [sortOption, setSortOption] = useState("newest");
 
-  const filtered = ALL_PRODUCTS.filter(
-    (p) =>
-      p.cat === activeCategory &&
-      p.name.toLowerCase().includes(search.toLowerCase()) &&
-      p.price <= maxPrice
-  );
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data = await res.json();
+          setProducts(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
-  filtered.sort((a, b) => {
-    if (sortOption === "price-asc") return a.price - b.price;
-    if (sortOption === "price-desc") return b.price - a.price;
-    if (sortOption === "rating") return b.rating - a.rating;
-    return b.id - a.id;
+  const activeCategoryName = CATEGORIES[activeCategoryIdx].name;
+
+  function normalizeCategory(cat: string | null) {
+    if (!cat) return "Thức ăn";
+    const lower = cat.toLowerCase();
+    if (lower.includes("thuc an") || lower.includes("thức ăn")) return "Thức ăn";
+    if (lower.includes("do choi") || lower.includes("đồ chơi")) return "Đồ chơi";
+    if (lower.includes("phu kien") || lower.includes("phụ kiện")) return "Phụ kiện";
+    if (lower.includes("cham soc") || lower.includes("chăm sóc")) return "Chăm sóc lông";
+    return "Thức ăn"; // Fallback to Thức ăn for anything else to ensure it displays somewhere
+  }
+
+  const filtered = products.filter((p) => {
+    const pCat = normalizeCategory(p.category_name);
+    const isCategoryMatch = pCat === activeCategoryName;
+    const isSearchMatch = p.product_name.toLowerCase().includes(search.toLowerCase());
+    const isPriceMatch = Number(p.price) <= maxPrice;
+    return isCategoryMatch && isSearchMatch && isPriceMatch;
   });
 
-  function handleAdd(p: (typeof ALL_PRODUCTS)[0]) {
-    addItem({ id: p.id, name: p.name, desc: p.desc, price: p.price, imageUrl: p.img });
-    setAddedId(p.id);
+  filtered.sort((a, b) => {
+    const priceA = Number(a.price);
+    const priceB = Number(b.price);
+    if (sortOption === "price-asc") return priceA - priceB;
+    if (sortOption === "price-desc") return priceB - priceA;
+    if (sortOption === "rating") return 0; // Not applicable for DB yet
+    return b.product_id - a.product_id; // newest
+  });
+
+  const parseImage = (imageString: string | null) => {
+    if (!imageString) return null;
+    try {
+      const parsed = JSON.parse(imageString);
+      return Array.isArray(parsed) && parsed.length > 0 ? parsed[0] : imageString;
+    } catch {
+      return imageString;
+    }
+  };
+
+  function handleAdd(p: Product) {
+    if (p.stock <= 0) return; // guard: prevent adding out-of-stock
+    const priceNum = Number(p.price);
+    addItem({
+      id:       p.product_id,
+      name:     p.product_name,
+      desc:     p.description || "",
+      price:    priceNum,
+      imageUrl: parseImage(p.image) || null,
+    });
+    setAddedId(p.product_id);
     setTimeout(() => setAddedId(null), 1200);
   }
 
@@ -250,21 +139,22 @@ export default function ShopPage() {
           {/* ── Sidebar ── */}
           <aside className="w-full lg:w-64 flex-shrink-0 space-y-8 h-fit lg:sticky lg:top-24">
             <div>
-              <h3 className="text-lg font-bold mb-4">Danh mục</h3>
+              <h3 className="text-lg font-bold mb-4 text-[#2a3433]">Danh mục</h3>
               <div className="space-y-1">
-                {CATEGORIES.map(({ icon, label }, i) => (
+                {CATEGORIES.map(({ icon, name }, i) => (
                   <button
                     key={i}
-                    onClick={() => setActiveCategory(i)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left text-sm transition-colors ${activeCategory === i
-                      ? "bg-[#2D6A4F]/10 text-[#2D6A4F] font-semibold"
+                    onClick={() => setActiveCategoryIdx(i)}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left text-sm transition-colors ${
+                      activeCategoryIdx === i
+                      ? "bg-[#2D6A4F]/10 text-[#2D6A4F] font-bold"
                       : "hover:bg-slate-100 text-slate-700"
                       }`}
                   >
-                    <span className={`material-symbols-outlined ${activeCategory === i ? "fill-1" : ""}`}>
+                    <span className={`material-symbols-outlined ${activeCategoryIdx === i ? "fill-1" : ""}`}>
                       {icon}
                     </span>
-                    {label}
+                    {name}
                   </button>
                 ))}
               </div>
@@ -272,8 +162,38 @@ export default function ShopPage() {
 
             {/* Price range */}
             <div className="border-t border-slate-200 pt-6">
-              <h3 className="text-lg font-bold mb-4">Khoảng giá:0đ - {maxPrice.toLocaleString("vi-VN")}đ</h3>
+              <h3 className="text-lg font-bold mb-4 text-[#2a3433]">Khoảng giá: <span className="text-[#006b62]">0đ - {maxPrice.toLocaleString("vi-VN")}đ</span></h3>
               <div className="px-2">
+                <style>{`
+                  .custom-range::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    background: #2D6A4F;
+                    cursor: pointer;
+                    border: 4px solid white;
+                    box-shadow: 0 0 0 2px #2D6A4F, 0 4px 6px -1px rgb(0 0 0 / 0.1);
+                    transition: transform 0.1s;
+                  }
+                  .custom-range::-webkit-slider-thumb:hover {
+                    transform: scale(1.1);
+                  }
+                  .custom-range::-moz-range-thumb {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    background: #2D6A4F;
+                    cursor: pointer;
+                    border: 4px solid white;
+                    box-shadow: 0 0 0 2px #2D6A4F, 0 4px 6px -1px rgb(0 0 0 / 0.1);
+                    transition: transform 0.1s;
+                  }
+                  .custom-range::-moz-range-thumb:hover {
+                    transform: scale(1.1);
+                  }
+                `}</style>
                 <input
                   type="range"
                   min="0"
@@ -281,9 +201,12 @@ export default function ShopPage() {
                   step="50000"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-full accent-[#2D6A4F] h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-2.5 rounded-full appearance-none cursor-pointer outline-none custom-range"
+                  style={{
+                    background: `linear-gradient(to right, #2D6A4F 0%, #2D6A4F ${(maxPrice / 2000000) * 100}%, #e2e8f0 ${(maxPrice / 2000000) * 100}%, #e2e8f0 100%)`
+                  }}
                 />
-                <div className="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                <div className="flex justify-between text-xs text-slate-400 mt-3 font-medium">
                   <span>0đ</span><span>2.000.000đ</span>
                 </div>
               </div>
@@ -295,7 +218,7 @@ export default function ShopPage() {
             {/* Sort bar */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
               <div>
-                <h1 className="text-2xl font-bold">{CATEGORIES[activeCategory].label}</h1>
+                <h1 className="text-2xl font-bold text-[#2a3433]">{CATEGORIES[activeCategoryIdx].name}</h1>
                 <p className="text-slate-500 text-sm">{filtered.length} sản phẩm</p>
               </div>
               <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -311,77 +234,92 @@ export default function ShopPage() {
                   />
                 </div>
                 <select
-                  className="bg-white border border-slate-200 rounded-lg text-sm px-3 py-2 outline-none"
+                  className="bg-white border border-slate-200 rounded-lg text-sm px-3 py-2 outline-none font-medium text-slate-700"
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
                 >
                   <option value="newest">Mới nhất</option>
                   <option value="price-asc">Giá thấp → cao</option>
                   <option value="price-desc">Giá cao → thấp</option>
-                  <option value="rating">Đánh giá</option>
                 </select>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filtered.map((p) => (
-                <div
-                  key={p.id}
-                  className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-                >
-                  <div className="relative aspect-square overflow-hidden bg-slate-50">
-                    <Link href={`/shop/${p.id}`}>
-                      <Image src={p.img} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
-                    </Link>
-                    {p.badge && (
-                      <span className={`absolute top-3 left-3 text-[10px] font-bold px-2 py-1 rounded uppercase ${p.badge.color}`}>
-                        {p.badge.text}
-                      </span>
-                    )}
-                    <button className="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors">
-                      <span className="material-symbols-outlined text-xl">favorite</span>
-                    </button>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex items-center gap-0.5 text-amber-400 mb-1">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span key={i} className={`material-symbols-outlined text-sm ${i < p.rating ? "fill-1" : ""}`}>star</span>
-                      ))}
-                      <span className="text-slate-400 text-xs ml-1">({p.reviews})</span>
-                    </div>
-                    <Link href={`/shop/${p.id}`}>
-                      <h3 className="font-bold text-slate-900 truncate hover:text-[#006b62] transition-colors">{p.name}</h3>
-                    </Link>
-                    <p className="text-slate-500 text-xs mb-3 line-clamp-1">{p.desc}</p>
-                    <div className="flex items-center justify-between gap-2">
-                      <div>
-                        <span className="text-xl font-bold text-slate-900">{p.price.toLocaleString("vi-VN")}đ</span>
-                        {p.oldPrice && (
-                          <span className="text-xs text-slate-400 line-through ml-2">{p.oldPrice.toLocaleString("vi-VN")}đ</span>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => handleAdd(p)}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold transition-all ${addedId === p.id
-                          ? "bg-green-500 text-white scale-95"
-                          : "bg-[#2D6A4F] text-white hover:opacity-90"
-                          }`}
-                      >
-                        <span className="material-symbols-outlined text-base">
-                          {addedId === p.id ? "check" : "add_shopping_cart"}
-                        </span>
-                        {addedId === p.id ? "Đã thêm" : "Thêm"}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {filtered.length === 0 && (
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-20 text-[#2D6A4F]">
+                <span className="material-symbols-outlined animate-spin text-4xl mb-4">progress_activity</span>
+                <p className="font-medium">Đang tải sản phẩm...</p>
+              </div>
+            ) : filtered.length === 0 ? (
               <div className="text-center py-20 text-slate-400">
                 <span className="material-symbols-outlined text-5xl mb-4 block">search_off</span>
-                <p className="font-medium">Không tìm thấy sản phẩm phù hợp.</p>
+                <p className="font-medium">Không tìm thấy sản phẩm phù hợp trong mục này.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filtered.map((p) => {
+                  const imageUrl = parseImage(p.image);
+                  return (
+                    <div
+                      key={p.product_id}
+                      className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                    >
+                      <div className="relative aspect-square overflow-hidden bg-slate-50 flex items-center justify-center p-4">
+                        <Link href={`/shop/${p.product_id}`} className="w-full h-full block relative flex items-center justify-center">
+                          {imageUrl ? (
+                            <Image src={imageUrl} alt={p.product_name} fill className="object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                          ) : (
+                            <span className="material-symbols-outlined text-6xl text-slate-300 group-hover:scale-110 transition-transform duration-300">inventory_2</span>
+                          )}
+                        </Link>
+                        {p.stock === 0 ? (
+                          <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase bg-gray-500 text-white shadow-sm">
+                            Hết hàng
+                          </span>
+                        ) : p.stock < 10 ? (
+                          <span className="absolute top-3 left-3 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase bg-red-500 text-white shadow-sm flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                            Sắp hết hàng
+                          </span>
+                        ) : null}
+                        <button className="absolute top-3 right-3 h-8 w-8 bg-white/80 backdrop-blur shadow-sm rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-white transition-all">
+                          <span className="material-symbols-outlined text-[18px]">favorite</span>
+                        </button>
+                      </div>
+                      <div className="p-5 flex-1 flex flex-col">
+                        <Link href={`/shop/${p.product_id}`}>
+                          <h3 className="font-bold text-slate-900 truncate hover:text-[#2D6A4F] transition-colors mb-1">{p.product_name}</h3>
+                        </Link>
+                        <p className="text-slate-500 text-xs mb-4 line-clamp-2 leading-relaxed">{p.description || "Chưa có mô tả ngắn"}</p>
+                        <div className="flex items-end justify-between gap-2 mt-auto">
+                          <div>
+                            <span className="text-[19px] font-extrabold text-[#2a3433]">
+                              {Number(p.price).toLocaleString("vi-VN")}đ
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => handleAdd(p)}
+                            disabled={p.stock === 0}
+                            className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                              p.stock === 0
+                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                : addedId === p.product_id
+                                ? "bg-green-500 text-white scale-95"
+                                : "bg-[#2D6A4F] text-white hover:bg-[#1f4a37] hover:shadow-lg hover:shadow-[#2D6A4F]/20"
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-[18px]">
+                              {p.stock === 0 ? "remove_shopping_cart" : addedId === p.product_id ? "check" : "add_shopping_cart"}
+                            </span>
+                            <span className="hidden sm:inline">
+                              {p.stock === 0 ? "Hết hàng" : addedId === p.product_id ? "Đã thêm" : "Thêm"}
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -389,4 +327,4 @@ export default function ShopPage() {
       </main>
     </div>
   );
-} 
+}

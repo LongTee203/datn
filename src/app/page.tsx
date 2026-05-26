@@ -1,12 +1,42 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/customer/layout/Header';
 import Footer from '@/components/customer/layout/Footer';
+import FloatingContact from '@/components/customer/layout/FloatingContact';
 import Link from 'next/link';
+
+interface Article {
+  article_id: number;
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  created_at: string;
+}
+
 
 export default function RootPage() {
   const [showToast, setShowToast] = useState(false);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loadingArticles, setLoadingArticles] = useState(true);
+
+  useEffect(() => {
+    async function loadArticles() {
+      try {
+        const res = await fetch("/api/articles?status=published");
+        if (res.ok) {
+          const data = await res.json();
+          setArticles(data.slice(0, 3));
+        }
+      } catch (err) {
+        console.error("Lỗi khi tải bài viết", err);
+      } finally {
+        setLoadingArticles(false);
+      }
+    }
+    loadArticles();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,9 +64,7 @@ export default function RootPage() {
             <Link href="/services" className="bg-primary text-white px-8 py-4 rounded-full font-label-md text-base hover:bg-secondary transition-all shadow-lg shadow-green-100 font-bold w-full sm:w-auto text-center inline-block">
               Đặt lịch ngay
             </Link>
-            <Link href="/price/dog-grooming" className="bg-white border border-primary text-primary px-8 py-4 rounded-full font-label-md text-base hover:bg-primary-light transition-all font-bold w-full sm:w-auto text-center inline-block">
-              Xem bảng giá
-            </Link>
+
           </div>
         </div>
         <div className="relative">
@@ -44,7 +72,7 @@ export default function RootPage() {
           <img
             alt="Happy golden retriever"
             className="w-full aspect-[4/3] object-cover rounded-[2rem] md:rounded-[2.5rem] shadow-2xl"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOCwlwXrXpT5UJDyfPQ2WaIsmasUat8NiWMlej7pV7Hzf0k2pRuHhVDjNvPS3wsZfrLlviYZ6RScN3e58m6ESGRz1xq8t1bjUxG9v51APl88sJ2aduxqC4cwZw5p52-rmvoSEXWQtwe1pvVO1dkQYBG2qafRJiH15rv7B0-BRsepTyh1UGBpF_ry1ky-FN8Fv3GEp4doVpKCIxaSuMlG8yACxYXDhzaFuMbB6hQpxp3_otFgU6qitIOaONyYLynmXXefrvqTJSH2u1"
+            src="/petcare/14.jfif"
           />
         </div>
       </section>
@@ -56,7 +84,7 @@ export default function RootPage() {
             <img
               alt="Vet examining a dog"
               className="w-full rounded-3xl shadow-xl object-cover"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJDek3GHxOWwxxkbLu2D7XmjI18YVjENuwzebKYVbgWx-Db0aepZjSyzFV69wKvobdA8mz_VRJqlXeCHiG5WvRp-vl6TyqP1ivK-GPs94QJhaVFKgauosC3gmkT2oIyZJtBxcETLv2jwSE7qsf9HA-EMICcEogjsw9ZYq118B_gQCbXM9oXXI52eaWRehZPzh7CyJRFJdjztEYmRgjyh_Gnz8G-jh05oNnq4axmLT72_p_TCving7ECI4ArMVMCi3UMr4CWEjr58si"
+              src="/petcare/15.jpg"
             />
           </div>
           <div className="w-full lg:w-1/2 space-y-6 md:space-y-8 lg:order-2">
@@ -112,8 +140,8 @@ export default function RootPage() {
                 </div>
                 <p className="text-slate-500 text-sm md:text-base mb-6 md:mb-8 leading-relaxed">{srv.desc}</p>
               </div>
-              <Link className="relative z-10 font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href={`/services/${srv.slug}`}>
-                Chi tiết <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              <Link className="relative z-10 font-bold text-sm text-primary flex items-center gap-2 hover:text-secondary transition-colors uppercase tracking-wide w-fit" href={srv.slug === "food" ? "/shop" : "/services"}>
+                {srv.slug === "food" ? "Xem cửa hàng" : "Đặt lịch ngay"} <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </Link>
             </div>
           ))}
@@ -205,22 +233,34 @@ export default function RootPage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {[
-              { tag: "Dinh dưỡng", title: "Chế độ ăn cho chó Poodle giúp lông mượt", desc: "Tìm hiểu các loại thực phẩm giàu Omega-3 giúp bộ lông bé yêu luôn sáng bóng.", img: "AB6AXuAsLmnS0FQTVcKA7JZX-2Pmme2IdyJIDQBRGYaE9-MH7ED_teW6IckvMV1JVs9hJlS1fIilG7uTXgOEx1_9jvngCpFY1Scrj2zcyj3NG1nB7xc8qhlz1JCkxiSPaifVN5FnDrRfI_dJH-kfbiTmOWecE3wt2RV8C7MVf75iKOT4TNOexni88gEEmT9jHyosO7U7wdB3UhdejvO6k-5Lu7HjZOF21lKvHPGEt0C0CII_30qydfozhBr9rmC6vMMtu2M_Qk6_qthk_XF1" },
-              { tag: "Hành vi", title: "Cách huấn luyện mèo nghe lời tại nhà", desc: "Những mẹo nhỏ giúp bạn và mèo cưng hiểu nhau hơn mỗi ngày.", img: "AB6AXuDQKQ78-6ojFyM5MosjK3IFbNcqu15U-cCAjbOwrU6dGgPAfMgYQzc91Pnxc0WCULxkKMm9ogvjkdSRatvoeJPEiM5p3K3CEK2f8ZWedJdZT5B6edno5A1lyrHp2UnZ-PShZciOfCxhkQ48b_HAG-5pjJ2eK50v1HD3m4sWKXgP6rm0WKHhQojT65jsY2tSaP6XbzR5_ReclaPYpdG9Q1A8uWRdmJ6xzNoGdjpYJr-cN28a2jjVm0j_6z9ik5LBZZVP3evz16ty59wq" },
-              { tag: "Sức khỏe", title: "Lịch tiêm phòng quan trọng năm 2024", desc: "Đừng bỏ lỡ các mốc tiêm chủng để bảo vệ sức khỏe bé yêu.", img: "AB6AXuAOqy46JBSODwOYSJDP0mnNDpz8xDbHAdViTbMQ1sefG2Jo-LTzi0zFHNsVX1ySflsxtXqNaS0CBUjMhGgxwaNvf11O90seTGhnswZcCT6K6Q-YZd8qqhMc-N90RR1xedjQlmwMntkJ3AR9QWbibBnLswj8U87RrIsOHHpzNdHneNS-jx4-aG824e1g_sXk1qzHXDzZiz8kAfosIpypdU-W4H_g5k0NFApV3LhIJ93Gx1VajmFwoe1utu_N7BtMpOHALOvwb95tYpgt" }
-            ].map((blog, idx) => (
-              <div key={idx} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
-                <div className="overflow-hidden">
-                  <img alt={blog.title} className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500" src={`https://lh3.googleusercontent.com/aida-public/${blog.img}`} />
-                </div>
-                <div className="p-6 md:p-8 space-y-3 md:space-y-4">
-                  <span className="text-[10px] md:text-[11px] font-bold text-primary uppercase tracking-widest bg-primary-light px-3 py-1.5 rounded">{blog.tag}</span>
-                  <h4 className="font-bold text-lg md:text-xl leading-snug">{blog.title}</h4>
-                  <p className="text-slate-500 text-sm md:text-base line-clamp-2">{blog.desc}</p>
-                </div>
+            {loadingArticles ? (
+              <div className="col-span-1 md:col-span-3 flex justify-center py-10">
+                <span className="material-symbols-outlined animate-spin text-4xl text-primary">progress_activity</span>
               </div>
-            ))}
+            ) : articles.length > 0 ? (
+              articles.map((blog) => (
+                <Link key={blog.article_id} href={`/article/${blog.article_id}`} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group block">
+                  <div className="overflow-hidden bg-gray-50 aspect-[4/3] sm:aspect-auto sm:h-48 md:h-56">
+                    {blog.image ? (
+                      <img alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={blog.image} />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="material-symbols-outlined text-4xl text-gray-300">image</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 md:p-8 space-y-3 md:space-y-4">
+                    <span className="text-[10px] md:text-[11px] font-bold text-primary uppercase tracking-widest bg-primary-light px-3 py-1.5 rounded inline-block">{blog.category}</span>
+                    <h4 className="font-bold text-lg md:text-xl leading-snug group-hover:text-primary transition-colors">{blog.title}</h4>
+                    <p className="text-slate-500 text-sm md:text-base line-clamp-2">{blog.description}</p>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-1 md:col-span-3 text-center py-10 text-slate-500 italic">
+                Chưa có bài viết nào.
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -281,6 +321,7 @@ export default function RootPage() {
       </section>
 
       <Footer />
+      <FloatingContact />
 
       {/* Toast Notification */}
       {showToast && (

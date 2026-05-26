@@ -27,7 +27,7 @@ export default function ServicesPage() {
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState("Tất cả");
 
-  const categories = ["Tất cả", "Vệ sinh & Spa", "Y tế & Khám bệnh", "Lưu trú (Hotel)", "Khác"];
+  const categories = ["Tất cả", "Tắm & Sấy", "Cắt tỉa lông", "Vệ sinh & Spa", "Y tế & Khám bệnh", "Lưu trú (Hotel)", "Khác"];
 
   const [form, setForm] = useState({
     service_name: "",
@@ -52,7 +52,7 @@ export default function ServicesPage() {
     message: "",
     confirmText: "Xác nhận",
     isDanger: false,
-    onConfirm: () => {},
+    onConfirm: () => { },
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -123,10 +123,10 @@ export default function ServicesPage() {
         formData.append("image", imageFile);
       }
 
-      const url = editingService 
+      const url = editingService
         ? `/api/services/${editingService.service_id}`
         : "/api/services";
-      
+
       const method = editingService ? "PATCH" : "POST";
 
       const res = await fetch(url, {
@@ -213,8 +213,8 @@ export default function ServicesPage() {
     });
   };
 
-  const filteredServices = activeFilter === "Tất cả" 
-    ? services 
+  const filteredServices = activeFilter === "Tất cả"
+    ? services
     : services.filter(s => (s.category || "Khác") === activeFilter);
 
   return (
@@ -244,11 +244,10 @@ export default function ServicesPage() {
           <button
             key={cat}
             onClick={() => setActiveFilter(cat)}
-            className={`px-5 py-2.5 rounded-xl text-sm transition-all whitespace-nowrap ${
-              activeFilter === cat 
-                ? 'bg-[#82f6e7] text-[#005c54] font-bold' 
+            className={`px-5 py-2.5 rounded-xl text-sm transition-all whitespace-nowrap ${activeFilter === cat
+                ? 'bg-[#82f6e7] text-[#005c54] font-bold'
                 : 'bg-[#eef5f3] text-[#56615f] font-medium hover:bg-[#e7f0ed]'
-            }`}
+              }`}
           >
             {cat} {cat === "Tất cả" && `(${services.length})`}
           </button>
@@ -324,7 +323,7 @@ export default function ServicesPage() {
                     </div>
                     <div className="font-bold text-[#006b62] text-[15px]">{Number(service.price).toLocaleString("vi-VN")}đ</div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => openEditModal(service)}
                     className="w-full py-3 rounded-2xl bg-[#e7f0ed] text-[#2a3433] font-bold text-sm hover:bg-[#006b62] hover:text-[#e2fff9] transition-all active:scale-95"
                   >
@@ -354,7 +353,7 @@ export default function ServicesPage() {
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Ảnh mô tả</label>
-                <div 
+                <div
                   className="w-full h-32 bg-[#eef5f3] rounded-xl border-2 border-dashed border-[#a9b4b1] flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-[#006b62]"
                   onClick={() => fileInputRef.current?.click()}
                 >
@@ -366,36 +365,38 @@ export default function ServicesPage() {
                       <span className="text-xs text-[#a9b4b1]">Click để tải ảnh từ máy tính</span>
                     </>
                   )}
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    className="hidden" 
-                    ref={fileInputRef} 
-                    onChange={handleImageChange} 
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    ref={fileInputRef}
+                    onChange={handleImageChange}
                   />
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Tên dịch vụ *</label>
-                <input 
-                  required 
-                  type="text" 
+                <input
+                  required
+                  type="text"
                   value={form.service_name}
-                  onChange={e => setForm({...form, service_name: e.target.value})}
-                  placeholder="Nhập tên dịch vụ..." 
-                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" 
+                  onChange={e => setForm({ ...form, service_name: e.target.value })}
+                  placeholder="Nhập tên dịch vụ..."
+                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Danh mục</label>
-                <select 
-                  required 
+                <select
+                  required
                   value={form.category}
-                  onChange={e => setForm({...form, category: e.target.value})}
+                  onChange={e => setForm({ ...form, category: e.target.value })}
                   className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all cursor-pointer"
                 >
+                  <option value="Tắm & Sấy">Tắm & Sấy</option>
+                  <option value="Cắt tỉa lông">Cắt tỉa lông</option>
                   <option value="Vệ sinh & Spa">Vệ sinh & Spa</option>
                   <option value="Y tế & Khám bệnh">Y tế & Khám bệnh</option>
                   <option value="Lưu trú (Hotel)">Lưu trú (Hotel)</option>
@@ -405,37 +406,37 @@ export default function ServicesPage() {
 
               <div>
                 <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Mô tả dịch vụ</label>
-                <textarea 
-                  placeholder="Nhập mô tả..." 
+                <textarea
+                  placeholder="Nhập mô tả..."
                   value={form.description}
-                  onChange={e => setForm({...form, description: e.target.value})}
-                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all resize-none h-20" 
+                  onChange={e => setForm({ ...form, description: e.target.value })}
+                  className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all resize-none h-20"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Giá tiền (VNĐ) *</label>
-                  <input 
-                    required 
-                    type="number" 
+                  <input
+                    required
+                    type="number"
                     min="0"
                     value={form.price}
-                    onChange={e => setForm({...form, price: e.target.value})}
-                    placeholder="VD: 150000" 
-                    className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" 
+                    onChange={e => setForm({ ...form, price: e.target.value })}
+                    placeholder="VD: 150000"
+                    className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Thời gian (Phút) *</label>
-                  <input 
-                    required 
-                    type="number" 
+                  <input
+                    required
+                    type="number"
                     min="1"
                     value={form.duration}
-                    onChange={e => setForm({...form, duration: e.target.value})}
-                    placeholder="VD: 30" 
-                    className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" 
+                    onChange={e => setForm({ ...form, duration: e.target.value })}
+                    placeholder="VD: 30"
+                    className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all"
                   />
                 </div>
               </div>

@@ -32,33 +32,7 @@ export default function Header() {
             <Link className={`font-label-md text-sm transition-all ${pathname === '/about' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/about">Giới thiệu</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/shop' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/shop">Cửa hàng</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/services' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/services">Dịch vụ</Link>
-            <div className="relative group cursor-pointer">
-              <span className={`font-label-md text-sm transition-all py-2 block ${pathname?.startsWith('/price') ? 'text-primary' : 'text-slate-600 hover:text-primary'}`}>Bảng giá</span>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(41,102,76,0.15)] border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 overflow-hidden">
-                <div className="p-4 space-y-4 text-left">
-                  <div>
-                    <h4 className="font-bold text-primary mb-2 border-b border-gray-100 pb-1">Báo giá dịch vụ chó</h4>
-                    <ul className="space-y-2">
-                      <li><Link href="/price/dog-grooming" className="text-sm text-slate-600 hover:text-primary block transition-colors">Cắt tỉa lông chó</Link></li>
-                      <li><Link href="/price/dog-hotel" className="text-sm text-slate-600 hover:text-primary block transition-colors">Khách sạn chó</Link></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-primary mb-2 border-b border-gray-100 pb-1">Báo giá dịch vụ mèo</h4>
-                    <ul className="space-y-2">
-                      <li><Link href="/price/cat-grooming" className="text-sm text-slate-600 hover:text-primary block transition-colors">Cắt tỉa lông mèo</Link></li>
-                      <li><Link href="/price/cat-hotel" className="text-sm text-slate-600 hover:text-primary block transition-colors">Khách sạn mèo</Link></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-primary mb-2 border-b border-gray-100 pb-1">Báo giá tiêm phòng vắc xin</h4>
-                    <ul className="space-y-2">
-                      <li><Link href="/price/vaccine" className="text-sm text-slate-600 hover:text-primary block transition-colors">Bảng giá tiêm phòng</Link></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <Link className={`font-label-md text-sm transition-all ${pathname === '/article' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/article">Kiến thức</Link>
             <Link className={`font-label-md text-sm transition-all ${pathname === '/contact' ? 'text-primary border-b-2 border-primary pb-1' : 'text-slate-600 hover:text-primary'}`} href="/contact">Liên hệ</Link>
           </nav>
@@ -138,24 +112,7 @@ export default function Header() {
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/shop" onClick={() => setIsMobileMenuOpen(false)}>Sản phẩm</Link>
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/services" onClick={() => setIsMobileMenuOpen(false)}>Dịch vụ</Link>
 
-            {/* Nested Links for Bảng giá */}
-            <div className="flex flex-col gap-3 pl-4 border-l-2 border-primary-light">
-              <span className="font-bold text-primary text-lg">Bảng giá</span>
-              <div className="pl-4 space-y-2">
-                <p className="font-semibold text-sm text-slate-700">Dịch vụ chó</p>
-                <Link href="/price/dog-grooming" className="block text-slate-600 hover:text-primary py-1" onClick={() => setIsMobileMenuOpen(false)}>Cắt tỉa lông chó</Link>
-                <Link href="/price/dog-hotel" className="block text-slate-600 hover:text-primary py-1" onClick={() => setIsMobileMenuOpen(false)}>Khách sạn chó</Link>
-              </div>
-              <div className="pl-4 space-y-2 mt-2">
-                <p className="font-semibold text-sm text-slate-700">Dịch vụ mèo</p>
-                <Link href="/price/cat-grooming" className="block text-slate-600 hover:text-primary py-1" onClick={() => setIsMobileMenuOpen(false)}>Cắt tỉa lông mèo</Link>
-                <Link href="/price/cat-hotel" className="block text-slate-600 hover:text-primary py-1" onClick={() => setIsMobileMenuOpen(false)}>Khách sạn mèo</Link>
-              </div>
-              <div className="pl-4 space-y-2 mt-2">
-                <p className="font-semibold text-sm text-slate-700">Tiêm phòng</p>
-                <Link href="/price/vaccine" className="block text-slate-600 hover:text-primary py-1" onClick={() => setIsMobileMenuOpen(false)}>Bảng giá tiêm phòng</Link>
-              </div>
-            </div>
+
 
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/article" onClick={() => setIsMobileMenuOpen(false)}>Kiến thức</Link>
             <Link className="text-xl font-medium text-slate-600 hover:text-primary transition-colors" href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Liên hệ</Link>

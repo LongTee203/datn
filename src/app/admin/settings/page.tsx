@@ -1,202 +1,249 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
+import { useAuth } from "@/context/AuthContext";
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface Settings {
+  phone: string;
+  email: string;
+  address: string;
+  open_from: string;
+  open_to: string;
+  facebook: string;
+  zalo: string;
+  bank_name: string;
+  bank_number: string;
+  bank_account: string;
+}
+
+const EMPTY: Settings = {
+  phone: "", email: "", address: "", open_from: "", open_to: "",
+  facebook: "", zalo: "", bank_name: "", bank_number: "", bank_account: "",
+};
+
+// ─── Shared input style ───────────────────────────────────────────────────────
+const inp = "w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433] outline-none";
+const lbl = "text-xs font-semibold text-[#56615f] uppercase tracking-wider";
+
+// ─── Toggle ───────────────────────────────────────────────────────────────────
+function Toggle({ id, checked, onChange }: { id: string; checked: boolean; onChange: () => void }) {
+  return (
+    <div className="relative inline-block w-10 align-middle select-none">
+      <input checked={checked} onChange={onChange} className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out z-10" id={id} type="checkbox" />
+      <label className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors duration-200 ease-in-out ${checked ? "bg-[#006b62]" : "bg-[#d9e5e2]"}`} htmlFor={id} />
+    </div>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function SettingsPage() {
+  const { user, logout } = useAuth();
+  const [settings, setSettings] = useState<Settings>(EMPTY);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
-  // New states for interactive buttons
-  const [serviceDuration, setServiceDuration] = useState('30 Phút');
-  const [themeMode, setThemeMode] = useState('Sáng');
-  
-  // States for toggles
-  const [payments, setPayments] = useState({
-    cod: true,
-    bank: true,
-    qr: true
-  });
-  
-  const [notifications, setNotifications] = useState({
-    order: true,
-    stock: false
-  });
+  // Password state
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordSaving, setPasswordSaving] = useState(false);
 
-  const handleChangePassword = (e: React.FormEvent) => {
+  const [themeMode, setThemeMode] = useState("Sáng");
+  const [payments, setPayments] = useState({ cod: true, bank: true });
+  const [notifications, setNotifications] = useState({ order: true, stock: false });
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  // Load settings
+  const fetchSettings = useCallback(async () => {
+    try {
+      const res = await fetch("/api/settings");
+      if (res.ok) setSettings(await res.json());
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchSettings(); }, [fetchSettings]);
+
+  const set = (key: keyof Settings) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setSettings(prev => ({ ...prev, [key]: e.target.value }));
+
+  // Save store info settings to DB
+  const handleSave = async (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsPasswordModalOpen(false);
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
+    setSaving(true);
+    try {
+      const res = await fetch("/api/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: settings.phone,
+          email: settings.email,
+          address: settings.address,
+          open_from: settings.open_from,
+          open_to: settings.open_to,
+          facebook: settings.facebook,
+          zalo: settings.zalo,
+          bank_name: settings.bank_name,
+          bank_number: settings.bank_number,
+          bank_account: settings.bank_account,
+        }),
+      });
+      if (res.ok) showToast("Đã lưu thay đổi thành công!");
+      else showToast("Lỗi khi lưu. Vui lòng thử lại.");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleSave = (e: React.MouseEvent) => {
+  const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Đã lưu cài đặt thành công!");
-  };
+    if (newPassword !== confirmPassword) {
+      showToast("Mật khẩu xác nhận không khớp!");
+      return;
+    }
+    if (!user?.id) return;
 
-  const togglePayment = (key: keyof typeof payments) => {
-    setPayments(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const toggleNotification = (key: keyof typeof notifications) => {
-    setNotifications(prev => ({ ...prev, [key]: !prev[key] }));
+    setPasswordSaving(true);
+    try {
+      const res = await fetch("/api/admin/password", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ admin_id: user.id, currentPassword, newPassword })
+      });
+      if (res.ok) {
+        setIsPasswordModalOpen(false);
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        showToast("Đổi mật khẩu thành công!");
+      } else {
+        const data = await res.json();
+        showToast(data.error || "Có lỗi xảy ra.");
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("Lỗi máy chủ.");
+    } finally {
+      setPasswordSaving(false);
+    }
   };
 
   return (
     <div className="min-h-screen relative">
-      {/* Success Toast */}
-      {showSuccess && (
+      {/* Toast */}
+      {toast && (
         <div className="fixed top-4 right-4 z-50 bg-white border border-[#006b62]/20 shadow-xl rounded-xl p-4 flex items-center gap-3 animate-in fade-in slide-in-from-top-5">
           <div className="w-8 h-8 bg-[#e2fff9] rounded-full flex items-center justify-center text-[#006b62]">
             <span className="material-symbols-outlined text-sm">check</span>
           </div>
-          <p className="font-bold text-[#2a3433] text-sm">Đổi mật khẩu thành công!</p>
+          <p className="font-bold text-[#2a3433] text-sm">{toast}</p>
         </div>
       )}
 
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Page Header */}
+        {/* Header */}
         <div className="mb-10">
           <h1 className="text-3xl font-extrabold text-[#2a3433] tracking-tight mb-2">Cài đặt hệ thống</h1>
-          <p className="text-[#56615f] text-sm md:text-base">Quản lý thông tin cửa hàng và tùy chỉnh các chức năng vận hành hệ thống.</p>
+          <p className="text-[#56615f] text-sm">Quản lý thông tin cửa hàng và tùy chỉnh các chức năng vận hành hệ thống.</p>
         </div>
 
-        {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-          {/* Left Column: Primary Settings (Spans 8 cols) */}
+          {/* ── Left: Store Info ── */}
           <div className="lg:col-span-8 space-y-6 lg:space-y-8">
-            {/* Section 1: Thông tin cửa hàng */}
-            <section className="bg-white rounded-[1.5rem] p-6 md:p-8 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#006b62] to-[#82f6e7] opacity-50"></div>
+            <section className="bg-white rounded-[1.5rem] p-6 md:p-8 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#006b62] to-[#82f6e7] opacity-50" />
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 rounded-full bg-[#c6eae3]/50 flex items-center justify-center text-[#375853]">
                   <span className="material-symbols-outlined icon-fill">storefront</span>
                 </div>
                 <h3 className="text-xl font-bold text-[#2a3433]">Thông tin cửa hàng</h3>
               </div>
-              <form className="space-y-5">
-                {/* Logo Upload */}
-                <div className="flex items-center gap-6 mb-6">
-                  <div className="w-24 h-24 rounded-2xl bg-[#eef5f3] border border-dashed border-[#a9b4b1] flex items-center justify-center overflow-hidden relative group cursor-pointer">
-                    <img alt="Store logo placeholder" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYMcuSWIti2zG9syOCtbtdvgjSmPLtP81yL1vc28AaNRAGtSLrpMKkXiJuxhkB8_EW3WmjzpD3ecvpJQrcyhi1hkh8JVSKl0_Np-gZ1FuYvMY404l9L6oWa8RtVrJ96t-n26RYlwHFjGqY-B2z6wch3v4kYonC5Zlu0Vg7xx2Beq4MbNic8exJV2tt1N6OVEaoYqdcTN-O-J9lCZ7tadZ8FxTfd1RP2fJRWskp1rSfiLGF8u133JMX7RlpCtB3Rlc3Lw4JFLSSJ2I" />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="material-symbols-outlined text-white">photo_camera</span>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-[#2a3433] mb-1">Logo cửa hàng</h4>
-                    <p className="text-xs text-[#56615f] mb-3">JPG, PNG hoặc GIF. Tối đa 2MB.</p>
-                    <button className="px-4 py-2 bg-[#e1eae7] text-[#2a3433] text-xs font-semibold rounded-full hover:bg-[#d9e5e2] transition-colors" type="button">Đổi logo</button>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Tên cửa hàng</label>
-                    <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="text" defaultValue="PetCareShop Main" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Số điện thoại</label>
-                    <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="tel" defaultValue="0987 654 321" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Email liên hệ</label>
-                    <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="email" defaultValue="hello@petsanctuary.com" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Giờ mở cửa</label>
-                    <div className="flex items-center gap-2">
-                      <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="time" defaultValue="08:00" />
-                      <span className="text-[#56615f]">-</span>
-                      <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="time" defaultValue="20:00" />
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Địa chỉ chi tiết</label>
-                  <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="text" defaultValue="123 Đường Thú Cưng, Quận 1, TP.HCM" />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Link Facebook</label>
-                    <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#56615f] text-sm font-bold">f</span>
-                      <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="url" defaultValue="facebook.com/petsanctuary" />
-                    </div>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Số Zalo</label>
-                    <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#56615f] text-sm font-bold">Z</span>
-                      <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="tel" defaultValue="0987 654 321" />
-                    </div>
-                  </div>
-                </div>
-                <div className="pt-4 flex justify-end">
-                  <button onClick={handleSave} className="bg-gradient-to-r from-[#006b62] to-[#005e56] text-[#e2fff9] px-8 py-3 rounded-full text-sm font-bold hover:shadow-lg hover:shadow-[#006b62]/20 transition-all hover:-translate-y-0.5" type="button">Lưu thay đổi</button>
-                </div>
-              </form>
-            </section>
 
-            {/* Section 2: Cài đặt đặt lịch */}
-            <section className="bg-white rounded-[1.5rem] p-6 md:p-8 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden group">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-10 h-10 rounded-full bg-[#c6eae3]/50 flex items-center justify-center text-[#375853]">
-                  <span className="material-symbols-outlined icon-fill">event_available</span>
+              {loading ? (
+                <div className="space-y-4">
+                  {[...Array(6)].map((_, i) => <div key={i} className="h-11 rounded-xl bg-[#eef5f3] animate-pulse" />)}
                 </div>
-                <h3 className="text-xl font-bold text-[#2a3433]">Cài đặt đặt lịch</h3>
-              </div>
-              <div className="space-y-6">
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="flex-1 space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Thời lượng mặc định/Dịch vụ</label>
-                    <div className="flex bg-[#eef5f3] p-1 rounded-xl">
-                      <button 
-                        onClick={() => setServiceDuration('30 Phút')}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${serviceDuration === '30 Phút' ? 'bg-white text-[#006b62] shadow-sm' : 'text-[#56615f] hover:text-[#2a3433]'}`}
-                      >
-                        30 Phút
-                      </button>
-                      <button 
-                        onClick={() => setServiceDuration('60 Phút')}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${serviceDuration === '60 Phút' ? 'bg-white text-[#006b62] shadow-sm' : 'text-[#56615f] hover:text-[#2a3433]'}`}
-                      >
-                        60 Phút
-                      </button>
-                      <button 
-                        onClick={() => setServiceDuration('90 Phút')}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${serviceDuration === '90 Phút' ? 'bg-white text-[#006b62] shadow-sm' : 'text-[#56615f] hover:text-[#2a3433]'}`}
-                      >
-                        90 Phút
-                      </button>
+              ) : (
+                <form className="space-y-5">
+                  {/* Shop name — fixed */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <label className={lbl}>Tên cửa hàng</label>
+                      <div className="flex items-center gap-2 bg-[#f0f4f3] rounded-xl py-3 px-4">
+                        <span className="text-sm font-bold text-[#2a3433]">PetCare Shop</span>
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className={lbl}>Số điện thoại</label>
+                      <input className={inp} type="tel" value={settings.phone} onChange={set("phone")} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className={lbl}>Email liên hệ</label>
+                      <input className={inp} type="email" value={settings.email} onChange={set("email")} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className={lbl}>Giờ hoạt động</label>
+                      <div className="flex items-center gap-2">
+                        <input className={inp} type="time" value={settings.open_from} onChange={set("open_from")} />
+                        <span className="text-[#56615f]">-</span>
+                        <input className={inp} type="time" value={settings.open_to} onChange={set("open_to")} />
+                      </div>
                     </div>
                   </div>
-                  <div className="flex-1 space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Khách tối đa/Khung giờ</label>
-                    <div className="relative">
-                      <input className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433]" type="number" defaultValue="3" />
+
+                  <div className="space-y-1.5">
+                    <label className={lbl}>Địa chỉ chi tiết</label>
+                    <input className={inp} type="text" value={settings.address} onChange={set("address")} />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <label className={lbl}>Link Facebook</label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#56615f] text-sm font-bold">f</span>
+                        <input className={`${inp} pl-10`} type="url" value={settings.facebook} onChange={set("facebook")} />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className={lbl}>Link zalo</label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#56615f] text-sm font-bold">Z</span>
+                        <input className={`${inp} pl-10`} type="tel" value={settings.zalo} onChange={set("zalo")} />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="flex-1 space-y-1.5">
-                    <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider">Số ngày đặt trước tối đa</label>
-                    <select className="w-full bg-[#eef5f3] border-none rounded-xl py-3 px-4 text-sm focus:ring-2 focus:ring-[#006b62]/50 focus:bg-white transition-all text-[#2a3433] appearance-none" defaultValue="14 Ngày">
-                      <option>7 Ngày</option>
-                      <option>14 Ngày</option>
-                      <option>30 Ngày</option>
-                    </select>
+
+                  <div className="pt-4 flex justify-end">
+                    <button
+                      onClick={handleSave}
+                      disabled={saving}
+                      className="bg-gradient-to-r from-[#006b62] to-[#005e56] text-[#e2fff9] px-8 py-3 rounded-full text-sm font-bold hover:shadow-lg hover:shadow-[#006b62]/20 transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                      type="button"
+                    >
+                      {saving && <span className="material-symbols-outlined text-base animate-spin">progress_activity</span>}
+                      {saving ? "Đang lưu..." : "Lưu thay đổi"}
+                    </button>
                   </div>
-                  <div className="flex-1"></div>
-                </div>
-              </div>
+                </form>
+              )}
             </section>
+            {/* Removed Booking Settings */}
           </div>
 
-          {/* Right Column: Secondary Settings (Spans 4 cols) */}
+          {/* ── Right Column ── */}
           <div className="lg:col-span-4 space-y-6 lg:space-y-8">
-            {/* Section 5: Tài khoản quản trị */}
-            <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#006b62]/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+            {/* Admin account */}
+            <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#006b62]/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 rounded-full bg-[#b6e7fe]/50 flex items-center justify-center text-[#235669]">
                   <span className="material-symbols-outlined icon-fill">admin_panel_settings</span>
@@ -204,162 +251,28 @@ export default function SettingsPage() {
                 <h3 className="text-xl font-bold text-[#2a3433]">Tài khoản</h3>
               </div>
               <div className="flex flex-col items-center text-center pb-6 border-b border-[#d9e5e2]/50">
-                <div className="w-20 h-20 rounded-full overflow-hidden mb-3 border-4 border-[#e7f0ed]">
-                  <img alt="Admin Avatar" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP8W9n58GgYicgQtmhfeMrkyJHsT2j_jqKiMiv2sBF8iNAyk4sjCfIil_JW2uzijn39ICyN4Vy5iQTaL3KXSkfSzVglWufLaVqVuh6kMdIXBi3M9G52adjZecLYweiAQfIDGUKftldJOpFWea3uMNyhrWiIdgpXoNuXqd2Yq2q6T3nHf8Pi1gxUQSWMo2XTqTRJYkbQvwWlnNA0YDgvcFDBdYTxX85yQ9ihCNNCnPl8flLEaAjMT_e-tq8pPan9P0bt2KmpY7vtAE" />
+                <div className="w-20 h-20 rounded-full bg-[#eef5f3] flex items-center justify-center mb-3 border-4 border-[#e7f0ed]">
+                  <span className="material-symbols-outlined text-4xl text-[#006b62]">admin_panel_settings</span>
                 </div>
-                <h4 className="text-base font-bold text-[#2a3433]">Nguyễn Trần Lan Anh</h4>
-                <p className="text-xs text-[#56615f] mt-1">lananh.admin@sanctuary.com</p>
-                <span className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#006b62]/10 text-[#006b62] uppercase tracking-wider">
-                  Super Admin
-                </span>
+                <h4 className="text-base font-bold text-[#2a3433]">Quản trị viên</h4>
+                <span className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#006b62]/10 text-[#006b62] uppercase tracking-wider">Super Admin</span>
               </div>
               <div className="pt-4 space-y-3">
                 <button onClick={() => setIsPasswordModalOpen(true)} type="button" className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[#eef5f3] transition-colors text-sm font-medium text-[#2a3433]">
                   <span className="material-symbols-outlined text-[#727d7a]">key</span>
                   Đổi mật khẩu
                 </button>
-                <button type="button" className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[#a83836]/5 transition-colors text-sm font-medium text-[#a83836]">
+                <button type="button" onClick={logout} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[#a83836]/5 transition-colors text-sm font-medium text-[#a83836]">
                   <span className="material-symbols-outlined text-[#a83836]">logout</span>
                   Đăng xuất
                 </button>
               </div>
             </section>
 
-            {/* Section 3: Cài đặt thanh toán */}
-            <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] relative overflow-hidden">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-10 h-10 rounded-full bg-[#c6eae3]/50 flex items-center justify-center text-[#375853]">
-                  <span className="material-symbols-outlined icon-fill">payments</span>
-                </div>
-                <h3 className="text-lg font-bold text-[#2a3433]">Thanh toán</h3>
-              </div>
-              <div className="space-y-4">
-                {/* Payment Method 1 */}
-                <div className="flex items-center justify-between p-3 rounded-xl bg-[#eef5f3]">
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-[#56615f]">local_shipping</span>
-                    <div>
-                      <p className="text-sm font-medium text-[#2a3433]">Thanh toán tiền mặt (COD)</p>
-                    </div>
-                  </div>
-                  <div className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
-                    <input 
-                      checked={payments.cod} 
-                      onChange={() => togglePayment('cod')}
-                      className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out z-10" 
-                      id="toggle-cod" 
-                      type="checkbox" 
-                    />
-                    <label className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors duration-200 ease-in-out ${payments.cod ? 'bg-[#006b62]' : 'bg-[#d9e5e2]'}`} htmlFor="toggle-cod"></label>
-                  </div>
-                </div>
-                {/* Payment Method 2 */}
-                <div className="flex items-center justify-between p-3 rounded-xl bg-[#eef5f3]">
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-[#56615f]">account_balance</span>
-                    <div>
-                      <p className="text-sm font-medium text-[#2a3433]">Chuyển khoản Ngân hàng</p>
-                    </div>
-                  </div>
-                  <div className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
-                    <input 
-                      checked={payments.bank} 
-                      onChange={() => togglePayment('bank')}
-                      className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out z-10" 
-                      id="toggle-bank" 
-                      type="checkbox" 
-                    />
-                    <label className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors duration-200 ease-in-out ${payments.bank ? 'bg-[#006b62]' : 'bg-[#d9e5e2]'}`} htmlFor="toggle-bank"></label>
-                  </div>
-                </div>
-                {/* Payment Method 3 */}
-                <div className="flex items-center justify-between p-3 rounded-xl bg-[#eef5f3]">
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-[#56615f]">qr_code_scanner</span>
-                    <div>
-                      <p className="text-sm font-medium text-[#2a3433]">Quét mã QR Pay</p>
-                    </div>
-                  </div>
-                  <div className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
-                    <input 
-                      checked={payments.qr} 
-                      onChange={() => togglePayment('qr')}
-                      className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out z-10" 
-                      id="toggle-qr" 
-                      type="checkbox" 
-                    />
-                    <label className={`toggle-label block overflow-hidden h-5 rounded-full cursor-pointer transition-colors duration-200 ease-in-out ${payments.qr ? 'bg-[#006b62]' : 'bg-[#d9e5e2]'}`} htmlFor="toggle-qr"></label>
-                  </div>
-                </div>
-              </div>
-            </section>
+
           </div>
 
-          {/* Bottom Full Width Span (12 cols) */}
-          <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mt-2">
-            {/* Section 4: Cài đặt thông báo */}
-            <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] lg:col-span-1">
-              <div className="flex items-center gap-3 mb-5">
-                <span className="material-symbols-outlined text-[#006b62]">notifications_active</span>
-                <h3 className="text-lg font-bold text-[#2a3433]">Thông báo</h3>
-              </div>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center border-b border-[#d9e5e2]/50 pb-3">
-                  <span className="text-sm text-[#2a3433]">Cảnh báo đơn hàng mới</span>
-                  <div className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
-                    <input 
-                      checked={notifications.order}
-                      onChange={() => toggleNotification('order')}
-                      className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-[3px] appearance-none cursor-pointer z-10" 
-                      id="t-order" 
-                      type="checkbox" 
-                    />
-                    <label className={`toggle-label block overflow-hidden h-4 rounded-full cursor-pointer ${notifications.order ? 'bg-[#006b62]' : 'bg-[#d9e5e2]'}`} htmlFor="t-order"></label>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-[#2a3433]">Cảnh báo sắp hết hàng</span>
-                  <div className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
-                    <input 
-                      checked={notifications.stock}
-                      onChange={() => toggleNotification('stock')}
-                      className="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-[3px] appearance-none cursor-pointer z-10" 
-                      id="t-stock" 
-                      type="checkbox" 
-                    />
-                    <label className={`toggle-label block overflow-hidden h-4 rounded-full cursor-pointer ${notifications.stock ? 'bg-[#006b62]' : 'bg-[#d9e5e2]'}`} htmlFor="t-stock"></label>
-                  </div>
-                </div>
-              </div>
-            </section>
 
-            {/* Section 6: Giao diện hệ thống */}
-            <section className="bg-white rounded-[1.5rem] p-6 shadow-[0px_10px_40px_rgba(42,52,51,0.06)] lg:col-span-1">
-              <div className="flex items-center gap-3 mb-5">
-                <span className="material-symbols-outlined text-[#006b62]">palette</span>
-                <h3 className="text-lg font-bold text-[#2a3433]">Giao diện</h3>
-              </div>
-              <div className="space-y-5">
-                <div>
-                  <label className="text-xs font-semibold text-[#56615f] uppercase tracking-wider block mb-2">Chế độ hiển thị</label>
-                  <div className="flex bg-[#eef5f3] p-1 rounded-xl">
-                    <button 
-                      onClick={() => setThemeMode('Sáng')}
-                      className={`flex-1 py-1.5 flex justify-center items-center gap-2 text-sm font-medium rounded-lg transition-colors ${themeMode === 'Sáng' ? 'bg-white text-[#006b62] shadow-sm' : 'text-[#56615f] hover:text-[#2a3433]'}`}
-                    >
-                      <span className="material-symbols-outlined text-[18px]">light_mode</span> Sáng
-                    </button>
-                    <button 
-                      onClick={() => setThemeMode('Tối')}
-                      className={`flex-1 py-1.5 flex justify-center items-center gap-2 text-sm font-medium rounded-lg transition-colors ${themeMode === 'Tối' ? 'bg-[#2a3433] text-white shadow-sm' : 'text-[#56615f] hover:text-[#2a3433]'}`}
-                    >
-                      <span className="material-symbols-outlined text-[18px]">dark_mode</span> Tối
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
         </div>
       </div>
 
@@ -367,43 +280,29 @@ export default function SettingsPage() {
       {isPasswordModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl relative animate-in fade-in zoom-in duration-200">
-            <button 
-              onClick={() => setIsPasswordModalOpen(false)}
-              className="absolute top-6 right-6 text-[#56615f] hover:text-[#2a3433] hover:bg-gray-100 p-2 rounded-full transition-colors"
-            >
+            <button onClick={() => setIsPasswordModalOpen(false)} className="absolute top-6 right-6 text-[#56615f] hover:text-[#2a3433] hover:bg-gray-100 p-2 rounded-full transition-colors">
               <span className="material-symbols-outlined">close</span>
             </button>
             <h3 className="text-2xl font-extrabold text-[#2a3433] mb-6 tracking-tight">Đổi mật khẩu</h3>
-            
             <form className="space-y-4" onSubmit={handleChangePassword}>
               <div>
                 <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Mật khẩu hiện tại</label>
-                <input required type="password" placeholder="Nhập mật khẩu hiện tại..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+                <input required type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="Nhập mật khẩu hiện tại..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
               </div>
-
               <div>
                 <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Mật khẩu mới</label>
-                <input required type="password" placeholder="Nhập mật khẩu mới..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+                <input required type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Nhập mật khẩu mới..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
               </div>
-
               <div>
                 <label className="block text-xs font-bold uppercase text-[#56615f] mb-2">Xác nhận lại mật khẩu mới</label>
-                <input required type="password" placeholder="Nhập lại mật khẩu mới..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
+                <input required type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Nhập lại mật khẩu mới..." className="w-full bg-[#eef5f3] border-none rounded-xl text-sm font-medium py-3 px-4 focus:ring-2 focus:ring-[#006b62]/20 outline-none transition-all" />
               </div>
 
               <div className="pt-4 flex justify-end gap-3">
-                <button 
-                  type="button"
-                  onClick={() => setIsPasswordModalOpen(false)}
-                  className="px-6 py-3 rounded-full font-bold text-[#56615f] bg-[#eef5f3] hover:bg-[#d9e5e2] transition-colors"
-                >
-                  Hủy
-                </button>
-                <button 
-                  type="submit"
-                  className="px-6 py-3 rounded-full font-bold text-white bg-[#006b62] hover:bg-[#005e56] transition-colors shadow-lg shadow-[#006b62]/20"
-                >
-                  Xác nhận đổi
+                <button type="button" onClick={() => setIsPasswordModalOpen(false)} className="px-6 py-3 rounded-full font-bold text-[#56615f] bg-[#eef5f3] hover:bg-[#d9e5e2] transition-colors">Hủy</button>
+                <button type="submit" disabled={passwordSaving} className="px-6 py-3 rounded-full font-bold text-white bg-[#006b62] hover:bg-[#005e56] transition-colors shadow-lg shadow-[#006b62]/20 disabled:opacity-50 flex items-center gap-2">
+                  {passwordSaving && <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>}
+                  Xác nhận
                 </button>
               </div>
             </form>

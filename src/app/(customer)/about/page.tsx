@@ -100,12 +100,7 @@ export default function AboutPage() {
               >
                 Liên hệ tư vấn
               </Link>
-              <Link
-                href="/price/dog-grooming"
-                className="bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:bg-primary-dim transition-colors"
-              >
-                Xem bảng giá
-              </Link>
+
             </div>
           </div>
         </section>

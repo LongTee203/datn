@@ -166,22 +166,4 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   FOREIGN KEY (`product_id`) REFERENCES `products`(`product_id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ------------------------------------------------------------
--- Bảng: blog_posts (bài viết)
--- ------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `blog_posts` (
-  `post_id`    INT          NOT NULL AUTO_INCREMENT,
-  `title`      VARCHAR(300) NOT NULL,
-  `content`    LONGTEXT     DEFAULT NULL,
-  `excerpt`    TEXT         DEFAULT NULL,
-  `tag`        VARCHAR(100) DEFAULT NULL,
-  `image_url`  VARCHAR(500) DEFAULT NULL,
-  `author`     VARCHAR(150) DEFAULT NULL,
-  `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT IGNORE INTO `blog_posts` (`title`, `excerpt`, `tag`, `author`) VALUES
-  ('Chế độ ăn cho chó Poodle giúp lông mượt', 'Tìm hiểu các loại thực phẩm giàu Omega-3 giúp bộ lông bé yêu luôn sáng bóng.', 'Dinh dưỡng', 'BS. Nguyễn Nam'),
-  ('Cách huấn luyện mèo nghe lời tại nhà',    'Những mẹo nhỏ giúp bạn và mèo cưng hiểu nhau hơn mỗi ngày.',               'Hành vi',    'Lê Văn Hùng'),
-  ('Lịch tiêm phòng quan trọng năm 2024',      'Đừng bỏ lỡ các mốc tiêm chủng để bảo vệ sức khỏe bé yêu.',                'Sức khỏe',   'BS. Nguyễn Nam');

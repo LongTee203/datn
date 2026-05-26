@@ -18,11 +18,11 @@ export default async function ServicesPage({
   const categoryParam = resolvedParams.category;
   const activeCategory = typeof categoryParam === "string" ? categoryParam : "Tất cả";
 
-  const categories = ["Tất cả", "Vệ sinh & Spa", "Y tế & Khám bệnh", "Lưu trú (Hotel)", "Khác"];
+  const categories = ["Tất cả", "Tắm & Sấy", "Cắt tỉa lông", "Vệ sinh & Spa", "Y tế & Khám bệnh", "Lưu trú (Hotel)", "Khác"];
 
   // Chỉ lấy những dịch vụ đang hoạt động và đúng danh mục
   const services = await prisma.services.findMany({
-    where: { 
+    where: {
       is_active: true,
       category: activeCategory !== "Tất cả" ? activeCategory : undefined
     },
@@ -72,11 +72,10 @@ export default async function ServicesPage({
               <Link
                 key={cat}
                 href={`/services${cat !== "Tất cả" ? `?category=${encodeURIComponent(cat)}` : ""}`}
-                className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all ${
-                  activeCategory === cat
+                className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all ${activeCategory === cat
                     ? "bg-[#006a38] text-white shadow-md"
                     : "bg-gray-100 text-[#0c361d] hover:bg-[#cafdd4] hover:text-[#006a38]"
-                }`}
+                  }`}
               >
                 {cat}
               </Link>
@@ -120,7 +119,7 @@ export default async function ServicesPage({
                       {service.service_name}
                     </h3>
                     <p className="text-[#3b6447] mb-6 flex-grow">{service.description || "Chưa có mô tả chi tiết."}</p>
-                    
+
                     <div className="flex items-center gap-2 mb-6 text-[#3b6447] text-sm font-medium">
                       <span className="material-symbols-outlined text-[18px]">schedule</span>
                       {service.duration || 30} phút
@@ -131,7 +130,7 @@ export default async function ServicesPage({
                         {Number(service.price).toLocaleString("vi-VN")}đ
                       </span>
                       <Link
-                        href="/booking"
+                        href={`/booking?serviceId=${service.service_id}&serviceName=${encodeURIComponent(service.service_name)}&price=${service.price}`}
                         className="bg-[#87faab] text-[#005f31] font-bold py-2.5 px-6 rounded-full hover:bg-[#005c30] hover:text-white transition-colors"
                       >
                         Đặt lịch ngay

@@ -29,6 +29,8 @@ function getInitials(name: string) {
   return parts.slice(-2).map(p => p[0]).join("").toUpperCase();
 }
 
+const PET_TYPE_MAP: Record<string, string> = { Dog: "Chó", Cat: "Mèo", Bird: "Chim", Rabbit: "Thỏ", Other: "Khác" };
+
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading]     = useState(true);
@@ -393,9 +395,10 @@ export default function CustomersPage() {
                         <label className="block text-[10px] font-bold uppercase text-[#56615f] mb-1">Loài *</label>
                         <select value={pet.type} onChange={e => updatePet(index, "type", e.target.value)}
                           className="w-full bg-white border border-[#e1eae7] rounded-lg text-sm py-2 px-3 outline-none focus:border-[#006b62]">
-                          <option value="Dog">Chó (Dog)</option>
-                          <option value="Cat">Mèo (Cat)</option>
-                          <option value="Bird">Chim (Bird)</option>
+                          <option value="Dog">Chó</option>
+                          <option value="Cat">Mèo</option>
+                          <option value="Bird">Chim</option>
+                          <option value="Rabbit">Thỏ</option>
                           <option value="Other">Khác</option>
                         </select>
                       </div>
@@ -538,7 +541,7 @@ export default function CustomersPage() {
                       <div>
                         <h5 className="font-bold text-[#2a3433]">{pet.name}</h5>
                         <p className="text-xs text-[#56615f] mt-1">
-                          {pet.type} {pet.breed ? `• ${pet.breed}` : ""} {pet.gender ? `• ${pet.gender === 'male' ? 'Đực' : 'Cái'}` : ""}
+                          {PET_TYPE_MAP[pet.type] || pet.type} {pet.breed ? `• ${pet.breed}` : ""} {pet.gender ? `• ${pet.gender === 'male' ? 'Đực' : 'Cái'}` : ""}
                         </p>
                         <p className="text-xs text-[#56615f] mt-1">
                           {pet.age ? `${pet.age} tuổi` : ""} {pet.age && pet.weight ? " • " : ""} {pet.weight ? `${pet.weight} kg` : ""}
